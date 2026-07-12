@@ -25,7 +25,6 @@
             margin: 0 auto;
         }
 
-        /* ===== ШАПКА ===== */
         .clan-header {
             background: #242938;
             border-radius: 12px 12px 0 0;
@@ -81,7 +80,6 @@
             color: #1a1e2c;
         }
 
-        /* ===== ФИЛЬТРЫ ===== */
         .filters {
             background: #242938;
             padding: 16px 20px;
@@ -140,13 +138,13 @@
             white-space: nowrap;
         }
 
-        /* ===== ТАБЛИЦА ===== */
         .tournament-table-wrap {
             background: #242938;
             border-radius: 0 0 12px 12px;
             padding: 0;
             overflow-x: auto;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: block;
         }
 
         .tournament-table {
@@ -261,7 +259,6 @@
             color: #f0b429;
         }
 
-        /* ===== АДМИН-ПАНЕЛЬ ===== */
         .admin-panel {
             display: none;
             background: #1f2330;
@@ -383,7 +380,6 @@
             margin-top: 15px;
         }
 
-        /* ===== СТАТИСТИКА ===== */
         .stats-footer {
             display: flex;
             gap: 20px;
@@ -414,13 +410,17 @@
             margin-top: 4px;
         }
 
-        /* ===== ПАМЯТКА ПО КОМАНДАМ ===== */
         .commands-section {
             background: #242938;
             border-radius: 12px;
             padding: 25px 30px;
             margin-top: 30px;
             border: 1px solid #3a4057;
+            display: none;
+        }
+
+        .commands-section.visible {
+            display: block;
         }
 
         .commands-section .commands-toggle {
@@ -512,7 +512,6 @@
             font-style: italic;
         }
 
-        /* ===== ПРАВИЛА ===== */
         .rules-section {
             background: #242938;
             border-radius: 12px;
@@ -600,7 +599,6 @@
             font-size: 13px;
         }
 
-        /* ===== ТОСТ ===== */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -626,7 +624,14 @@
             transform: translateY(0);
         }
 
-        /* ===== АДАПТИВ ===== */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         @media (max-width: 768px) {
             body { padding: 10px; }
             .clan-header {
@@ -695,7 +700,6 @@
 
 <div class="container">
 
-    <!-- ===== ШАПКА ===== -->
     <div class="clan-header">
         <div class="logo">
             🏆 Клановая таблица
@@ -703,135 +707,132 @@
             <small>Рейтинг кланов · Турнирная таблица</small>
         </div>
         <div class="nav">
-            <a href="#" class="active" onclick="showTab('table')">📊 Таблица</a>
-            <a href="#" onclick="showTab('commands')">⌨️ Команды</a>
-            <a href="#" onclick="showTab('rules')">📜 Правила</a>
-            <a href="#" onclick="toggleAdmin()" id="adminTabBtn">🔧 Админ</a>
+            <a href="#table" class="active" onclick="switchTab('table')">📊 Таблица</a>
+            <a href="#commands" onclick="switchTab('commands')">⌨️ Команды</a>
+            <a href="#rules" onclick="switchTab('rules')">📜 Правила</a>
+            <a href="#admin" onclick="toggleAdmin()">🔧 Админ</a>
         </div>
     </div>
 
-    <!-- ===== ФИЛЬТРЫ ===== -->
     <div class="filters">
         <input type="text" id="searchClan" placeholder="🔍 Поиск клана..." oninput="applyFilters()">
         <button class="btn btn-reset" onclick="resetFilters()">Сбросить</button>
         <span class="filter-count" id="filterCount">Кланов: <b>0</b></span>
     </div>
 
-    <!-- ===== ТАБЛИЦА ===== -->
-    <div class="tournament-table-wrap" id="tableContainer">
-        <table class="tournament-table" id="ratingTable">
-            <thead>
-                <tr>
-                    <th style="text-align:left;">#</th>
-                    <th style="text-align:left;">Клан</th>
-                    <th>👥</th>
-                    <th>⚔️ Бои</th>
-                    <th>🏆 В</th>
-                    <th>💀 П</th>
-                    <th>Очки</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody"></tbody>
-        </table>
-    </div>
-
-    <!-- ===== АДМИН-ПАНЕЛЬ ===== -->
-    <div class="admin-panel" id="adminPanel">
-        <h2>🔧 Админ-панель управления кланами</h2>
-        <div id="adminList"></div>
-        <div class="admin-actions">
-            <button class="btn btn-save-all" onclick="saveAllClans()">💾 Сохранить всё</button>
-            <button class="btn btn-reset-all" onclick="resetAllClans()">🔄 Сбросить</button>
-            <button class="btn btn-close-admin" onclick="toggleAdmin()">❌ Закрыть</button>
+    <!-- ===== ВКЛАДКА: ТАБЛИЦА ===== -->
+    <div id="tab-table" class="tab-content active">
+        <div class="tournament-table-wrap">
+            <table class="tournament-table">
+                <thead>
+                    <tr>
+                        <th style="text-align:left;">#</th>
+                        <th style="text-align:left;">Клан</th>
+                        <th>👥</th>
+                        <th>⚔️ Бои</th>
+                        <th>🏆 В</th>
+                        <th>💀 П</th>
+                        <th>Очки</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
         </div>
-        <div class="admin-hint">💡 Изменения сохраняются в локальном хранилище браузера.</div>
-    </div>
 
-    <!-- ===== СТАТИСТИКА ===== -->
-    <div class="stats-footer">
-        <div class="stat-item"><div class="value gold" id="totalClans">0</div><div class="label">🏛️ Всего кланов</div></div>
-        <div class="stat-item"><div class="value green" id="totalWins">0</div><div class="label">🏆 Всего побед</div></div>
-        <div class="stat-item"><div class="value red" id="totalLosses">0</div><div class="label">💀 Всего поражений</div></div>
-        <div class="stat-item"><div class="value gold" id="totalFights">0</div><div class="label">⚔️ Всего боёв</div></div>
-    </div>
-
-    <!-- ===== ПАМЯТКА ПО КОМАНДАМ ===== -->
-    <div class="commands-section" id="commandsContainer">
-        <div class="commands-toggle" onclick="toggleCommands()">
-            <h2>⌨️ Памятка по админ-командам Age of Dino</h2>
-            <span class="arrow" id="commandsArrow">▼</span>
+        <div class="stats-footer">
+            <div class="stat-item"><div class="value gold" id="totalClans">0</div><div class="label">🏛️ Всего кланов</div></div>
+            <div class="stat-item"><div class="value green" id="totalWins">0</div><div class="label">🏆 Всего побед</div></div>
+            <div class="stat-item"><div class="value red" id="totalLosses">0</div><div class="label">💀 Всего поражений</div></div>
+            <div class="stat-item"><div class="value gold" id="totalFights">0</div><div class="label">⚔️ Всего боёв</div></div>
         </div>
-        <div class="commands-content" id="commandsContent">
-            <div class="cmd-block">
-                <p style="color:#9aa2b5;font-size:14px;margin-bottom:12px;">
-                    ⭐ <strong style="color:#f0b429;">Уважаемые клановые тренеры и руководители кланов!</strong><br>
-                    На наших серверах работают новые админ-команды. Клановые администраторы имеют доступ к некоторым из них.
-                </p>
+    </div>
+
+    <!-- ===== ВКЛАДКА: КОМАНДЫ ===== -->
+    <div id="tab-commands" class="tab-content">
+        <div class="commands-section visible" style="display:block;margin-top:0;">
+            <div class="commands-toggle" onclick="toggleCommands()">
+                <h2>⌨️ Памятка по админ-командам Age of Dino</h2>
+                <span class="arrow" id="commandsArrow">▼</span>
             </div>
-            <div class="cmd-block"><h3>🎥 Инвиз</h3>
-                <div class="cmd-item"><span class="cmd-code">//spectatormode</span> или <span class="cmd-code">//sp</span><span class="cmd-desc">— инвиз по команде, можно выходить даже в воздухе</span></div>
-            </div>
-            <div class="cmd-block"><h3>🩵 Хп</h3>
-                <div class="cmd-item"><span class="cmd-code">//sethealth [никнейм] [здоровье]</span><span class="cmd-desc">— поставить игроку хп (по нику)</span></div>
-                <div class="cmd-item"><span class="cmd-code">//sethealthid [SteamID] [здоровье]</span><span class="cmd-desc">— поставить игроку хп (по стимайди)</span><span class="cmd-note">Если не указать здоровье — будет максимальное</span></div>
-            </div>
-            <div class="cmd-block"><h3>🥩 Голод</h3>
-                <div class="cmd-item"><span class="cmd-code">//sethunger [никнейм] [голод]</span><span class="cmd-desc">— поставить игроку голод (по нику)</span></div>
-                <div class="cmd-item"><span class="cmd-code">//sethungerid [SteamID] [голод]</span><span class="cmd-desc">— поставить игроку голод (по стимайди)</span><span class="cmd-note">Если не указать голод — будет максимальный</span></div>
-            </div>
-            <div class="cmd-block"><h3>💦 Жажда</h3>
-                <div class="cmd-item"><span class="cmd-code">//setthirst [никнейм] [жажда]</span><span class="cmd-desc">— поставить игроку жажду (по нику)</span></div>
-                <div class="cmd-item"><span class="cmd-code">//setthirstid [SteamID] [жажда]</span><span class="cmd-desc">— поставить игроку жажду (по стимайди)</span><span class="cmd-note">Если не указать жажду — будет максимальная</span></div>
-            </div>
-            <div class="cmd-block"><h3>🩸 Блид</h3>
-                <div class="cmd-item"><span class="cmd-code">//setbleed [никнейм] [блид]</span><span class="cmd-desc">— поставить игроку блид (по нику)</span></div>
-                <div class="cmd-item"><span class="cmd-code">//setbleedid [SteamID] [блид]</span><span class="cmd-desc">— поставить игроку блид (по стимайди)</span><span class="cmd-note">Если не указать блид — будет 0</span></div>
-            </div>
-            <div class="cmd-block"><h3>🦴 Перелом</h3>
-                <div class="cmd-item"><span class="cmd-code">//setlegdamage [никнейм] [перелом]</span><span class="cmd-desc">— поставить перелом лапы (по нику)</span></div>
-                <div class="cmd-item"><span class="cmd-code">//setlegdamageid [SteamID] [перелом]</span><span class="cmd-desc">— поставить перелом лапы (по стимайди)</span><span class="cmd-note">Максимальный перелом — 15. Если не указать — 0</span></div>
-            </div>
-            <div class="cmd-block"><h3>❣️ Хил</h3>
-                <div class="cmd-item"><span class="cmd-code">//selfheal</span><span class="cmd-desc">— отхилить себя</span></div>
-                <div class="cmd-item"><span class="cmd-code">//heal [никнейм]</span><span class="cmd-desc">— отхилить игрока (по нику)</span></div>
-                <div class="cmd-item"><span class="cmd-code">//healid [SteamID]</span><span class="cmd-desc">— отхилить игрока (по стимайди)</span></div>
-            </div>
-            <div class="cmd-block"><h3>🦕 Гров</h3>
-                <div class="cmd-item"><span class="cmd-code">//selfgrowth [рост]</span><span class="cmd-desc">— установить рост для себя</span></div>
-                <div class="cmd-item"><span class="cmd-code">//setgrowth [никнейм] [рост]</span><span class="cmd-desc">— установить рост игроку (по нику)</span></div>
-                <div class="cmd-item"><span class="cmd-code">//setgrowthid [SteamID] [рост]</span><span class="cmd-desc">— установить рост игроку (по стимайди)</span><span class="cmd-note">Если не указать рост — максимальный</span></div>
-            </div>
-            <div class="cmd-block"><h3>💀 Слэй</h3>
-                <div class="cmd-item"><span class="cmd-code">//selfslay [0/1]</span> или <span class="cmd-code">//ss</span><span class="cmd-desc">— слейнуть себя (0 — без трупа, 1 — с трупом)</span></div>
-                <div class="cmd-item"><span class="cmd-code">//slay [никнейм] [0/1]</span><span class="cmd-desc">— слейнуть игрока (по нику)</span></div>
-                <div class="cmd-item"><span class="cmd-code">//slayid [SteamID] [0/1]</span><span class="cmd-desc">— слейнуть игрока (по стимайди)</span><span class="cmd-note">По умолчанию 0</span></div>
-            </div>
-            <div class="cmd-block"><h3>▶️ Тп к другому</h3>
-                <div class="cmd-item"><span class="cmd-code">//goto [никнейм]</span><span class="cmd-desc">— тп к игроку даже в инвизе (по нику)</span></div>
-                <div class="cmd-item"><span class="cmd-code">//gotoid [SteamID]</span><span class="cmd-desc">— тп к игроку даже в инвизе (по стимайди)</span></div>
-            </div>
-            <div class="cmd-block"><h3>◀️ Тп к себе</h3>
-                <div class="cmd-item"><span class="cmd-code">//bring [никнейм]</span><span class="cmd-desc">— тп игрока к себе даже в инвизе (по нику)</span></div>
-                <div class="cmd-item"><span class="cmd-code">//bringid [SteamID]</span><span class="cmd-desc">— тп игрока к себе даже в инвизе (по стимайди)</span></div>
-            </div>
-            <div class="cmd-block"><h3>🎨 Скин</h3>
-                <div class="cmd-item"><span class="cmd-code">//changeskin [никнейм] [секция1] [секция2] ... [вариация]</span><span class="cmd-desc">— поменять скин игроку (по нику)</span></div>
-                <div class="cmd-item"><span class="cmd-code">//changeskinid [SteamID] [секция1] [секция2] ... [вариация]</span><span class="cmd-desc">— поменять скин игроку (по стимайди)</span></div>
-            </div>
-            <div class="cmd-block"><h3>⚥ Пол</h3>
-                <div class="cmd-item"><span class="cmd-code">//setgender [никнейм] [m/f]</span><span class="cmd-desc">— поставить пол игроку (m — мужской, f — женский)</span></div>
-                <div class="cmd-item"><span class="cmd-code">//setgenderid [SteamID] [m/f]</span><span class="cmd-desc">— поставить пол игроку (по стимайди)</span></div>
+            <div class="commands-content open" id="commandsContent" style="max-height:10000px;">
+                <div class="cmd-block">
+                    <p style="color:#9aa2b5;font-size:14px;margin-bottom:12px;">
+                        ⭐ <strong style="color:#f0b429;">Уважаемые клановые тренеры и руководители кланов!</strong><br>
+                        На наших серверах работают новые админ-команды. Клановые администраторы имеют доступ к некоторым из них.
+                    </p>
+                </div>
+                <div class="cmd-block"><h3>🎥 Инвиз</h3>
+                    <div class="cmd-item"><span class="cmd-code">//spectatormode</span> или <span class="cmd-code">//sp</span><span class="cmd-desc">— инвиз по команде, можно выходить даже в воздухе</span></div>
+                </div>
+                <div class="cmd-block"><h3>🩵 Хп</h3>
+                    <div class="cmd-item"><span class="cmd-code">//sethealth [никнейм] [здоровье]</span><span class="cmd-desc">— поставить игроку хп (по нику)</span></div>
+                    <div class="cmd-item"><span class="cmd-code">//sethealthid [SteamID] [здоровье]</span><span class="cmd-desc">— поставить игроку хп (по стимайди)</span><span class="cmd-note">Если не указать здоровье — будет максимальное</span></div>
+                </div>
+                <div class="cmd-block"><h3>🥩 Голод</h3>
+                    <div class="cmd-item"><span class="cmd-code">//sethunger [никнейм] [голод]</span><span class="cmd-desc">— поставить игроку голод (по нику)</span></div>
+                    <div class="cmd-item"><span class="cmd-code">//sethungerid [SteamID] [голод]</span><span class="cmd-desc">— поставить игроку голод (по стимайди)</span><span class="cmd-note">Если не указать голод — будет максимальный</span></div>
+                </div>
+                <div class="cmd-block"><h3>💦 Жажда</h3>
+                    <div class="cmd-item"><span class="cmd-code">//setthirst [никнейм] [жажда]</span><span class="cmd-desc">— поставить игроку жажду (по нику)</span></div>
+                    <div class="cmd-item"><span class="cmd-code">//setthirstid [SteamID] [жажда]</span><span class="cmd-desc">— поставить игроку жажду (по стимайди)</span><span class="cmd-note">Если не указать жажду — будет максимальная</span></div>
+                </div>
+                <div class="cmd-block"><h3>🩸 Блид</h3>
+                    <div class="cmd-item"><span class="cmd-code">//setbleed [никнейм] [блид]</span><span class="cmd-desc">— поставить игроку блид (по нику)</span></div>
+                    <div class="cmd-item"><span class="cmd-code">//setbleedid [SteamID] [блид]</span><span class="cmd-desc">— поставить игроку блид (по стимайди)</span><span class="cmd-note">Если не указать блид — будет 0</span></div>
+                </div>
+                <div class="cmd-block"><h3>🦴 Перелом</h3>
+                    <div class="cmd-item"><span class="cmd-code">//setlegdamage [никнейм] [перелом]</span><span class="cmd-desc">— поставить перелом лапы (по нику)</span></div>
+                    <div class="cmd-item"><span class="cmd-code">//setlegdamageid [SteamID] [перелом]</span><span class="cmd-desc">— поставить перелом лапы (по стимайди)</span><span class="cmd-note">Максимальный перелом — 15. Если не указать — 0</span></div>
+                </div>
+                <div class="cmd-block"><h3>❣️ Хил</h3>
+                    <div class="cmd-item"><span class="cmd-code">//selfheal</span><span class="cmd-desc">— отхилить себя</span></div>
+                    <div class="cmd-item"><span class="cmd-code">//heal [никнейм]</span><span class="cmd-desc">— отхилить игрока (по нику)</span></div>
+                    <div class="cmd-item"><span class="cmd-code">//healid [SteamID]</span><span class="cmd-desc">— отхилить игрока (по стимайди)</span></div>
+                </div>
+                <div class="cmd-block"><h3>🦕 Гров</h3>
+                    <div class="cmd-item"><span class="cmd-code">//selfgrowth [рост]</span><span class="cmd-desc">— установить рост для себя</span></div>
+                    <div class="cmd-item"><span class="cmd-code">//setgrowth [никнейм] [рост]</span><span class="cmd-desc">— установить рост игроку (по нику)</span></div>
+                    <div class="cmd-item"><span class="cmd-code">//setgrowthid [SteamID] [рост]</span><span class="cmd-desc">— установить рост игроку (по стимайди)</span><span class="cmd-note">Если не указать рост — максимальный</span></div>
+                </div>
+                <div class="cmd-block"><h3>💀 Слэй</h3>
+                    <div class="cmd-item"><span class="cmd-code">//selfslay [0/1]</span> или <span class="cmd-code">//ss</span><span class="cmd-desc">— слейнуть себя (0 — без трупа, 1 — с трупом)</span></div>
+                    <div class="cmd-item"><span class="cmd-code">//slay [никнейм] [0/1]</span><span class="cmd-desc">— слейнуть игрока (по нику)</span></div>
+                    <div class="cmd-item"><span class="cmd-code">//slayid [SteamID] [0/1]</span><span class="cmd-desc">— слейнуть игрока (по стимайди)</span><span class="cmd-note">По умолчанию 0</span></div>
+                </div>
+                <div class="cmd-block"><h3>▶️ Тп к другому</h3>
+                    <div class="cmd-item"><span class="cmd-code">//goto [никнейм]</span><span class="cmd-desc">— тп к игроку даже в инвизе (по нику)</span></div>
+                    <div class="cmd-item"><span class="cmd-code">//gotoid [SteamID]</span><span class="cmd-desc">— тп к игроку даже в инвизе (по стимайди)</span></div>
+                </div>
+                <div class="cmd-block"><h3>◀️ Тп к себе</h3>
+                    <div class="cmd-item"><span class="cmd-code">//bring [никнейм]</span><span class="cmd-desc">— тп игрока к себе даже в инвизе (по нику)</span></div>
+                    <div class="cmd-item"><span class="cmd-code">//bringid [SteamID]</span><span class="cmd-desc">— тп игрока к себе даже в инвизе (по стимайди)</span></div>
+                </div>
+                <div class="cmd-block"><h3>🎨 Скин</h3>
+                    <div class="cmd-item"><span class="cmd-code">//changeskin [никнейм] [секция1] [секция2] ... [вариация]</span><span class="cmd-desc">— поменять скин игроку (по нику)</span></div>
+                    <div class="cmd-item"><span class="cmd-code">//changeskinid [SteamID] [секция1] [секция2] ... [вариация]</span><span class="cmd-desc">— поменять скин игроку (по стимайди)</span></div>
+                </div>
+                <div class="cmd-block"><h3>⚥ Пол</h3>
+                    <div class="cmd-item"><span class="cmd-code">//setgender [никнейм] [m/f]</span><span class="cmd-desc">— поставить пол игроку (m — мужской, f — женский)</span></div>
+                    <div class="cmd-item"><span class="cmd-code">//setgenderid [SteamID] [m/f]</span><span class="cmd-desc">— поставить пол игроку (по стимайди)</span></div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- ===== ПРАВИЛА ===== -->
-    <div class="rules-section" id="rulesContainer">
-        <div class="rules-toggle" onclick="toggleRules()">
-            <h2>📜 Клановые правила Age of Dino</h2>
-            <span class="arrow" id="rulesArrow">▼</span>
-        </div>
-        <div class="rules-content" id="rulesContent">
-            <div class="rule-block">
-                <p style="color:#9aa2b5;font-size:14px;margin-bottom:12px;">
-                   
+    <!-- ===== ВКЛАДКА: ПРАВИЛА ===== -->
+    <div id="tab-rules" class="tab-content">
+        <div class="rules-section visible" style="display:block;margin-top:0;">
+            <div class="rules-toggle" onclick="toggleRules()">
+                <h2>📜 Клановые правила Age of Dino</h2>
+                <span class="arrow" id="rulesArrow">▼</span>
+            </div>
+            <div class="rules-content open" id="rulesContent" style="max-height:10000px;">
+                <div class="rule-block">
+                    <p style="color:#9aa2b5;font-size:14px;margin-bottom:12px;">
+                        Регистрируя клан на проекте Age of Dino, Глава клана и участники его клана полностью соглашаются со следующим перечнем Клановых правил:
+                    </p>
+                </div>
+                <div class="rule-block">
+                    <h3>1 | ОБЩИЕ ПРИНЦИПЫ</h3>
+                    <div class="rule-item"><strong>1.1</strong> <strong>Клан</strong> — группа игроков, объединенная интересами.</div>
+                    <div class="rule-item"><strong>1.2</strong> Иерархия: <strong>
