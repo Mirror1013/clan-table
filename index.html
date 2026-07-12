@@ -22,9 +22,6 @@
         .f .b:hover{background:#d49c1a}
         .f .br{background:#3a4057;color:#e0e4f0}
         .f .br:hover{background:#4a526b}
-        .f .ba{background:#e74c3c;color:#fff}
-        .f .ba:hover{background:#c0392b}
-        .f .ba.active{background:#27ae60}
         .fc{color:#8e95aa;font-size:13px;margin-left:auto;white-space:nowrap}
         .t{display:none}
         .t:target{display:block}
@@ -244,23 +241,33 @@
 <div class="toast" id="toast"></div>
 
 <script>
-    // ===== ДАННЫЕ =====
+    // ================================================================
+    //  ★★★ НОВЫЙ РЕЙТИНГ КЛАНОВ (из вашей таблицы) ★★★
+    // ================================================================
     let clans = [
-        {id:1,n:"Great Than Rivals",m:12,f:45,w:32,l:13,form:["win","win","loss","win","win"]},
-        {id:2,n:"Invicta",m:10,f:38,w:28,l:10,form:["win","win","win","loss","win"]},
-        {id:3,n:"Immortals",m:15,f:52,w:36,l:16,form:["win","win","win","win","loss"]},
-        {id:4,n:"GOODMORNINGTOKYO + Teiko",m:8,f:30,w:20,l:10,form:["win","loss","win","win","win"]},
-        {id:5,n:"Dream Team",m:14,f:48,w:30,l:18,form:["win","win","loss","win","loss"]},
-        {id:6,n:"Spirit Bloom",m:7,f:25,w:15,l:10,form:["win","loss","win","loss","win"]},
-        {id:7,n:"GHOST",m:11,f:40,w:24,l:16,form:["loss","win","win","loss","win"]},
-        {id:8,n:"Hounds",m:9,f:35,w:22,l:13,form:["win","win","loss","win","loss"]},
-        {id:9,n:"Galactic Alliance",m:13,f:42,w:26,l:16,form:["win","loss","win","win","loss"]},
-        {id:10,n:"Adekvate Team",m:6,f:22,w:12,l:10,form:["loss","win","loss","win","loss"]},
-        {id:11,n:"Eclipse",m:10,f:36,w:23,l:13,form:["win","win","loss","loss","win"]},
-        {id:12,n:"IronLegacy",m:8,f:28,w:16,l:12,form:["win","loss","win","loss","win"]},
-        {id:13,n:"EX.O",m:5,f:18,w:10,l:8,form:["win","win","loss","loss","win"]},
-        {id:14,n:"Not Such Dinos",m:7,f:24,w:14,l:10,form:["win","loss","win","draw","loss"]},
-        {id:15,n:"aeterna",m:6,f:20,w:11,l:9,form:["loss","win","win","loss","draw"]}
+        {id:1,n:"Invicta",m:10,f:30,w:28,l:2,form:["win","win","win","win","win"]},
+        {id:2,n:"GTR",m:12,f:29,w:26,l:3,form:["win","win","win","loss","win"]},
+        {id:3,n:"GMT",m:11,f:16,w:13,l:3,form:["win","loss","win","win","win"]},
+        {id:4,n:"Teiko",m:8,f:15,w:13,l:2,form:["win","win","loss","win","win"]},
+        {id:5,n:"Immortals",m:15,f:13,w:11,l:2,form:["win","loss","win","win","win"]},
+        {id:6,n:"DT",m:14,f:12,w:10,l:2,form:["loss","win","win","win","loss"]},
+        {id:7,n:"Spirit Bloom",m:7,f:10,w:8,l:2,form:["win","loss","win","loss","win"]},
+        {id:8,n:"Aeterna",m:6,f:7,w:6,l:1,form:["win","win","win","loss","win"]},
+        {id:9,n:"Galactic Alliance",m:13,f:6,w:5,l:1,form:["win","loss","win","win","loss"]},
+        {id:10,n:"Clan Ghost",m:11,f:6,w:5,l:1,form:["loss","win","win","loss","win"]},
+        {id:11,n:"Eclipse",m:10,f:6,w:5,l:1,form:["win","win","loss","loss","win"]},
+        {id:12,n:"Han",m:5,f:5,w:4,l:1,form:["win","win","loss","win","loss"]},
+        {id:13,n:"Hounds",m:9,f:3,w:2,l:1,form:["win","loss","win","loss","loss"]},
+        {id:14,n:"Adekvate Team",m:6,f:3,w:2,l:1,form:["loss","win","loss","win","loss"]},
+        {id:15,n:"EX.O",m:5,f:2,w:2,l:0,form:["win","win","loss","loss","win"]},
+        {id:16,n:"IronLegacy",m:8,f:2,w:2,l:0,form:["win","loss","win","loss","win"]},
+        {id:17,n:"NSD",m:7,f:2,w:2,l:0,form:["win","loss","win","loss","win"]},
+        {id:18,n:"Void",m:4,f:1,w:1,l:0,form:["loss","win","win","loss","draw"]},
+        {id:19,n:"Deviance",m:3,f:0,w:0,l:0,form:["loss","loss","loss","loss","loss"]},
+        {id:20,n:"Rising Legends",m:3,f:0,w:0,l:0,form:["loss","loss","loss","loss","loss"]},
+        {id:21,n:"Shared Horizon",m:3,f:0,w:0,l:0,form:["loss","loss","loss","loss","loss"]},
+        {id:22,n:"High Killers",m:3,f:0,w:0,l:0,form:["loss","loss","loss","loss","loss"]},
+        {id:23,n:"Indomitable",m:3,f:0,w:0,l:0,form:["loss","loss","loss","loss","loss"]}
     ];
 
     // ===== ЗАГРУЗКА ИЗ LOCALSTORAGE =====
@@ -306,36 +313,4 @@
                 <td style="color:#27ae60;font-weight:600;">${c.w}</td>
                 <td style="color:#e74c3c;font-weight:600;">${c.l}</td>
                 <td class="pt">${pts(c)}</td>
-                <td><div class="form">${renderForm(getForm(c))}</div></td>`;
-            tb.appendChild(tr)
-        });
-        updateStats(d)
-    }
-
-    function updateStats(d){
-        let w=0,l=0,f=0;
-        d.forEach(c=>{w+=c.w;l+=c.l;f+=c.f});
-        document.getElementById('c1').textContent=d.length;
-        document.getElementById('c2').textContent=w;
-        document.getElementById('c3').textContent=l;
-        document.getElementById('c4').textContent=f;
-        document.getElementById('c').innerHTML=`Кланов: <b>${d.length}</b>`
-    }
-
-    function tog(c,a){
-        document.getElementById(c).classList.toggle('op');
-        document.getElementById(a).classList.toggle('op')
-    }
-
-    // ===== АДМИН-ПАНЕЛЬ =====
-    function toggleAdmin(){
-        const ap=document.getElementById('ap');
-        ap.classList.toggle('vis');
-        if(ap.classList.contains('vis'))renderAdmin();
-    }
-
-    function renderAdmin(){
-        const al=document.getElementById('al');
-        al.innerHTML='';
-        clans.forEach((c,i)=>{
-            const d=document.createElement('div
+                <td
