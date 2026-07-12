@@ -59,7 +59,6 @@
         .st .it .v.g{color:#27ae60}
         .st .it .v.r{color:#e74c3c}
         .st .it .lbl{color:#8e95aa;font-size:13px;margin-top:4px}
-        
         .ap{display:none;background:#1f2330;border:2px solid #f0b429;border-radius:12px;padding:25px;margin-top:20px}
         .ap.vis{display:block}
         .ap h2{color:#f0b429;font-size:20px;margin-bottom:20px;text-align:center}
@@ -84,7 +83,6 @@
         .ap .ac .bca{background:#3a4057;color:#e0e4f0}
         .ap .ac .bca:hover{background:#4a526b}
         .ap .ah{color:#8e95aa;font-size:12px;text-align:center;margin-top:15px}
-        
         .b{background:#242938;border-radius:12px;padding:25px 30px;border:1px solid #3a4057}
         .b .tg{display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none}
         .b .tg h2{color:#f0b429;font-size:20px}
@@ -101,11 +99,9 @@
         .b .itm .no{display:block;color:#ff9800;font-size:12px;margin-top:2px;padding-left:8px;font-style:italic}
         .b .itm .hl{color:#ff6b6b}
         .b .itm strong{color:#f0b429}
-        
         .toast{position:fixed;bottom:30px;right:30px;background:#27ae60;color:#fff;padding:15px 30px;border-radius:10px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.5);opacity:0;transform:translateY(20px);transition:.4s;z-index:9999}
         .toast.err{background:#e74c3c}
         .toast.sh{opacity:1;transform:translateY(0)}
-        
         @media(max-width:768px){
             body{padding:10px}
             .h{flex-direction:column;gap:15px;text-align:center;padding:15px}
@@ -277,7 +273,7 @@
         return f;
     }
     function renderForm(form){
-        return form.slice(0,5).map(r=>{
+        return form.slice(0,5).map(function(r){
             if(r==='win')return '<span class="fb fw">В</span>';
             if(r==='loss')return '<span class="fb fl">П</span>';
             if(r==='draw')return '<span class="fb fd">Н</span>';
@@ -286,15 +282,24 @@
     }
 
     function r(){
-        const q=document.getElementById('s').value.toLowerCase();
-        let d=clans.filter(c=>c.n.toLowerCase().includes(q));
-        d.sort((a,b)=>pts(b)-pts(a)||(b.w-b.l)-(a.w-a.l));
-        const tb=document.getElementById('tb');
+        var q=document.getElementById('s').value.toLowerCase();
+        var d=clans.filter(function(c){return c.n.toLowerCase().indexOf(q)!==-1;});
+        d.sort(function(a,b){
+            var pa=pts(a),pb=pts(b);
+            if(pa!==pb)return pb-pa;
+            return (b.w-b.l)-(a.w-a.l);
+        });
+        var tb=document.getElementById('tb');
         tb.innerHTML='';
-        if(!d.length){tb.innerHTML='<tr><td colspan=8 style="text-align:center;padding:40px;color:#8e95aa;">🏛️ Кланов не найдено</td></tr>';updateStats([]);return}
-        d.forEach((c,i)=>{
-            const p=i+1,pc=p<4?'p'+p:'po';
-            const tr=document.createElement('tr');
+        if(!d.length){
+            tb.innerHTML='<tr><td colspan=8 style="text-align:center;padding:40px;color:#8e95aa;">🏛️ Кланов не найдено</td></tr>';
+            updateStats([]);
+            return;
+        }
+        for(var i=0;i<d.length;i++){
+            var c=d[i];
+            var p=i+1,pc=p<4?'p'+p:'po';
+            var tr=document.createElement('tr');
             tr.innerHTML='<td><span class="p '+pc+'">'+p+'</span></td>'+
                 '<td><div class="cl"><div class="i">'+c.n[0]+'</div><div class="inf"><span class="nm">'+c.n+'</span><span class="mb">👥 '+c.m+'</span></div></div></td>'+
                 '<td>'+c.m+'</td><td>'+c.f+'</td>'+
@@ -302,15 +307,11 @@
                 '<td style="color:#e74c3c;font-weight:600;">'+c.l+'</td>'+
                 '<td class="pt">'+pts(c)+'</td>'+
                 '<td><div class="form">'+renderForm(getForm(c))+'</div></td>';
-            tb.appendChild(tr)
-        });
-        updateStats(d)
+            tb.appendChild(tr);
+        }
+        updateStats(d);
     }
 
     function updateStats(d){
-        let w=0,l=0,f=0;
-        d.forEach(c=>{w+=c.w;l+=c.l;f+=c.f});
-        document.getElementById('c1').textContent=d.length;
-        document.getElementById('c2').textContent=w;
-        document.getElementById('c3').textContent=l;
-        document
+        var w=0,l=0,f=0;
+        for(var i=0;i<d.length;i++)
