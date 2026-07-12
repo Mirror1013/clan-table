@@ -64,18 +64,20 @@
             flex-wrap: wrap;
         }
 
-        .clan-header .nav a {
+        .clan-header .nav button {
+            background: none;
+            border: none;
             color: #b9bfd4;
-            text-decoration: none;
             padding: 8px 16px;
             border-radius: 6px;
             font-size: 14px;
             transition: 0.3s;
             cursor: pointer;
+            font-family: inherit;
         }
 
-        .clan-header .nav a:hover,
-        .clan-header .nav a.active {
+        .clan-header .nav button:hover,
+        .clan-header .nav button.active {
             background: #f0b429;
             color: #1a1e2c;
         }
@@ -144,7 +146,6 @@
             padding: 0;
             overflow-x: auto;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            display: block;
         }
 
         .tournament-table {
@@ -410,17 +411,22 @@
             margin-top: 4px;
         }
 
+        /* ===== ВКЛАДКИ ===== */
+        .tab-content {
+            display: none;
+            margin-top: 0;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         .commands-section {
             background: #242938;
             border-radius: 12px;
             padding: 25px 30px;
-            margin-top: 30px;
             border: 1px solid #3a4057;
-            display: none;
-        }
-
-        .commands-section.visible {
-            display: block;
+            margin-top: 0;
         }
 
         .commands-section .commands-toggle {
@@ -516,13 +522,8 @@
             background: #242938;
             border-radius: 12px;
             padding: 25px 30px;
-            margin-top: 30px;
             border: 1px solid #3a4057;
-            display: none;
-        }
-
-        .rules-section.visible {
-            display: block;
+            margin-top: 0;
         }
 
         .rules-section .rules-toggle {
@@ -624,14 +625,6 @@
             transform: translateY(0);
         }
 
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
         @media (max-width: 768px) {
             body { padding: 10px; }
             .clan-header {
@@ -642,7 +635,7 @@
                 padding: 15px;
             }
             .clan-header .nav { justify-content: center; }
-            .clan-header .nav a { font-size: 12px; padding: 6px 12px; }
+            .clan-header .nav button { font-size: 12px; padding: 6px 12px; }
             .clan-header .logo { font-size: 22px; }
             .clan-header .logo span { font-size: 14px; }
 
@@ -684,7 +677,7 @@
         }
 
         @media (max-width: 480px) {
-            .clan-header .nav a { font-size: 11px; padding: 5px 10px; }
+            .clan-header .nav button { font-size: 11px; padding: 5px 10px; }
             .tournament-table tbody td,
             .tournament-table thead th { padding: 6px 4px; font-size: 11px; }
             .tournament-table thead th { font-size: 9px; }
@@ -700,6 +693,7 @@
 
 <div class="container">
 
+    <!-- ===== ШАПКА ===== -->
     <div class="clan-header">
         <div class="logo">
             🏆 Клановая таблица
@@ -707,13 +701,14 @@
             <small>Рейтинг кланов · Турнирная таблица</small>
         </div>
         <div class="nav">
-            <a href="#table" class="active" onclick="switchTab('table')">📊 Таблица</a>
-            <a href="#commands" onclick="switchTab('commands')">⌨️ Команды</a>
-            <a href="#rules" onclick="switchTab('rules')">📜 Правила</a>
-            <a href="#admin" onclick="toggleAdmin()">🔧 Админ</a>
+            <button class="active" onclick="switchTab('table', this)">📊 Таблица</button>
+            <button onclick="switchTab('commands', this)">⌨️ Команды</button>
+            <button onclick="switchTab('rules', this)">📜 Правила</button>
+            <button onclick="toggleAdmin()">🔧 Админ</button>
         </div>
     </div>
 
+    <!-- ===== ФИЛЬТРЫ ===== -->
     <div class="filters">
         <input type="text" id="searchClan" placeholder="🔍 Поиск клана..." oninput="applyFilters()">
         <button class="btn btn-reset" onclick="resetFilters()">Сбросить</button>
@@ -749,7 +744,7 @@
 
     <!-- ===== ВКЛАДКА: КОМАНДЫ ===== -->
     <div id="tab-commands" class="tab-content">
-        <div class="commands-section visible" style="display:block;margin-top:0;">
+        <div class="commands-section">
             <div class="commands-toggle" onclick="toggleCommands()">
                 <h2>⌨️ Памятка по админ-командам Age of Dino</h2>
                 <span class="arrow" id="commandsArrow">▼</span>
@@ -821,7 +816,7 @@
 
     <!-- ===== ВКЛАДКА: ПРАВИЛА ===== -->
     <div id="tab-rules" class="tab-content">
-        <div class="rules-section visible" style="display:block;margin-top:0;">
+        <div class="rules-section">
             <div class="rules-toggle" onclick="toggleRules()">
                 <h2>📜 Клановые правила Age of Dino</h2>
                 <span class="arrow" id="rulesArrow">▼</span>
@@ -834,5 +829,6 @@
                 </div>
                 <div class="rule-block">
                     <h3>1 | ОБЩИЕ ПРИНЦИПЫ</h3>
-                    <div class="rule-item"><strong>1.1</strong> <strong>Клан</strong> — группа игроков, объединенная интересами.</div>
-                    <div class="rule-item"><strong>1.2</strong> Иерархия: <strong>
+                    <div class="rule-item"><strong>1.1</strong> <strong>Клан</strong> — группа игроков, объединенная интересами, дружескими отношениями.</div>
+                    <div class="rule-item"><strong>1.2</strong> Иерархия: <strong>глава — заместитель — член клана</strong>.</div>
+                    <div class="
