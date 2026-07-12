@@ -13,7 +13,7 @@
         .l span{color:#fff;font-weight:300;font-size:16px}
         .l small{display:block;font-size:12px;color:#8e95aa;font-weight:400}
         .n{display:flex;gap:6px;flex-wrap:wrap}
-        .n a{color:#b9bfd4;text-decoration:none;padding:8px 16px;border-radius:6px;font-size:14px;transition:.3s}
+        .n a{color:#b9bfd4;text-decoration:none;padding:8px 16px;border-radius:6px;font-size:14px;transition:.3s;cursor:pointer}
         .n a:hover,.n a.active{background:#f0b429;color:#1a1e2c}
         .f{background:#242938;padding:16px 20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;border-bottom:1px solid #3a4057}
         .f input{background:#2f364a;border:1px solid #3a4057;color:#e0e4f0;padding:8px 16px;border-radius:6px;font-size:14px;outline:none;flex:1;min-width:200px}
@@ -22,6 +22,9 @@
         .f .b:hover{background:#d49c1a}
         .f .br{background:#3a4057;color:#e0e4f0}
         .f .br:hover{background:#4a526b}
+        .f .ba{background:#e74c3c;color:#fff}
+        .f .ba:hover{background:#c0392b}
+        .f .ba.active{background:#27ae60}
         .fc{color:#8e95aa;font-size:13px;margin-left:auto;white-space:nowrap}
         .t{display:none}
         .t:target{display:block}
@@ -47,12 +50,46 @@
         .nm{font-weight:700;color:#fff;font-size:15px}
         .mb{font-size:11px;color:#5a627a;margin-top:2px}
         .pt{font-weight:800;font-size:24px;color:#f0b429}
+        .form{display:flex;gap:4px;justify-content:center}
+        .fb{width:28px;height:28px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
+        .fw{background:#27ae60}
+        .fl{background:#e74c3c}
+        .fd{background:#f39c12}
+        .femp{background:#2f364a;color:#4a526b}
         .st{display:flex;gap:20px;flex-wrap:wrap;margin-top:20px;justify-content:center}
         .st .it{background:#242938;padding:15px 35px;border-radius:10px;text-align:center;min-width:130px}
         .st .it .v{font-size:28px;font-weight:700;color:#f0b429}
         .st .it .v.g{color:#27ae60}
         .st .it .v.r{color:#e74c3c}
         .st .it .lbl{color:#8e95aa;font-size:13px;margin-top:4px}
+        
+        /* АДМИН-ПАНЕЛЬ */
+        .ap{display:none;background:#1f2330;border:2px solid #f0b429;border-radius:12px;padding:25px;margin-top:20px}
+        .ap.vis{display:block}
+        .ap h2{color:#f0b429;font-size:20px;margin-bottom:20px;text-align:center}
+        .ap .ar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;background:#2a2f40;padding:12px 15px;border-radius:8px;margin-bottom:10px}
+        .ap .ar input{background:#1a1e2c;border:1px solid #3a4057;color:#e0e4f0;padding:6px 12px;border-radius:4px;font-size:13px;outline:none}
+        .ap .ar input:focus{border-color:#f0b429}
+        .ap .ar .ni{flex:2;min-width:120px}
+        .ap .ar .nu{width:60px;text-align:center}
+        .ap .ar .bs{padding:4px 12px;border-radius:4px;border:none;cursor:pointer;font-weight:600;font-size:12px;transition:.3s}
+        .ap .ar .bs.sv{background:#27ae60;color:#fff}
+        .ap .ar .bs.sv:hover{background:#219a52}
+        .ap .ar .bs.del{background:#e74c3c;color:#fff}
+        .ap .ar .bs.del:hover{background:#c0392b}
+        .ap .ar .bs.ad{background:#3498db;color:#fff;padding:6px 18px;font-size:14px}
+        .ap .ar .bs.ad:hover{background:#2980b9}
+        .ap .ac{display:flex;gap:12px;justify-content:center;margin-top:20px;flex-wrap:wrap}
+        .ap .ac .btn{padding:10px 30px;border-radius:6px;border:none;font-weight:700;cursor:pointer;transition:.3s;font-size:14px}
+        .ap .ac .bsa{background:#27ae60;color:#fff}
+        .ap .ac .bsa:hover{background:#219a52}
+        .ap .ac .bra{background:#e74c3c;color:#fff}
+        .ap .ac .bra:hover{background:#c0392b}
+        .ap .ac .bca{background:#3a4057;color:#e0e4f0}
+        .ap .ac .bca:hover{background:#4a526b}
+        .ap .ah{color:#8e95aa;font-size:12px;text-align:center;margin-top:15px}
+        
+        /* КОМАНДЫ И ПРАВИЛА */
         .b{background:#242938;border-radius:12px;padding:25px 30px;border:1px solid #3a4057}
         .b .tg{display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none}
         .b .tg h2{color:#f0b429;font-size:20px}
@@ -69,6 +106,12 @@
         .b .itm .no{display:block;color:#ff9800;font-size:12px;margin-top:2px;padding-left:8px;font-style:italic}
         .b .itm .hl{color:#ff6b6b}
         .b .itm strong{color:#f0b429}
+        
+        /* ТОСТ */
+        .toast{position:fixed;bottom:30px;right:30px;background:#27ae60;color:#fff;padding:15px 30px;border-radius:10px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.5);opacity:0;transform:translateY(20px);transition:.4s;z-index:9999}
+        .toast.err{background:#e74c3c}
+        .toast.sh{opacity:1;transform:translateY(0)}
+        
         @media(max-width:768px){
             body{padding:10px}
             .h{flex-direction:column;gap:15px;text-align:center;padding:15px}
@@ -88,6 +131,10 @@
             .st .it .v{font-size:20px}
             .b{padding:15px 18px}
             .b .itm{font-size:13px;padding-left:12px}
+            .ap .ar{flex-direction:column;align-items:stretch}
+            .ap .ar .nu{width:100%}
+            .ap .ar .bs{width:100%;padding:8px}
+            .fb{width:22px;height:22px;font-size:10px}
         }
         @media(max-width:480px){
             .n a{font-size:11px;padding:5px 10px}
@@ -98,6 +145,7 @@
             .i{width:28px;height:28px;font-size:12px}
             .nm{font-size:12px}
             .mb{font-size:10px}
+            .fb{width:20px;height:20px;font-size:9px}
         }
     </style>
 </head>
@@ -111,25 +159,39 @@
             <a href="#tab-table" class="active">📊 Таблица</a>
             <a href="#tab-commands">⌨️ Команды</a>
             <a href="#tab-rules">📜 Правила</a>
+            <a href="#" onclick="toggleAdmin();return false">🔧 Админ</a>
         </div>
     </div>
 
     <!-- ФИЛЬТРЫ -->
     <div class="f">
-        <input type="text" id="s" placeholder="🔍 Поиск клана..." oninput="r()">
+        <input type="text" id="s" placeholder="🔍 Поиск клана...">
+        <button class="b" onclick="r()">Применить</button>
         <button class="b br" onclick="document.getElementById('s').value='';r()">Сбросить</button>
         <span class="fc" id="c">Кланов: <b>0</b></span>
     </div>
 
     <!-- ТАБЛИЦА -->
     <div id="tab-table" class="t">
-        <div class="w"><table><thead><tr><th>#</th><th>Клан</th><th>👥</th><th>⚔️</th><th>🏆</th><th>💀</th><th>Очки</th></tr></thead><tbody id="tb"></tbody></table></div>
+        <div class="w"><table><thead><tr><th>#</th><th>Клан</th><th>👥</th><th>⚔️</th><th>🏆</th><th>💀</th><th>Очки</th><th>Форма</th></tr></thead><tbody id="tb"></tbody></table></div>
         <div class="st">
             <div class="it"><div class="v" id="c1">0</div><div class="lbl">🏛️ Кланов</div></div>
             <div class="it"><div class="v g" id="c2">0</div><div class="lbl">🏆 Побед</div></div>
             <div class="it"><div class="v r" id="c3">0</div><div class="lbl">💀 Поражений</div></div>
             <div class="it"><div class="v" id="c4">0</div><div class="lbl">⚔️ Боёв</div></div>
         </div>
+    </div>
+
+    <!-- АДМИН-ПАНЕЛЬ -->
+    <div class="ap" id="ap">
+        <h2>🔧 Админ-панель управления кланами</h2>
+        <div id="al"></div>
+        <div class="ac">
+            <button class="btn bsa" onclick="saveAll()">💾 Сохранить всё</button>
+            <button class="btn bra" onclick="resetAll()">🔄 Сбросить</button>
+            <button class="btn bca" onclick="toggleAdmin()">❌ Закрыть</button>
+        </div>
+        <div class="ah">💡 Изменения сохраняются в локальном хранилище браузера.</div>
     </div>
 
     <!-- КОМАНДЫ -->
@@ -178,48 +240,78 @@
     </div>
 </div>
 
+<!-- ТОСТ -->
+<div class="toast" id="toast"></div>
+
 <script>
     // ===== ДАННЫЕ =====
-    const clans=[
-        {id:1,n:"Great Than Rivals",m:12,f:45,w:32,l:13},
-        {id:2,n:"Invicta",m:10,f:38,w:28,l:10},
-        {id:3,n:"Immortals",m:15,f:52,w:36,l:16},
-        {id:4,n:"GOODMORNINGTOKYO + Teiko",m:8,f:30,w:20,l:10},
-        {id:5,n:"Dream Team",m:14,f:48,w:30,l:18},
-        {id:6,n:"Spirit Bloom",m:7,f:25,w:15,l:10},
-        {id:7,n:"GHOST",m:11,f:40,w:24,l:16},
-        {id:8,n:"Hounds",m:9,f:35,w:22,l:13},
-        {id:9,n:"Galactic Alliance",m:13,f:42,w:26,l:16},
-        {id:10,n:"Adekvate Team",m:6,f:22,w:12,l:10},
-        {id:11,n:"Eclipse",m:10,f:36,w:23,l:13},
-        {id:12,n:"IronLegacy",m:8,f:28,w:16,l:12},
-        {id:13,n:"EX.O",m:5,f:18,w:10,l:8},
-        {id:14,n:"Not Such Dinos",m:7,f:24,w:14,l:10},
-        {id:15,n:"aeterna",m:6,f:20,w:11,l:9}
+    let clans = [
+        {id:1,n:"Great Than Rivals",m:12,f:45,w:32,l:13,form:["win","win","loss","win","win"]},
+        {id:2,n:"Invicta",m:10,f:38,w:28,l:10,form:["win","win","win","loss","win"]},
+        {id:3,n:"Immortals",m:15,f:52,w:36,l:16,form:["win","win","win","win","loss"]},
+        {id:4,n:"GOODMORNINGTOKYO + Teiko",m:8,f:30,w:20,l:10,form:["win","loss","win","win","win"]},
+        {id:5,n:"Dream Team",m:14,f:48,w:30,l:18,form:["win","win","loss","win","loss"]},
+        {id:6,n:"Spirit Bloom",m:7,f:25,w:15,l:10,form:["win","loss","win","loss","win"]},
+        {id:7,n:"GHOST",m:11,f:40,w:24,l:16,form:["loss","win","win","loss","win"]},
+        {id:8,n:"Hounds",m:9,f:35,w:22,l:13,form:["win","win","loss","win","loss"]},
+        {id:9,n:"Galactic Alliance",m:13,f:42,w:26,l:16,form:["win","loss","win","win","loss"]},
+        {id:10,n:"Adekvate Team",m:6,f:22,w:12,l:10,form:["loss","win","loss","win","loss"]},
+        {id:11,n:"Eclipse",m:10,f:36,w:23,l:13,form:["win","win","loss","loss","win"]},
+        {id:12,n:"IronLegacy",m:8,f:28,w:16,l:12,form:["win","loss","win","loss","win"]},
+        {id:13,n:"EX.O",m:5,f:18,w:10,l:8,form:["win","win","loss","loss","win"]},
+        {id:14,n:"Not Such Dinos",m:7,f:24,w:14,l:10,form:["win","loss","win","draw","loss"]},
+        {id:15,n:"aeterna",m:6,f:20,w:11,l:9,form:["loss","win","win","loss","draw"]}
     ];
+
+    // ===== ЗАГРУЗКА ИЗ LOCALSTORAGE =====
+    function loadData(){
+        const saved=localStorage.getItem('clanData');
+        if(saved){try{clans=JSON.parse(saved)}catch(e){}}
+    }
+    function saveData(){
+        localStorage.setItem('clanData',JSON.stringify(clans));
+        showToast('💾 Данные сохранены!');
+    }
+    loadData();
 
     // ===== ФУНКЦИИ =====
     function pts(c){return c.w*3}
+    function getForm(c){
+        let f=c.form||[];
+        while(f.length<5)f.push('');
+        return f;
+    }
+    function renderForm(form){
+        return form.slice(0,5).map(r=>{
+            if(r==='win')return '<span class="fb fw">В</span>';
+            if(r==='loss')return '<span class="fb fl">П</span>';
+            if(r==='draw')return '<span class="fb fd">Н</span>';
+            return '<span class="fb femp">—</span>';
+        }).join('');
+    }
+
     function r(){
         const q=document.getElementById('s').value.toLowerCase();
         let d=clans.filter(c=>c.n.toLowerCase().includes(q));
         d.sort((a,b)=>pts(b)-pts(a)||(b.w-b.l)-(a.w-a.l));
         const tb=document.getElementById('tb');
         tb.innerHTML='';
-        if(!d.length){tb.innerHTML='<tr><td colspan=7 style="text-align:center;padding:40px;color:#8e95aa;">🏛️ Кланов не найдено</td></tr>';updateStats([]);return}
+        if(!d.length){tb.innerHTML='<tr><td colspan=8 style="text-align:center;padding:40px;color:#8e95aa;">🏛️ Кланов не найдено</td></tr>';updateStats([]);return}
         d.forEach((c,i)=>{
             const p=i+1,pc=p<4?'p'+p:'po';
-            const cl=document.createElement('tr');
-            cl.innerHTML=`<td><span class="p ${pc}">${p}</span></td>
+            const tr=document.createElement('tr');
+            tr.innerHTML=`<td><span class="p ${pc}">${p}</span></td>
                 <td><div class="cl"><div class="i">${c.n[0]}</div><div class="inf"><span class="nm">${c.n}</span><span class="mb">👥 ${c.m}</span></div></div></td>
                 <td>${c.m}</td><td>${c.f}</td>
                 <td style="color:#27ae60;font-weight:600;">${c.w}</td>
                 <td style="color:#e74c3c;font-weight:600;">${c.l}</td>
-                <td class="pt">${pts(c)}</td>`;
-            tb.appendChild(cl)
+                <td class="pt">${pts(c)}</td>
+                <td><div class="form">${renderForm(getForm(c))}</div></td>`;
+            tb.appendChild(tr)
         });
         updateStats(d)
     }
+
     function updateStats(d){
         let w=0,l=0,f=0;
         d.forEach(c=>{w+=c.w;l+=c.l;f+=c.f});
@@ -229,18 +321,21 @@
         document.getElementById('c4').textContent=f;
         document.getElementById('c').innerHTML=`Кланов: <b>${d.length}</b>`
     }
+
     function tog(c,a){
         document.getElementById(c).classList.toggle('op');
         document.getElementById(a).classList.toggle('op')
     }
-    // Подсветка активной вкладки
-    document.querySelectorAll('.n a').forEach(a=>{
-        a.addEventListener('click',function(e){
-            document.querySelectorAll('.n a').forEach(x=>x.classList.remove('active'));
-            this.classList.add('active')
-        })
-    });
-    r()
-</script>
-</body>
-</html>
+
+    // ===== АДМИН-ПАНЕЛЬ =====
+    function toggleAdmin(){
+        const ap=document.getElementById('ap');
+        ap.classList.toggle('vis');
+        if(ap.classList.contains('vis'))renderAdmin();
+    }
+
+    function renderAdmin(){
+        const al=document.getElementById('al');
+        al.innerHTML='';
+        clans.forEach((c,i)=>{
+            const d=document.createElement('div
