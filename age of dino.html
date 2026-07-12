@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Клановая таблица | Age of Dino</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Montserrat', Arial, sans-serif;
+            background: #1a1e2c;
+            color: #e0e4f0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* ===== ШАПКА ===== */
+        .clan-header {
+            background: #242938;
+            border-radius: 12px 12px 0 0;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            border-bottom: 2px solid #f0b429;
+        }
+
+        .clan-header .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #f0b429;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .clan-header .logo span {
+            color: #ffffff;
+            font-weight: 300;
+            font-size: 16px;
+        }
+
+        .clan-header .logo small {
+            display: block;
+            font-size: 12px;
+            color: #8e95aa;
+            font-weight: 400;
+            letter-spacing: 0;
+        }
+
+        .clan-header .nav {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .clan-header .nav a {
+            color: #b9bfd4;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .clan-header .nav a:hover,
+        .clan-header .nav a.active {
+            background: #f0b429;
+            color: #1a1e2c;
+        }
+
+        /* ===== ФИЛЬТРЫ ===== */
+        .filters {
+            background: #242938;
+            padding: 16px 20px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            border-bottom: 1px solid #3a4057;
+        }
+
+        .filters input {
+            background: #2f364a;
+            border: 1px solid #3a4057;
+            color: #e0e4f0;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filters input:focus {
+            border-color: #f0b429;
+        }
+
+        .filters .btn {
+            background: #f0b429;
+            color: #1a1e2c;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .filters .btn:hover {
+            background: #d49c1a;
+        }
+
+        .filters .btn-reset {
+            background: #3a4057;
+            color: #e0e4f0;
+        }
+
+        .filters .btn-reset:hover {
+            background: #4a526b;
+        }
+
+        .filter-count {
+            color: #8e95aa;
+            font-size: 13px;
+            margin-left: auto;
+            white-space: nowrap;
+        }
+
+        /* ===== ТАБЛИЦА ===== */
+        .tournament-table-wrap {
+            background: #242938;
+            border-radius: 0 0 12px 12px;
+            padding: 0;
+            overflow-x: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .tournament-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            min-width: 650px;
+        }
+
+        .tournament-table thead th {
+            background: #2f364a;
+            padding: 14px 12px;
+            text-align: center;
+            font-weight: 700;
+            color: #b9bfd4;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #f0b429;
+            white-space: nowrap;
+        }
+
+        .tournament-table thead th:first-child {
+            text-align: left;
+            padding-left: 20px;
+        }
+
+        .tournament-table thead th:nth-child(2) {
+            text-align: left;
+        }
+
+        .tournament-table tbody tr {
+            border-bottom: 1px solid #3a4057;
+            transition: 0.2s;
+        }
+
+        .tournament-table tbody tr:hover {
+            background: #2f364a;
+        }
+
+        .tournament-table tbody td {
+            padding: 12px 10px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .tournament-table tbody td:first-child {
+            text-align: left;
+            padding-left: 20px;
+        }
+
+        .tournament-table tbody td:nth-child(2) {
+            text-align: left;
+        }
+
+        .pos {
+            font-weight: 700;
+            font-size: 16px;
+            min-width: 30px;
+            display: inline-block;
+            background: #2f364a;
+            padding: 2px 10px;
+            border-radius: 4px;
+        }
+        .pos-1 { color: #ffd700; background: #3a2f00; border: 1px solid #ffd700; }
+        .pos-2 { color: #c0c0c0; background: #2f2f2f; border: 1px solid #c0c0c0; }
+        .pos-3 { color: #cd7f32; background: #2f1f0f; border: 1px solid #cd7f32; }
+        .pos-other { color: #8e95aa; background: #1f222f; }
+
+        .clan-cell {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .clan-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            flex-shrink: 0;
+            border: 2px solid #3a4057;
+            color: #f0b429;
+            background: #2f364a;
+        }
+
+        .clan-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .clan-name {
+            font-weight: 700;
+            color: #ffffff;
+            font-size: 15px;
+        }
+
+        .clan-members {
+            font-size: 11px;
+            color: #5a627a;
+            margin-top: 2px;
+        }
+
+        .points {
+            font-weight: 800;
+            font-size: 24px;
+            color: #f0b429;
+        }
+
+        /* ===== АДМИН-ПАНЕЛЬ ===== */
+        .admin-panel {
+            display: none;
+            background: #1f2330;
+            border: 2px solid #f0b429;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .admin-panel.visible {
+            display: block;
+        }
+
+        .admin-panel h2 {
+            color: #f0b429;
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .admin-panel .admin-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            background: #2a2f40;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .admin-panel .admin-row input {
+            background: #1a1e2c;
+            border: 1px solid #3a4057;
+            color: #e0e4f0;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .admin-panel .admin-row input:focus {
+            border-color: #f0b429;
+        }
+
+        .admin-panel .admin-row input.name-input { flex: 2; min-width: 120px; }
+        .admin-panel .admin-row input.num-input { width: 60px; text-align: center; }
+
+        .admin-panel .admin-row .btn-sm {
+            padding: 4px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+
+        .admin-panel .admin-row .btn-sm.save {
+            background: #27ae60;
+            color: #fff;
+        }
+        .admin-panel .admin-row .btn-sm.save:hover { background: #219a52; }
+
+        .admin-panel .admin-row .btn-sm.delete {
+            background: #e74c3c;
+            color: #fff;
+        }
+        .admin-panel .admin-row .btn-sm.delete:hover { background: #c0392b; }
+
+        .admin-panel .admin-row .btn-sm.add {
+            background: #3498db;
+            color: #fff;
+            padding: 6px 18px;
+            font-size: 14px;
+        }
+        .admin-panel .admin-row .btn-sm.add:hover { background: #2980b9; }
+
+        .admin-panel .admin-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .admin-panel .admin-actions .btn {
+            padding: 10px 30px;
+            border-radius: 6px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .admin-panel .admin-actions .btn-save-all {
+            background: #27ae60;
+            color: #fff;
+        }
+        .admin-panel .admin-actions .btn-save-all:hover { background: #219a52; }
+
+        .admin-panel .admin-actions .btn-reset-all {
+            background: #e74c3c;
+            color: #fff;
+        }
+        .admin-panel .admin-actions .btn-reset-all:hover { background: #c0392b; }
+
+        .admin-panel .admin-actions .btn-close-admin {
+            background: #3a4057;
+            color: #e0e4f0;
+        }
+        .admin-panel .admin-actions .btn-close-admin:hover { background: #4a526b; }
+
+        .admin-panel .admin-hint {
+            color: #8e95aa;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        /* ===== СТАТИСТИКА ===== */
+        .stats-footer {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .stats-footer .stat-item {
+            background: #242938;
+            padding: 15px 35px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 130px;
+        }
+
+        .stats-footer .stat-item .value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #f0b429;
+        }
+        .stats-footer .stat-item .value.green { color: #27ae60; }
+        .stats-footer .stat-item .value.red { color: #e74c3c; }
+        .stats-footer .stat-item .value.gold { color: #f0b429; }
+        .stats-footer .stat-item .label {
+            color: #8e95aa;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        /* ===== ПАМЯТКА ПО КОМАНДАМ ===== */
+        .commands-section {
+            background: #242938;
+            border-radius: 12px;
+            padding: 25px 30px;
+            margin-top: 30px;
+            border: 1px solid #3a4057;
+        }
+
+        .commands-section .commands-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .commands-section .commands-toggle h2 {
+            color: #f0b429;
+            font-size: 20px;
+        }
+
+        .commands-section .commands-toggle .arrow {
+            color: #8e95aa;
+            font-size: 24px;
+            transition: 0.3s;
+        }
+
+        .commands-section .commands-toggle .arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .commands-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .commands-content.open {
+            max-height: 10000px;
+        }
+
+        .commands-content .cmd-block {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #3a4057;
+        }
+
+        .commands-content .cmd-block:first-child {
+            border-top: none;
+            padding-top: 0;
+        }
+
+        .commands-content .cmd-block h3 {
+            color: #f0b429;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .commands-content .cmd-block .cmd-item {
+            padding: 8px 0;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #c0c8d8;
+            padding-left: 20px;
+            border-left: 2px solid #3a4057;
+            margin-bottom: 6px;
+        }
+
+        .commands-content .cmd-block .cmd-item .cmd-code {
+            display: inline-block;
+            background: #1a1e2c;
+            padding: 2px 12px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #f0b429;
+            font-size: 13px;
+            border: 1px solid #3a4057;
+            margin: 2px 0;
+        }
+
+        .commands-content .cmd-block .cmd-item .cmd-desc {
+            display: block;
+            color: #8e95aa;
+            font-size: 13px;
+            margin-top: 2px;
+            padding-left: 8px;
+        }
+
+        .commands-content .cmd-block .cmd-item .cmd-note {
+            display: block;
+            color: #ff9800;
+            font-size: 12px;
+            margin-top: 2px;
+            padding-left: 8px;
+            font-style: italic;
+        }
+
+        /* ===== ПРАВИЛА ===== */
+        .rules-section {
+            background: #242938;
+            border-radius: 12px;
+            padding: 25px 30px;
+            margin-top: 30px;
+            border: 1px solid #3a4057;
+            display: none;
+        }
+
+        .rules-section.visible {
+            display: block;
+        }
+
+        .rules-section .rules-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .rules-section .rules-toggle h2 {
+            color: #f0b429;
+            font-size: 20px;
+        }
+
+        .rules-section .rules-toggle .arrow {
+            color: #8e95aa;
+            font-size: 24px;
+            transition: 0.3s;
+        }
+
+        .rules-section .rules-toggle .arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .rules-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .rules-content.open {
+            max-height: 10000px;
+        }
+
+        .rules-content .rule-block {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #3a4057;
+        }
+
+        .rules-content .rule-block:first-child {
+            border-top: none;
+            padding-top: 0;
+        }
+
+        .rules-content .rule-block h3 {
+            color: #f0b429;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .rules-content .rule-block .rule-item {
+            padding: 6px 0;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #c0c8d8;
+            padding-left: 20px;
+            border-left: 2px solid #3a4057;
+            margin-bottom: 4px;
+        }
+
+        .rules-content .rule-block .rule-item strong {
+            color: #f0b429;
+        }
+
+        .rules-content .rule-block .rule-item .highlight {
+            color: #ff6b6b;
+        }
+
+        .rules-content .rule-block .rule-sub {
+            padding-left: 40px;
+            color: #9aa2b5;
+            font-size: 13px;
+        }
+
+        /* ===== ТОСТ ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #27ae60;
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 0.4s;
+            z-index: 9999;
+        }
+
+        .toast.error {
+            background: #e74c3c;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== АДАПТИВ ===== */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .clan-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+                text-align: center;
+                padding: 15px;
+            }
+            .clan-header .nav { justify-content: center; }
+            .clan-header .nav a { font-size: 12px; padding: 6px 12px; }
+            .clan-header .logo { font-size: 22px; }
+            .clan-header .logo span { font-size: 14px; }
+
+            .filters {
+                flex-direction: column;
+                padding: 12px 15px;
+            }
+            .filters input, .filters .btn { width: 100%; }
+            .filter-count {
+                margin-left: 0;
+                text-align: center;
+                width: 100%;
+            }
+
+            .tournament-table { font-size: 12px; min-width: 500px; }
+            .tournament-table tbody td,
+            .tournament-table thead th { padding: 8px 6px; }
+            .clan-icon { width: 34px; height: 34px; font-size: 14px; }
+            .points { font-size: 20px; }
+            .clan-name { font-size: 13px; }
+
+            .stats-footer .stat-item {
+                padding: 12px 18px;
+                min-width: 90px;
+            }
+            .stats-footer .stat-item .value { font-size: 20px; }
+
+            .admin-panel .admin-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .admin-panel .admin-row input.num-input { width: 100%; }
+            .admin-panel .admin-row .btn-sm { width: 100%; padding: 8px; }
+
+            .commands-section, .rules-section { padding: 15px 18px; }
+            .commands-content .cmd-block .cmd-item { font-size: 13px; padding-left: 12px; }
+            .rules-content .rule-block .rule-item { font-size: 13px; padding-left: 12px; }
+            .rules-content .rule-block .rule-sub { padding-left: 20px; font-size: 12px; }
+        }
+
+        @media (max-width: 480px) {
+            .clan-header .nav a { font-size: 11px; padding: 5px 10px; }
+            .tournament-table tbody td,
+            .tournament-table thead th { padding: 6px 4px; font-size: 11px; }
+            .tournament-table thead th { font-size: 9px; }
+            .pos { font-size: 12px; padding: 1px 6px; }
+            .clan-cell { gap: 8px; }
+            .clan-icon { width: 28px; height: 28px; font-size: 12px; }
+            .clan-name { font-size: 12px; }
+            .clan-members { font-size: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ===== ШАПКА ===== -->
+    <div class="clan-header">
+        <div class="logo">
+            🏆 Клановая таблица
+            <span>Age of Dino</span>
+            <small>Рейтинг кланов · Турнирная таблица</small>
+        </div>
+        <div class="nav">
+            <a href="#" class="active" onclick="showTab('table')">📊 Таблица</a>
+            <a href="#" onclick="showTab('commands')">⌨️ Команды</a>
+            <a href="#" onclick="showTab('rules')">📜 Правила</a>
+            <a href="#" onclick="toggleAdmin()" id="adminTabBtn">🔧 Админ</a>
+        </div>
+    </div>
+
+    <!-- ===== ФИЛЬТРЫ ===== -->
+    <div class="filters">
+        <input type="text" id="searchClan" placeholder="🔍 Поиск клана..." oninput="applyFilters()">
+        <button class="btn btn-reset" onclick="resetFilters()">Сбросить</button>
+        <span class="filter-count" id="filterCount">Кланов: <b>0</b></span>
+    </div>
+
+    <!-- ===== ТАБЛИЦА ===== -->
+    <div class="tournament-table-wrap" id="tableContainer">
+        <table class="tournament-table" id="ratingTable">
+            <thead>
+                <tr>
+                    <th style="text-align:left;">#</th>
+                    <th style="text-align:left;">Клан</th>
+                    <th>👥</th>
+                    <th>⚔️ Бои</th>
+                    <th>🏆 В</th>
+                    <th>💀 П</th>
+                    <th>Очки</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+
+    <!-- ===== АДМИН-ПАНЕЛЬ ===== -->
+    <div class="admin-panel" id="adminPanel">
+        <h2>🔧 Админ-панель управления кланами</h2>
+        <div id="adminList"></div>
+        <div class="admin-actions">
+            <button class="btn btn-save-all" onclick="saveAllClans()">💾 Сохранить всё</button>
+            <button class="btn btn-reset-all" onclick="resetAllClans()">🔄 Сбросить</button>
+            <button class="btn btn-close-admin" onclick="toggleAdmin()">❌ Закрыть</button>
+        </div>
+        <div class="admin-hint">💡 Изменения сохраняются в локальном хранилище браузера.</div>
+    </div>
+
+    <!-- ===== СТАТИСТИКА ===== -->
+    <div class="stats-footer">
+        <div class="stat-item"><div class="value gold" id="totalClans">0</div><div class="label">🏛️ Всего кланов</div></div>
+        <div class="stat-item"><div class="value green" id="totalWins">0</div><div class="label">🏆 Всего побед</div></div>
+        <div class="stat-item"><div class="value red" id="totalLosses">0</div><div class="label">💀 Всего поражений</div></div>
+        <div class="stat-item"><div class="value gold" id="totalFights">0</div><div class="label">⚔️ Всего боёв</div></div>
+    </div>
+
+    <!-- ===== ПАМЯТКА ПО КОМАНДАМ ===== -->
+    <div class="commands-section" id="commandsContainer">
+        <div class="commands-toggle" onclick="toggleCommands()">
+            <h2>⌨️ Памятка по админ-командам Age of Dino</h2>
+            <span class="arrow" id="commandsArrow">▼</span>
+        </div>
+        <div class="commands-content" id="commandsContent">
+            <div class="cmd-block">
+                <p style="color:#9aa2b5;font-size:14px;margin-bottom:12px;">
+                    ⭐ <strong style="color:#f0b429;">Уважаемые клановые тренеры и руководители кланов!</strong><br>
+                    На наших серверах работают новые админ-команды. Клановые администраторы имеют доступ к некоторым из них.
+                </p>
+            </div>
+            <div class="cmd-block"><h3>🎥 Инвиз</h3>
+                <div class="cmd-item"><span class="cmd-code">//spectatormode</span> или <span class="cmd-code">//sp</span><span class="cmd-desc">— инвиз по команде, можно выходить даже в воздухе</span></div>
+            </div>
+            <div class="cmd-block"><h3>🩵 Хп</h3>
+                <div class="cmd-item"><span class="cmd-code">//sethealth [никнейм] [здоровье]</span><span class="cmd-desc">— поставить игроку хп (по нику)</span></div>
+                <div class="cmd-item"><span class="cmd-code">//sethealthid [SteamID] [здоровье]</span><span class="cmd-desc">— поставить игроку хп (по стимайди)</span><span class="cmd-note">Если не указать здоровье — будет максимальное</span></div>
+            </div>
+            <div class="cmd-block"><h3>🥩 Голод</h3>
+                <div class="cmd-item"><span class="cmd-code">//sethunger [никнейм] [голод]</span><span class="cmd-desc">— поставить игроку голод (по нику)</span></div>
+                <div class="cmd-item"><span class="cmd-code">//sethungerid [SteamID] [голод]</span><span class="cmd-desc">— поставить игроку голод (по стимайди)</span><span class="cmd-note">Если не указать голод — будет максимальный</span></div>
+            </div>
+            <div class="cmd-block"><h3>💦 Жажда</h3>
+                <div class="cmd-item"><span class="cmd-code">//setthirst [никнейм] [жажда]</span><span class="cmd-desc">— поставить игроку жажду (по нику)</span></div>
+                <div class="cmd-item"><span class="cmd-code">//setthirstid [SteamID] [жажда]</span><span class="cmd-desc">— поставить игроку жажду (по стимайди)</span><span class="cmd-note">Если не указать жажду — будет максимальная</span></div>
+            </div>
+            <div class="cmd-block"><h3>🩸 Блид</h3>
+                <div class="cmd-item"><span class="cmd-code">//setbleed [никнейм] [блид]</span><span class="cmd-desc">— поставить игроку блид (по нику)</span></div>
+                <div class="cmd-item"><span class="cmd-code">//setbleedid [SteamID] [блид]</span><span class="cmd-desc">— поставить игроку блид (по стимайди)</span><span class="cmd-note">Если не указать блид — будет 0</span></div>
+            </div>
+            <div class="cmd-block"><h3>🦴 Перелом</h3>
+                <div class="cmd-item"><span class="cmd-code">//setlegdamage [никнейм] [перелом]</span><span class="cmd-desc">— поставить перелом лапы (по нику)</span></div>
+                <div class="cmd-item"><span class="cmd-code">//setlegdamageid [SteamID] [перелом]</span><span class="cmd-desc">— поставить перелом лапы (по стимайди)</span><span class="cmd-note">Максимальный перелом — 15. Если не указать — 0</span></div>
+            </div>
+            <div class="cmd-block"><h3>❣️ Хил</h3>
+                <div class="cmd-item"><span class="cmd-code">//selfheal</span><span class="cmd-desc">— отхилить себя</span></div>
+                <div class="cmd-item"><span class="cmd-code">//heal [никнейм]</span><span class="cmd-desc">— отхилить игрока (по нику)</span></div>
+                <div class="cmd-item"><span class="cmd-code">//healid [SteamID]</span><span class="cmd-desc">— отхилить игрока (по стимайди)</span></div>
+            </div>
+            <div class="cmd-block"><h3>🦕 Гров</h3>
+                <div class="cmd-item"><span class="cmd-code">//selfgrowth [рост]</span><span class="cmd-desc">— установить рост для себя</span></div>
+                <div class="cmd-item"><span class="cmd-code">//setgrowth [никнейм] [рост]</span><span class="cmd-desc">— установить рост игроку (по нику)</span></div>
+                <div class="cmd-item"><span class="cmd-code">//setgrowthid [SteamID] [рост]</span><span class="cmd-desc">— установить рост игроку (по стимайди)</span><span class="cmd-note">Если не указать рост — максимальный</span></div>
+            </div>
+            <div class="cmd-block"><h3>💀 Слэй</h3>
+                <div class="cmd-item"><span class="cmd-code">//selfslay [0/1]</span> или <span class="cmd-code">//ss</span><span class="cmd-desc">— слейнуть себя (0 — без трупа, 1 — с трупом)</span></div>
+                <div class="cmd-item"><span class="cmd-code">//slay [никнейм] [0/1]</span><span class="cmd-desc">— слейнуть игрока (по нику)</span></div>
+                <div class="cmd-item"><span class="cmd-code">//slayid [SteamID] [0/1]</span><span class="cmd-desc">— слейнуть игрока (по стимайди)</span><span class="cmd-note">По умолчанию 0</span></div>
+            </div>
+            <div class="cmd-block"><h3>▶️ Тп к другому</h3>
+                <div class="cmd-item"><span class="cmd-code">//goto [никнейм]</span><span class="cmd-desc">— тп к игроку даже в инвизе (по нику)</span></div>
+                <div class="cmd-item"><span class="cmd-code">//gotoid [SteamID]</span><span class="cmd-desc">— тп к игроку даже в инвизе (по стимайди)</span></div>
+            </div>
+            <div class="cmd-block"><h3>◀️ Тп к себе</h3>
+                <div class="cmd-item"><span class="cmd-code">//bring [никнейм]</span><span class="cmd-desc">— тп игрока к себе даже в инвизе (по нику)</span></div>
+                <div class="cmd-item"><span class="cmd-code">//bringid [SteamID]</span><span class="cmd-desc">— тп игрока к себе даже в инвизе (по стимайди)</span></div>
+            </div>
+            <div class="cmd-block"><h3>🎨 Скин</h3>
+                <div class="cmd-item"><span class="cmd-code">//changeskin [никнейм] [секция1] [секция2] ... [вариация]</span><span class="cmd-desc">— поменять скин игроку (по нику)</span></div>
+                <div class="cmd-item"><span class="cmd-code">//changeskinid [SteamID] [секция1] [секция2] ... [вариация]</span><span class="cmd-desc">— поменять скин игроку (по стимайди)</span></div>
+            </div>
+            <div class="cmd-block"><h3>⚥ Пол</h3>
+                <div class="cmd-item"><span class="cmd-code">//setgender [никнейм] [m/f]</span><span class="cmd-desc">— поставить пол игроку (m — мужской, f — женский)</span></div>
+                <div class="cmd-item"><span class="cmd-code">//setgenderid [SteamID] [m/f]</span><span class="cmd-desc">— поставить пол игроку (по стимайди)</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ПРАВИЛА ===== -->
+    <div class="rules-section" id="rulesContainer">
+        <div class="rules-toggle" onclick="toggleRules()">
+            <h2>📜 Клановые правила Age of Dino</h2>
+            <span class="arrow" id="rulesArrow">▼</span>
+        </div>
+        <div class="rules-content" id="rulesContent">
+            <div class="rule-block">
+                <p style="color:#9aa2b5;font-size:14px;margin-bottom:12px;">
+                   
