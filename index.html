@@ -6,7 +6,7 @@
     <title>Клановая таблица | Age of Dino</title>
     
     <style>
-        /* ===== ОСНОВНЫЕ СТИЛИ (ТЁМНАЯ ТЕМА) ===== */
+        /* ===== ОСНОВНЫЕ СТИЛИ ===== */
         * {
             margin: 0;
             padding: 0;
@@ -524,6 +524,13 @@
         }
         .clan-admin-row .btn-sm.delete:hover { background: #c0392b; }
         
+        .clan-admin-row .btn-sm.add-points {
+            background: #f0b429;
+            color: #0d0f17;
+            font-weight: 700;
+        }
+        .clan-admin-row .btn-sm.add-points:hover { background: #d49c1a; }
+        
         .clan-admin-row .btn-sm.add {
             background: #3498db;
             color: #fff;
@@ -567,6 +574,12 @@
             color: #e0e4f0;
         }
         .clan-admin-actions .btn-close-admin:hover { background: #3a4057; }
+        
+        .clan-admin-actions .btn-logout {
+            background: #e74c3c;
+            color: #fff;
+        }
+        .clan-admin-actions .btn-logout:hover { background: #c0392b; }
         
         .clan-admin-hint {
             color: #4a526b;
@@ -785,37 +798,29 @@
         /* ===== АДАПТИВ ===== */
         @media (max-width: 768px) {
             body { padding: 10px; }
-            
             .clan-section { padding: 15px; }
-            
             .clan-table { font-size: 12px; min-width: 500px; }
             .clan-table tbody td,
             .clan-table thead th { padding: 8px 6px; }
             .clan-icon { width: 34px; height: 34px; font-size: 14px; }
             .clan-points { font-size: 20px; }
             .clan-name { font-size: 13px; }
-            
             .clan-filters { flex-direction: column; padding: 12px 15px; }
             .clan-filters input,
             .clan-filters .btn { width: 100%; }
             .clan-filter-count { margin-left: 0; text-align: center; width: 100%; }
-            
             .clan-stats .stat-item { padding: 12px 18px; min-width: 90px; }
             .clan-stats .stat-item .value { font-size: 20px; }
-            
             .clan-form-badge { width: 22px; height: 22px; font-size: 10px; }
             .clan-tabs a { font-size: 13px; padding: 8px 14px; }
-            
             .clan-admin-row { flex-direction: column; align-items: stretch; }
             .clan-admin-row .clan-num-input { width: 100%; }
             .clan-admin-row .btn-sm { width: 100%; padding: 8px; }
-            
             .clan-commands-block,
             .clan-rules-block { padding: 15px 18px; }
             .clan-commands-block .clan-cmd-item { font-size: 13px; padding-left: 12px; }
             .clan-rules-block .clan-rule-item { font-size: 13px; padding-left: 12px; }
             .clan-rules-block .clan-rule-sub { padding-left: 20px; font-size: 12px; }
-            
             .clan-login-box { padding: 25px; }
         }
         
@@ -912,7 +917,7 @@
                     <div class="clan-cmd-group">
                         <p style="color:#6a728a;font-size:14px;margin-bottom:12px;">
                             ⭐ <strong style="color:#f0b429;">Уважаемые клановые тренеры и руководители кланов!</strong><br>
-                            На наших серверах работают новые админ-команды. Клановые администраторы имеют доступ к некоторым из них.
+                            На наших серверах работают новые админ-команды.
                         </p>
                     </div>
                     <div class="clan-cmd-group"><h3>🎥 Инвиз</h3>
@@ -935,7 +940,7 @@
                         <div class="clan-cmd-item"><code>//setbleedid [SteamID] [блид]</code><span class="clan-cmd-desc">— поставить блид по айди</span><span class="clan-cmd-note">Если не указать — 0</span></div>
                     </div>
                     <div class="clan-cmd-group"><h3>🦴 Перелом</h3>
-                        <div class="clan-cmd-item"><code>//setlegdamage [никнейм] [перелом]</code><span class="clan-cmd-desc">— поставить перелом лапы</span></div>
+                        <div class="clan-cmd-item"><code>//setlegdamage [никнейм] [перелом]</code><span class="clan-cmd-desc">— поставить перелом</span></div>
                         <div class="clan-cmd-item"><code>//setlegdamageid [SteamID] [перелом]</code><span class="clan-cmd-desc">— поставить перелом по айди</span><span class="clan-cmd-note">Максимум 15. Если не указать — 0</span></div>
                     </div>
                     <div class="clan-cmd-group"><h3>❣️ Хил</h3>
@@ -954,19 +959,19 @@
                         <div class="clan-cmd-item"><code>//slayid [SteamID] [0/1]</code><span class="clan-cmd-desc">— слейнуть по айди</span><span class="clan-cmd-note">По умолчанию 0</span></div>
                     </div>
                     <div class="clan-cmd-group"><h3>▶️ Тп к другому</h3>
-                        <div class="clan-cmd-item"><code>//goto [никнейм]</code><span class="clan-cmd-desc">— тп к игроку даже в инвизе</span></div>
+                        <div class="clan-cmd-item"><code>//goto [никнейм]</code><span class="clan-cmd-desc">— тп к игроку</span></div>
                         <div class="clan-cmd-item"><code>//gotoid [SteamID]</code><span class="clan-cmd-desc">— тп по айди</span></div>
                     </div>
                     <div class="clan-cmd-group"><h3>◀️ Тп к себе</h3>
-                        <div class="clan-cmd-item"><code>//bring [никнейм]</code><span class="clan-cmd-desc">— тп игрока к себе даже в инвизе</span></div>
-                        <div class="clan-cmd-item"><code>//bringid [SteamID]</code><span class="clan-cmd-desc">— тп игрока к себе по айди</span></div>
+                        <div class="clan-cmd-item"><code>//bring [никнейм]</code><span class="clan-cmd-desc">— тп игрока к себе</span></div>
+                        <div class="clan-cmd-item"><code>//bringid [SteamID]</code><span class="clan-cmd-desc">— тп по айди</span></div>
                     </div>
                     <div class="clan-cmd-group"><h3>🎨 Скин</h3>
-                        <div class="clan-cmd-item"><code>//changeskin [никнейм] [секция1] [секция2] ... [вариация]</code><span class="clan-cmd-desc">— поменять скин игроку</span></div>
+                        <div class="clan-cmd-item"><code>//changeskin [никнейм] [секция1] [секция2] ... [вариация]</code><span class="clan-cmd-desc">— поменять скин</span></div>
                         <div class="clan-cmd-item"><code>//changeskinid [SteamID] [секция1] [секция2] ... [вариация]</code><span class="clan-cmd-desc">— поменять скин по айди</span></div>
                     </div>
                     <div class="clan-cmd-group"><h3>⚥ Пол</h3>
-                        <div class="clan-cmd-item"><code>//setgender [никнейм] [m/f]</code><span class="clan-cmd-desc">— поставить пол (m — мужской, f — женский)</span></div>
+                        <div class="clan-cmd-item"><code>//setgender [никнейм] [m/f]</code><span class="clan-cmd-desc">— поставить пол</span></div>
                         <div class="clan-cmd-item"><code>//setgenderid [SteamID] [m/f]</code><span class="clan-cmd-desc">— поставить пол по айди</span></div>
                     </div>
                 </div>
@@ -985,48 +990,48 @@
                 <div class="clan-rules-content open" id="clanRulesContent">
                     <div class="clan-rule-group">
                         <p style="color:#6a728a;font-size:14px;margin-bottom:12px;">
-                            Регистрируя клан на проекте Age of Dino, Глава клана и участники его клана полностью соглашаются со следующим перечнем Клановых правил:
+                            Регистрируя клан на проекте Age of Dino, вы соглашаетесь с правилами:
                         </p>
                     </div>
                     <div class="clan-rule-group">
                         <h3>1 | ОБЩИЕ ПРИНЦИПЫ</h3>
-                        <div class="clan-rule-item"><strong>1.1</strong> <strong>Клан</strong> — группа игроков, объединенная интересами, дружескими отношениями.</div>
-                        <div class="clan-rule-item"><strong>1.2</strong> Иерархия: <strong>глава — заместитель — член клана</strong>.</div>
-                        <div class="clan-rule-item"><strong>1.3</strong> Клан считается зарегистрированным после одобрения модерацией.</div>
-                        <div class="clan-rule-item"><strong>1.4</strong> Все члены клана должны знать и соблюдать правила проекта.</div>
-                        <div class="clan-rule-item"><strong>1.5</strong> Конфликтные ситуации <span class="clan-highlight">не допускаются</span>.</div>
-                        <div class="clan-rule-item"><strong>1.6</strong> В клане должно быть <strong>не менее 5 участников</strong>.</div>
+                        <div class="clan-rule-item"><strong>1.1</strong> Клан — группа игроков, объединенная интересами.</div>
+                        <div class="clan-rule-item"><strong>1.2</strong> Иерархия: <strong>глава — заместитель — член</strong>.</div>
+                        <div class="clan-rule-item"><strong>1.3</strong> Регистрация после одобрения модерацией.</div>
+                        <div class="clan-rule-item"><strong>1.4</strong> Все члены клана должны знать правила проекта.</div>
+                        <div class="clan-rule-item"><strong>1.5</strong> Конфликты <span class="clan-highlight">не допускаются</span>.</div>
+                        <div class="clan-rule-item"><strong>1.6</strong> В клане <strong>не менее 5 участников</strong>.</div>
                     </div>
                     <div class="clan-rule-group">
                         <h3>2 | КЛАНОВЫЙ ДИСКОРД-СЕРВЕР</h3>
-                        <div class="clan-rule-item"><strong>2.1</strong> Клан должен иметь свой <strong>Клановый Дискорд-Сервер</strong>.</div>
+                        <div class="clan-rule-item"><strong>2.1</strong> Иметь свой КДС.</div>
                         <div class="clan-rule-item"><strong>2.2</strong> Оскорбления администрации <span class="clan-highlight">недопустимы</span>.</div>
-                        <div class="clan-rule-item"><strong>2.3</strong> На КДС должны быть роли для администрации проекта.</div>
+                        <div class="clan-rule-item"><strong>2.3</strong> Роли для администрации проекта.</div>
                     </div>
                     <div class="clan-rule-group">
                         <h3>3 | АДМИНИСТРАЦИЯ SANDBOX</h3>
-                        <div class="clan-rule-item"><strong>3.1</strong> Административные полномочия выдаются по запросу руководства клана.</div>
-                        <div class="clan-rule-item"><strong>3.2</strong> Команды <strong>/kick, /ban</strong> применять <span class="clan-highlight">строго запрещено</span>.</div>
-                        <div class="clan-rule-item"><strong>3.3</strong> Команды <strong>/goto, /bring, /slay, /heal</strong> — только с разрешения игрока.</div>
-                        <div class="clan-rule-item"><strong>3.4</strong> <span class="clan-highlight">Внутриклановые и межклановые конфликты не оправдывают злоупотребление полномочиями!</span></div>
+                        <div class="clan-rule-item"><strong>3.1</strong> Полномочия по запросу руководства клана.</div>
+                        <div class="clan-rule-item"><strong>3.2</strong> <span class="clan-highlight">/kick, /ban — запрещены</span>.</div>
+                        <div class="clan-rule-item"><strong>3.3</strong> /goto, /bring, /slay, /heal — только с разрешения.</div>
+                        <div class="clan-rule-item"><strong>3.4</strong> <span class="clan-highlight">Конфликты не оправдывают злоупотребления!</span></div>
                     </div>
                     <div class="clan-rule-group">
-                        <h3>4 | ВЗАИМОДЕЙСТВИЕ МЕЖДУ КЛАНАМИ</h3>
-                        <div class="clan-rule-item"><strong>4.1</strong> Руководство клана распоряжается казной.</div>
-                        <div class="clan-rule-item"><strong>4.2</strong> Операции с казной: перевод, пополнение, покупка динозавров, телепортов.</div>
-                        <div class="clan-rule-item"><strong>4.3</strong> Трансфер игроков — <strong>не чаще 1 раза в 2 недели</strong>.</div>
-                        <div class="clan-rule-item"><strong>4.4</strong> Глава клана <span class="clan-highlight">не может покинуть клан</span> без передачи прав.</div>
+                        <h3>4 | ВЗАИМОДЕЙСТВИЕ КЛАНОВ</h3>
+                        <div class="clan-rule-item"><strong>4.1</strong> Казной распоряжается руководство.</div>
+                        <div class="clan-rule-item"><strong>4.2</strong> Операции: перевод, пополнение, покупка.</div>
+                        <div class="clan-rule-item"><strong>4.3</strong> Трансфер — <strong>не чаще 1 раза в 2 недели</strong>.</div>
+                        <div class="clan-rule-item"><strong>4.4</strong> Глава <span class="clan-highlight">не может покинуть клан</span> без передачи прав.</div>
                     </div>
                     <div class="clan-rule-group">
                         <h3>5 | КАРАТЕЛЬНАЯ ПОЛИТИКА</h3>
-                        <div class="clan-rule-item"><strong>5.1</strong> За нарушения — вычет из казны: <strong>2 ЗГ × часы бана</strong>.</div>
-                        <div class="clan-rule-item"><strong>5.2</strong> За грубые нарушения — <span class="clan-highlight">расформирование клана и баны</span>.</div>
+                        <div class="clan-rule-item"><strong>5.1</strong> Вычет из казны: <strong>2 ЗГ × часы бана</strong>.</div>
+                        <div class="clan-rule-item"><strong>5.2</strong> За грубые нарушения — <span class="clan-highlight">расформирование и баны</span>.</div>
                     </div>
                     <div class="clan-rule-group">
-                        <h3>6 | РАСФОРМИРОВАНИЕ КЛАНА</h3>
-                        <div class="clan-rule-item"><strong>6.1</strong> Расформирование = утрата всех прав и статуса.</div>
+                        <h3>6 | РАСФОРМИРОВАНИЕ</h3>
+                        <div class="clan-rule-item"><strong>6.1</strong> Утрата всех прав.</div>
                         <div class="clan-rule-item"><strong>6.2</strong> Добровольное — с согласия главы.</div>
-                        <div class="clan-rule-item"><strong>6.3</strong> Принудительное — по решению администрации.</div>
+                        <div class="clan-rule-item"><strong>6.3</strong> Принудительное — по решению админов.</div>
                     </div>
                 </div>
             </div>
@@ -1043,16 +1048,16 @@
                     <button class="btn btn-save-all" onclick="saveClanData(); showClanToast('💾 Все данные сохранены!');">💾 Сохранить всё</button>
                     <button class="btn btn-reset-all" onclick="if(confirm('Сбросить все изменения?')){localStorage.removeItem('clanData');location.reload();}">🔄 Сбросить</button>
                     <button class="btn btn-close-admin" onclick="switchClanTab('table');">❌ Закрыть</button>
-                    <button class="btn btn-logout" onclick="clanLogout()" style="background:#e74c3c;color:#fff;">🚪 Выйти</button>
+                    <button class="btn btn-logout" onclick="clanLogout()">🚪 Выйти</button>
                 </div>
-                <div class="clan-admin-hint">💡 Изменения сохраняются в локальном хранилище браузера.</div>
+                <div class="clan-admin-hint">💡 Изменения сохраняются автоматически</div>
             </div>
         </div>
 
     </div>
 </div>
 
-<!-- ===== АДМИН-ЛОГИН (поверх всего) ===== -->
+<!-- ===== АДМИН-ЛОГИН ===== -->
 <div class="clan-login-overlay" id="clanLoginOverlay">
     <div class="clan-login-box">
         <h2>🔐 Вход в админ-панель</h2>
@@ -1197,7 +1202,6 @@
     // ================================================================
 
     function switchClanTab(tab, el) {
-        // Если пытаемся открыть админку — проверяем логин
         if (tab === 'admin' || tab === 'Admin') {
             if (!clanAdminLoggedIn) {
                 showClanLogin();
@@ -1218,7 +1222,6 @@
         }
         if (el) el.classList.add('active');
         
-        // Если переключились на админку — рендерим
         if (tab === 'admin' || tab === 'Admin') {
             renderClanAdmin();
         }
@@ -1253,17 +1256,15 @@
         var user = document.getElementById('clanLoginUser').value.trim();
         var pass = document.getElementById('clanLoginPass').value.trim();
         
-        // ⚡ МЕНЯЙ ЛОГИН И ПАРОЛЬ ТУТ ⚡
+        // МЕНЯЙ ТУТ ЛОГИН И ПАРОЛЬ
         if (user === 'admin' && pass === '12345') {
             clanAdminLoggedIn = true;
             localStorage.setItem('clanAdminSession', 'true');
             document.getElementById('clanLoginOverlay').classList.remove('active');
             document.getElementById('clanLoginError').classList.remove('show');
             showClanToast('✅ Добро пожаловать в админ-панель!');
-            // Открываем вкладку админки
             switchClanTab('admin');
             renderClanAdmin();
-            // Подсвечиваем вкладку
             var links = document.querySelectorAll('.clan-tabs a');
             for (var i = 0; i < links.length; i++) {
                 links[i].classList.remove('active');
@@ -1285,6 +1286,48 @@
             showClanToast('🔒 Вы вышли из админ-панели');
             switchClanTab('table');
         }
+    }
+
+    // ================================================================
+    //  ДОБАВЛЕНИЕ ОЧКОВ (НОВАЯ ФУНКЦИЯ)
+    // ================================================================
+
+    function addClanPoints(btn) {
+        var row = btn.parentElement;
+        var inputs = row.querySelectorAll('input');
+        var id = parseInt(inputs[0].getAttribute('data-id'));
+        var name = inputs[0].value.trim();
+        
+        // Запрашиваем сколько побед одержал клан
+        var winsToAdd = prompt('Сколько побед одержал клан "' + name + '"?\n(Каждая победа = +3 очка)', '1');
+        if (winsToAdd === null) return;
+        
+        winsToAdd = parseInt(winsToAdd);
+        if (isNaN(winsToAdd) || winsToAdd < 0) {
+            showClanToast('❌ Введите корректное число!', true);
+            return;
+        }
+        
+        for (var i = 0; i < clanData.length; i++) {
+            if (clanData[i].id === id) {
+                clanData[i].wins += winsToAdd;
+                clanData[i].fights += winsToAdd;
+                // Добавляем победы в форму (последние бои)
+                for (var j = 0; j < winsToAdd; j++) {
+                    clanData[i].form.push('win');
+                }
+                // Оставляем только последние 5
+                if (clanData[i].form.length > 5) {
+                    clanData[i].form = clanData[i].form.slice(-5);
+                }
+                break;
+            }
+        }
+        
+        saveClanData();
+        renderClanTable();
+        renderClanAdmin();
+        showClanToast('✅ Клану "' + name + '" добавлено ' + winsToAdd + ' побед (+' + (winsToAdd * 3) + ' очков)!');
     }
 
     // ================================================================
@@ -1323,6 +1366,7 @@
                 '<input type="number" class="clan-num-input" value="' + c.wins + '" data-id="' + c.id + '" placeholder="🏆">' +
                 '<input type="number" class="clan-num-input" value="' + c.losses + '" data-id="' + c.id + '" placeholder="💀">' +
                 '<button class="btn-sm save" onclick="saveClanAdmin(this)">💾</button>' +
+                '<button class="btn-sm add-points" onclick="addClanPoints(this)" title="Добавить очки за победы">⭐ +Очки</button>' +
                 '<button class="btn-sm delete" onclick="deleteClanAdmin(this)">🗑️</button>';
             container.appendChild(row);
         }
