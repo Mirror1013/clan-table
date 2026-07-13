@@ -1,14 +1,136 @@
 <!-- ============================================================ -->
-<!--  КЛАНОВАЯ ТАБЛИЦА  -->
+<!--  КЛАНОВАЯ ТАБЛИЦА AGE OF DINO (ТЁМНАЯ ТЕМА)                   -->
 <!-- ============================================================ -->
 
 <style>
-    /* ===== ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ДЛЯ ТАБЛИЦЫ ===== */
+    /* ===== ОСНОВНЫЕ СТИЛИ (ТЁМНАЯ ТЕМА) ===== */
+    .clan-section {
+        background: #1a1e2c;
+        padding: 20px 0;
+        color: #e0e4f0;
+    }
+    
+    .clan-section h1 {
+        color: #f0b429;
+        font-size: 28px;
+        margin: 10px 0;
+    }
+    
+    .clan-section .subtitle {
+        color: #8e95aa;
+        margin-bottom: 20px;
+    }
+    
+    /* ===== ВКЛАДКИ ===== */
+    .clan-tabs {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin: 20px 0 10px 0;
+        border-bottom: 2px solid #3a4057;
+        padding-bottom: 10px;
+    }
+    
+    .clan-tabs a {
+        color: #b9bfd4;
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 6px 6px 0 0;
+        font-size: 15px;
+        font-weight: 600;
+        transition: 0.3s;
+        cursor: pointer;
+        background: #1f2330;
+    }
+    
+    .clan-tabs a:hover {
+        background: #2f364a;
+    }
+    
+    .clan-tabs a.active {
+        background: #f0b429;
+        color: #1a1e2c;
+    }
+    
+    .clan-tab-content {
+        display: none;
+        animation: clanFade 0.3s ease;
+    }
+    
+    .clan-tab-content.active {
+        display: block;
+    }
+    
+    @keyframes clanFade {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* ===== ФИЛЬТРЫ ===== */
+    .clan-filters {
+        background: #242938;
+        padding: 16px 20px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: center;
+        border-bottom: 1px solid #3a4057;
+        border-radius: 12px 12px 0 0;
+    }
+    
+    .clan-filters input {
+        background: #2f364a;
+        border: 1px solid #3a4057;
+        color: #e0e4f0;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        outline: none;
+        flex: 1;
+        min-width: 200px;
+    }
+    
+    .clan-filters input:focus {
+        border-color: #f0b429;
+    }
+    
+    .clan-filters .btn {
+        background: #f0b429;
+        color: #1a1e2c;
+        border: none;
+        padding: 8px 24px;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    
+    .clan-filters .btn:hover {
+        background: #d49c1a;
+    }
+    
+    .clan-filters .btn-reset {
+        background: #3a4057;
+        color: #e0e4f0;
+    }
+    
+    .clan-filters .btn-reset:hover {
+        background: #4a526b;
+    }
+    
+    .clan-filter-count {
+        color: #8e95aa;
+        font-size: 13px;
+        margin-left: auto;
+        white-space: nowrap;
+    }
+    
+    /* ===== ТАБЛИЦА ===== */
     .clan-table-wrap {
         background: #242938;
-        border-radius: 12px;
+        border-radius: 0 0 12px 12px;
         padding: 20px;
-        margin: 20px 0;
+        margin: 0 0 20px 0;
         overflow-x: auto;
     }
     
@@ -73,28 +195,10 @@
         border-radius: 4px;
     }
     
-    .clan-pos-1 {
-        color: #ffd700;
-        background: #3a2f00;
-        border: 1px solid #ffd700;
-    }
-    
-    .clan-pos-2 {
-        color: #c0c0c0;
-        background: #2f2f2f;
-        border: 1px solid #c0c0c0;
-    }
-    
-    .clan-pos-3 {
-        color: #cd7f32;
-        background: #2f1f0f;
-        border: 1px solid #cd7f32;
-    }
-    
-    .clan-pos-other {
-        color: #8e95aa;
-        background: #1f222f;
-    }
+    .clan-pos-1 { color: #ffd700; background: #3a2f00; border: 1px solid #ffd700; }
+    .clan-pos-2 { color: #c0c0c0; background: #2f2f2f; border: 1px solid #c0c0c0; }
+    .clan-pos-3 { color: #cd7f32; background: #2f1f0f; border: 1px solid #cd7f32; }
+    .clan-pos-other { color: #8e95aa; background: #1f222f; }
     
     .clan-cell {
         display: flex;
@@ -159,23 +263,12 @@
         color: #fff;
     }
     
-    .clan-form-win {
-        background: #27ae60;
-    }
+    .clan-form-win { background: #27ae60; }
+    .clan-form-loss { background: #e74c3c; }
+    .clan-form-draw { background: #f39c12; }
+    .clan-form-empty { background: #2f364a; color: #4a526b; }
     
-    .clan-form-loss {
-        background: #e74c3c;
-    }
-    
-    .clan-form-draw {
-        background: #f39c12;
-    }
-    
-    .clan-form-empty {
-        background: #2f364a;
-        color: #4a526b;
-    }
-    
+    /* ===== СТАТИСТИКА ===== */
     .clan-stats {
         display: flex;
         gap: 20px;
@@ -198,350 +291,523 @@
         color: #f0b429;
     }
     
-    .clan-stats .stat-item .value.green {
-        color: #27ae60;
-    }
-    
-    .clan-stats .stat-item .value.red {
-        color: #e74c3c;
-    }
-    
+    .clan-stats .stat-item .value.green { color: #27ae60; }
+    .clan-stats .stat-item .value.red { color: #e74c3c; }
     .clan-stats .stat-item .label {
         color: #8e95aa;
         font-size: 13px;
         margin-top: 4px;
     }
     
-    .clan-filters {
-        background: #242938;
-        padding: 16px 20px;
+    /* ===== АДМИН-ПАНЕЛЬ ===== */
+    .clan-admin-panel {
+        display: none;
+        background: #1f2330;
+        border: 2px solid #f0b429;
+        border-radius: 12px;
+        padding: 25px;
+        margin: 20px 0;
+    }
+    
+    .clan-admin-panel.visible {
+        display: block;
+    }
+    
+    .clan-admin-panel h2 {
+        color: #f0b429;
+        font-size: 20px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    
+    .clan-admin-row {
         display: flex;
-        gap: 12px;
+        gap: 10px;
         flex-wrap: wrap;
         align-items: center;
-        border-bottom: 1px solid #3a4057;
-        border-radius: 12px 12px 0 0;
+        background: #2a2f40;
+        padding: 12px 15px;
+        border-radius: 8px;
+        margin-bottom: 10px;
     }
     
-    .clan-filters input {
-        background: #2f364a;
+    .clan-admin-row input {
+        background: #1a1e2c;
         border: 1px solid #3a4057;
         color: #e0e4f0;
-        padding: 8px 16px;
-        border-radius: 6px;
-        font-size: 14px;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 13px;
         outline: none;
-        flex: 1;
-        min-width: 200px;
     }
     
-    .clan-filters input:focus {
+    .clan-admin-row input:focus {
         border-color: #f0b429;
     }
     
-    .clan-filters .btn {
-        background: #f0b429;
-        color: #1a1e2c;
+    .clan-admin-row .clan-name-input { flex: 2; min-width: 120px; }
+    .clan-admin-row .clan-num-input { width: 60px; text-align: center; }
+    
+    .clan-admin-row .btn-sm {
+        padding: 4px 12px;
+        border-radius: 4px;
         border: none;
-        padding: 8px 24px;
-        border-radius: 6px;
-        font-weight: 600;
         cursor: pointer;
+        font-weight: 600;
+        font-size: 12px;
         transition: 0.3s;
     }
     
-    .clan-filters .btn:hover {
-        background: #d49c1a;
+    .clan-admin-row .btn-sm.save {
+        background: #27ae60;
+        color: #fff;
+    }
+    .clan-admin-row .btn-sm.save:hover { background: #219a52; }
+    
+    .clan-admin-row .btn-sm.delete {
+        background: #e74c3c;
+        color: #fff;
+    }
+    .clan-admin-row .btn-sm.delete:hover { background: #c0392b; }
+    
+    .clan-admin-row .btn-sm.add {
+        background: #3498db;
+        color: #fff;
+        padding: 6px 18px;
+        font-size: 14px;
+    }
+    .clan-admin-row .btn-sm.add:hover { background: #2980b9; }
+    
+    .clan-admin-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin-top: 20px;
+        flex-wrap: wrap;
     }
     
-    .clan-filters .btn-reset {
+    .clan-admin-actions .btn {
+        padding: 10px 30px;
+        border-radius: 6px;
+        border: none;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s;
+        font-size: 14px;
+    }
+    
+    .clan-admin-actions .btn-save-all {
+        background: #27ae60;
+        color: #fff;
+    }
+    .clan-admin-actions .btn-save-all:hover { background: #219a52; }
+    
+    .clan-admin-actions .btn-reset-all {
+        background: #e74c3c;
+        color: #fff;
+    }
+    .clan-admin-actions .btn-reset-all:hover { background: #c0392b; }
+    
+    .clan-admin-actions .btn-close-admin {
         background: #3a4057;
         color: #e0e4f0;
     }
+    .clan-admin-actions .btn-close-admin:hover { background: #4a526b; }
     
-    .clan-filters .btn-reset:hover {
-        background: #4a526b;
+    .clan-admin-hint {
+        color: #8e95aa;
+        font-size: 12px;
+        text-align: center;
+        margin-top: 15px;
     }
     
-    .clan-filter-count {
+    /* ===== КОМАНДЫ ===== */
+    .clan-commands-block {
+        background: #242938;
+        border-radius: 12px;
+        padding: 25px 30px;
+        border: 1px solid #3a4057;
+        margin: 10px 0 20px 0;
+    }
+    
+    .clan-commands-block .clan-cmd-toggle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        user-select: none;
+    }
+    
+    .clan-commands-block .clan-cmd-toggle h2 {
+        color: #f0b429;
+        font-size: 20px;
+    }
+    
+    .clan-commands-block .clan-cmd-toggle .clan-arrow {
+        color: #8e95aa;
+        font-size: 24px;
+        transition: 0.3s;
+    }
+    
+    .clan-commands-block .clan-cmd-toggle .clan-arrow.open {
+        transform: rotate(180deg);
+    }
+    
+    .clan-commands-block .clan-cmd-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease;
+    }
+    
+    .clan-commands-block .clan-cmd-content.open {
+        max-height: 10000px;
+    }
+    
+    .clan-commands-block .clan-cmd-group {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #3a4057;
+    }
+    
+    .clan-commands-block .clan-cmd-group:first-child {
+        border-top: none;
+        padding-top: 0;
+    }
+    
+    .clan-commands-block .clan-cmd-group h3 {
+        color: #f0b429;
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+    
+    .clan-commands-block .clan-cmd-item {
+        padding: 8px 0;
+        font-size: 14px;
+        line-height: 1.6;
+        color: #c0c8d8;
+        padding-left: 20px;
+        border-left: 2px solid #3a4057;
+        margin-bottom: 6px;
+    }
+    
+    .clan-commands-block .clan-cmd-item code {
+        display: inline-block;
+        background: #1a1e2c;
+        padding: 2px 12px;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+        color: #f0b429;
+        font-size: 13px;
+        border: 1px solid #3a4057;
+        margin: 2px 0;
+    }
+    
+    .clan-commands-block .clan-cmd-item .clan-cmd-desc {
+        display: block;
         color: #8e95aa;
         font-size: 13px;
-        margin-left: auto;
-        white-space: nowrap;
+        margin-top: 2px;
+        padding-left: 8px;
     }
     
+    .clan-commands-block .clan-cmd-item .clan-cmd-note {
+        display: block;
+        color: #ff9800;
+        font-size: 12px;
+        margin-top: 2px;
+        padding-left: 8px;
+        font-style: italic;
+    }
+    
+    /* ===== ПРАВИЛА ===== */
+    .clan-rules-block {
+        background: #242938;
+        border-radius: 12px;
+        padding: 25px 30px;
+        border: 1px solid #3a4057;
+        margin: 10px 0 20px 0;
+    }
+    
+    .clan-rules-block .clan-rules-toggle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        user-select: none;
+    }
+    
+    .clan-rules-block .clan-rules-toggle h2 {
+        color: #f0b429;
+        font-size: 20px;
+    }
+    
+    .clan-rules-block .clan-rules-toggle .clan-arrow {
+        color: #8e95aa;
+        font-size: 24px;
+        transition: 0.3s;
+    }
+    
+    .clan-rules-block .clan-rules-toggle .clan-arrow.open {
+        transform: rotate(180deg);
+    }
+    
+    .clan-rules-block .clan-rules-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease;
+    }
+    
+    .clan-rules-block .clan-rules-content.open {
+        max-height: 10000px;
+    }
+    
+    .clan-rules-block .clan-rule-group {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #3a4057;
+    }
+    
+    .clan-rules-block .clan-rule-group:first-child {
+        border-top: none;
+        padding-top: 0;
+    }
+    
+    .clan-rules-block .clan-rule-group h3 {
+        color: #f0b429;
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+    
+    .clan-rules-block .clan-rule-item {
+        padding: 6px 0;
+        font-size: 14px;
+        line-height: 1.6;
+        color: #c0c8d8;
+        padding-left: 20px;
+        border-left: 2px solid #3a4057;
+        margin-bottom: 4px;
+    }
+    
+    .clan-rules-block .clan-rule-item strong {
+        color: #f0b429;
+    }
+    
+    .clan-rules-block .clan-rule-item .clan-highlight {
+        color: #ff6b6b;
+    }
+    
+    .clan-rules-block .clan-rule-sub {
+        padding-left: 40px;
+        color: #9aa2b5;
+        font-size: 13px;
+    }
+    
+    /* ===== ТОСТ ===== */
+    .clan-toast {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: #27ae60;
+        color: #fff;
+        padding: 15px 30px;
+        border-radius: 10px;
+        font-weight: 600;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: 0.4s;
+        z-index: 9999;
+    }
+    
+    .clan-toast.error {
+        background: #e74c3c;
+    }
+    
+    .clan-toast.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    /* ===== АДАПТИВ ===== */
     @media (max-width: 768px) {
-        .clan-table {
-            font-size: 12px;
-            min-width: 500px;
-        }
+        .clan-table { font-size: 12px; min-width: 500px; }
         .clan-table tbody td,
-        .clan-table thead th {
-            padding: 8px 6px;
-        }
-        .clan-icon {
-            width: 34px;
-            height: 34px;
-            font-size: 14px;
-        }
-        .clan-points {
-            font-size: 20px;
-        }
-        .clan-name {
-            font-size: 13px;
-        }
-        .clan-filters {
-            flex-direction: column;
-        }
+        .clan-table thead th { padding: 8px 6px; }
+        .clan-icon { width: 34px; height: 34px; font-size: 14px; }
+        .clan-points { font-size: 20px; }
+        .clan-name { font-size: 13px; }
+        .clan-filters { flex-direction: column; }
         .clan-filters input,
-        .clan-filters .btn {
-            width: 100%;
-        }
-        .clan-filter-count {
-            margin-left: 0;
-            text-align: center;
-            width: 100%;
-        }
-        .clan-stats .stat-item {
-            padding: 12px 18px;
-            min-width: 90px;
-        }
-        .clan-stats .stat-item .value {
-            font-size: 20px;
-        }
-        .clan-form-badge {
-            width: 22px;
-            height: 22px;
-            font-size: 10px;
-        }
+        .clan-filters .btn { width: 100%; }
+        .clan-filter-count { margin-left: 0; text-align: center; width: 100%; }
+        .clan-stats .stat-item { padding: 12px 18px; min-width: 90px; }
+        .clan-stats .stat-item .value { font-size: 20px; }
+        .clan-form-badge { width: 22px; height: 22px; font-size: 10px; }
+        .clan-tabs a { font-size: 13px; padding: 8px 14px; }
+        .clan-admin-row { flex-direction: column; align-items: stretch; }
+        .clan-admin-row .clan-num-input { width: 100%; }
+        .clan-admin-row .btn-sm { width: 100%; padding: 8px; }
+        .clan-commands-block,
+        .clan-rules-block { padding: 15px 18px; }
+        .clan-commands-block .clan-cmd-item { font-size: 13px; padding-left: 12px; }
+        .clan-rules-block .clan-rule-item { font-size: 13px; padding-left: 12px; }
+        .clan-rules-block .clan-rule-sub { padding-left: 20px; font-size: 12px; }
     }
     
     @media (max-width: 480px) {
         .clan-table tbody td,
-        .clan-table thead th {
-            padding: 6px 4px;
-            font-size: 11px;
-        }
-        .clan-table thead th {
-            font-size: 9px;
-        }
-        .clan-pos {
-            font-size: 12px;
-            padding: 1px 6px;
-        }
-        .clan-cell {
-            gap: 8px;
-        }
-        .clan-icon {
-            width: 28px;
-            height: 28px;
-            font-size: 12px;
-        }
-        .clan-name {
-            font-size: 12px;
-        }
-        .clan-members {
-            font-size: 10px;
-        }
-        .clan-form-badge {
-            width: 20px;
-            height: 20px;
-            font-size: 9px;
-        }
+        .clan-table thead th { padding: 6px 4px; font-size: 11px; }
+        .clan-table thead th { font-size: 9px; }
+        .clan-pos { font-size: 12px; padding: 1px 6px; }
+        .clan-cell { gap: 8px; }
+        .clan-icon { width: 28px; height: 28px; font-size: 12px; }
+        .clan-name { font-size: 12px; }
+        .clan-members { font-size: 10px; }
+        .clan-form-badge { width: 20px; height: 20px; font-size: 9px; }
+        .clan-tabs a { font-size: 11px; padding: 6px 10px; }
     }
 </style>
 
-<!-- ===== ЗАГОЛОВОК ===== -->
-<h1 style="color: #f0b429; font-size: 28px; margin: 20px 0 10px 0;">🏆 Рейтинг кланов</h1>
-<p style="color: #8e95aa; margin-bottom: 20px;">Турнирная таблица Age of Dino</p>
-
-<!-- ===== ФИЛЬТРЫ ===== -->
-<div class="clan-filters">
-    <input type="text" id="clanSearch" placeholder="🔍 Поиск клана...">
-    <button class="btn" onclick="renderClanTable()">Применить</button>
-    <button class="btn btn-reset" onclick="document.getElementById('clanSearch').value='';renderClanTable()">Сбросить</button>
-    <span class="clan-filter-count" id="clanCount">Кланов: <b>0</b></span>
-</div>
-
-<!-- ===== ТАБЛИЦА ===== -->
-<div class="clan-table-wrap">
-    <table class="clan-table">
-        <thead>
-            <tr>
-                <th style="text-align:left;padding-left:20px;">#</th>
-                <th style="text-align:left;">Клан</th>
-                <th>👥</th>
-                <th>⚔️</th>
-                <th>🏆</th>
-                <th>💀</th>
-                <th>Очки</th>
-                <th>Форма</th>
-            </tr>
-        </thead>
-        <tbody id="clanTableBody"></tbody>
-    </table>
-</div>
-
-<!-- ===== СТАТИСТИКА ===== -->
-<div class="clan-stats">
-    <div class="stat-item">
-        <div class="value" id="clanStatTotal">0</div>
-        <div class="label">🏛️ Всего кланов</div>
-    </div>
-    <div class="stat-item">
-        <div class="value green" id="clanStatWins">0</div>
-        <div class="label">🏆 Всего побед</div>
-    </div>
-    <div class="stat-item">
-        <div class="value red" id="clanStatLosses">0</div>
-        <div class="label">💀 Всего поражений</div>
-    </div>
-    <div class="stat-item">
-        <div class="value" id="clanStatFights">0</div>
-        <div class="label">⚔️ Всего боёв</div>
-    </div>
-</div>
-
-<script>
-    // ================================================================
-    //  ДАННЫЕ КЛАНОВ (ИЗ ВАШЕЙ ТАБЛИЦЫ)
-    // ================================================================
-    var clanData = [
-        {id: 1, name: "Invicta", members: 10, fights: 30, wins: 28, losses: 2, form: ["win","win","win","win","win"]},
-        {id: 2, name: "GTR", members: 12, fights: 29, wins: 26, losses: 3, form: ["win","win","win","loss","win"]},
-        {id: 3, name: "GMT", members: 11, fights: 16, wins: 13, losses: 3, form: ["win","loss","win","win","win"]},
-        {id: 4, name: "Teiko", members: 8, fights: 15, wins: 13, losses: 2, form: ["win","win","loss","win","win"]},
-        {id: 5, name: "Immortals", members: 15, fights: 13, wins: 11, losses: 2, form: ["win","loss","win","win","win"]},
-        {id: 6, name: "DT", members: 14, fights: 12, wins: 10, losses: 2, form: ["loss","win","win","win","loss"]},
-        {id: 7, name: "Spirit Bloom", members: 7, fights: 10, wins: 8, losses: 2, form: ["win","loss","win","loss","win"]},
-        {id: 8, name: "Aeterna", members: 6, fights: 7, wins: 6, losses: 1, form: ["win","win","win","loss","win"]},
-        {id: 9, name: "Galactic Alliance", members: 13, fights: 6, wins: 5, losses: 1, form: ["win","loss","win","win","loss"]},
-        {id: 10, name: "Clan Ghost", members: 11, fights: 6, wins: 5, losses: 1, form: ["loss","win","win","loss","win"]},
-        {id: 11, name: "Eclipse", members: 10, fights: 6, wins: 5, losses: 1, form: ["win","win","loss","loss","win"]},
-        {id: 12, name: "Han", members: 5, fights: 5, wins: 4, losses: 1, form: ["win","win","loss","win","loss"]},
-        {id: 13, name: "Hounds", members: 9, fights: 3, wins: 2, losses: 1, form: ["win","loss","win","loss","loss"]},
-        {id: 14, name: "Adekvate Team", members: 6, fights: 3, wins: 2, losses: 1, form: ["loss","win","loss","win","loss"]},
-        {id: 15, name: "EX.O", members: 5, fights: 2, wins: 2, losses: 0, form: ["win","win","loss","loss","win"]},
-        {id: 16, name: "IronLegacy", members: 8, fights: 2, wins: 2, losses: 0, form: ["win","loss","win","loss","win"]},
-        {id: 17, name: "NSD", members: 7, fights: 2, wins: 2, losses: 0, form: ["win","loss","win","loss","win"]},
-        {id: 18, name: "Void", members: 4, fights: 1, wins: 1, losses: 0, form: ["loss","win","win","loss","draw"]},
-        {id: 19, name: "Deviance", members: 3, fights: 0, wins: 0, losses: 0, form: ["loss","loss","loss","loss","loss"]},
-        {id: 20, name: "Rising Legends", members: 3, fights: 0, wins: 0, losses: 0, form: ["loss","loss","loss","loss","loss"]},
-        {id: 21, name: "Shared Horizon", members: 3, fights: 0, wins: 0, losses: 0, form: ["loss","loss","loss","loss","loss"]},
-        {id: 22, name: "High Killers", members: 3, fights: 0, wins: 0, losses: 0, form: ["loss","loss","loss","loss","loss"]},
-        {id: 23, name: "Indomitable", members: 3, fights: 0, wins: 0, losses: 0, form: ["loss","loss","loss","loss","loss"]}
-    ];
-
-    // ================================================================
-    //  ФУНКЦИИ
-    // ================================================================
-
-    function getClanPoints(clan) {
-        return clan.wins * 3;
-    }
-
-    function getClanForm(clan) {
-        var f = clan.form || [];
-        while (f.length < 5) f.push('');
-        return f;
-    }
-
-    function renderClanForm(form) {
-        var html = '';
-        for (var i = 0; i < 5; i++) {
-            var r = form[i] || '';
-            if (r === 'win') html += '<span class="clan-form-badge clan-form-win">В</span>';
-            else if (r === 'loss') html += '<span class="clan-form-badge clan-form-loss">П</span>';
-            else if (r === 'draw') html += '<span class="clan-form-badge clan-form-draw">Н</span>';
-            else html += '<span class="clan-form-badge clan-form-empty">—</span>';
-        }
-        return html;
-    }
-
-    function renderClanTable() {
-        var search = document.getElementById('clanSearch').value.toLowerCase();
-        var filtered = [];
-        
-        for (var i = 0; i < clanData.length; i++) {
-            if (clanData[i].name.toLowerCase().indexOf(search) !== -1) {
-                filtered.push(clanData[i]);
-            }
-        }
-        
-        filtered.sort(function(a, b) {
-            var pa = getClanPoints(a);
-            var pb = getClanPoints(b);
-            if (pa !== pb) return pb - pa;
-            return (b.wins - b.losses) - (a.wins - a.losses);
-        });
-        
-        var tbody = document.getElementById('clanTableBody');
-        tbody.innerHTML = '';
-        
-        if (filtered.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;color:#8e95aa;">🏛️ Кланов не найдено</td></tr>';
-            updateClanStats([]);
-            return;
-        }
-        
-        for (var i = 0; i < filtered.length; i++) {
-            var c = filtered[i];
-            var pos = i + 1;
-            var posClass = 'clan-pos-other';
-            if (pos === 1) posClass = 'clan-pos-1';
-            else if (pos === 2) posClass = 'clan-pos-2';
-            else if (pos === 3) posClass = 'clan-pos-3';
-            
-            var points = getClanPoints(c);
-            var form = getClanForm(c);
-            var formHtml = renderClanForm(form);
-            var firstLetter = c.name.charAt(0).toUpperCase();
-            
-            var tr = document.createElement('tr');
-            tr.innerHTML = 
-                '<td><span class="clan-pos ' + posClass + '">' + pos + '</span></td>' +
-                '<td><div class="clan-cell"><div class="clan-icon">' + firstLetter + '</div><div class="clan-info"><span class="clan-name">' + c.name + '</span><span class="clan-members">👥 ' + c.members + '</span></div></div></td>' +
-                '<td>' + c.members + '</td>' +
-                '<td>' + c.fights + '</td>' +
-                '<td style="color:#27ae60;font-weight:600;">' + c.wins + '</td>' +
-                '<td style="color:#e74c3c;font-weight:600;">' + c.losses + '</td>' +
-                '<td class="clan-points">' + points + '</td>' +
-                '<td><div class="clan-form">' + formHtml + '</div></td>';
-            tbody.appendChild(tr);
-        }
-        
-        updateClanStats(filtered);
-    }
-
-    function updateClanStats(data) {
-        var total = data.length;
-        var wins = 0;
-        var losses = 0;
-        var fights = 0;
-        
-        for (var i = 0; i < data.length; i++) {
-            wins += data[i].wins;
-            losses += data[i].losses;
-            fights += data[i].fights;
-        }
-        
-        document.getElementById('clanStatTotal').textContent = total;
-        document.getElementById('clanStatWins').textContent = wins;
-        document.getElementById('clanStatLosses').textContent = losses;
-        document.getElementById('clanStatFights').textContent = fights;
-        document.getElementById('clanCount').innerHTML = 'Кланов: <b>' + total + '</b>';
-    }
-
-    // ===== ЗАПУСК =====
-    renderClanTable();
-
-    // ===== ПОИСК ПО ВВОДУ (с задержкой) =====
-    var clanSearchTimeout;
-    document.getElementById('clanSearch').addEventListener('input', function() {
-        clearTimeout(clanSearchTimeout);
-        clanSearchTimeout = setTimeout(renderClanTable, 300);
-    });
-</script>
 <!-- ============================================================ -->
-<!--  КОНЕЦ КЛАНОВОЙ ТАБЛИЦЫ  -->
+<!--  БЛОК С КЛАНОВОЙ ТАБЛИЦЕЙ                                   -->
 <!-- ============================================================ -->
+<div class="clan-section">
+
+    <!-- ===== ВКЛАДКИ ===== -->
+    <div class="clan-tabs">
+        <a href="#" class="active" onclick="switchClanTab('table', this); return false;">📊 Таблица</a>
+        <a href="#" onclick="switchClanTab('commands', this); return false;">⌨️ Команды</a>
+        <a href="#" onclick="switchClanTab('rules', this); return false;">📜 Правила</a>
+        <a href="#" onclick="switchClanTab('admin', this); return false;">🔧 Админ</a>
+    </div>
+
+    <!-- ============================================================ -->
+    <!--  ВКЛАДКА: ТАБЛИЦА -->
+    <!-- ============================================================ -->
+    <div id="clanTabTable" class="clan-tab-content active">
+        <h1>🏆 Рейтинг кланов</h1>
+        <p class="subtitle">Турнирная таблица Age of Dino</p>
+        
+        <!-- ФИЛЬТРЫ -->
+        <div class="clan-filters">
+            <input type="text" id="clanSearch" placeholder="🔍 Поиск клана...">
+            <button class="btn" onclick="renderClanTable()">Применить</button>
+            <button class="btn btn-reset" onclick="document.getElementById('clanSearch').value='';renderClanTable()">Сбросить</button>
+            <span class="clan-filter-count" id="clanCount">Кланов: <b>0</b></span>
+        </div>
+        
+        <!-- ТАБЛИЦА -->
+        <div class="clan-table-wrap">
+            <table class="clan-table">
+                <thead>
+                    <tr>
+                        <th style="text-align:left;padding-left:20px;">#</th>
+                        <th style="text-align:left;">Клан</th>
+                        <th>👥</th>
+                        <th>⚔️</th>
+                        <th>🏆</th>
+                        <th>💀</th>
+                        <th>Очки</th>
+                        <th>Форма</th>
+                    </tr>
+                </thead>
+                <tbody id="clanTableBody"></tbody>
+            </table>
+        </div>
+        
+        <!-- СТАТИСТИКА -->
+        <div class="clan-stats">
+            <div class="stat-item">
+                <div class="value" id="clanStatTotal">0</div>
+                <div class="label">🏛️ Всего кланов</div>
+            </div>
+            <div class="stat-item">
+                <div class="value green" id="clanStatWins">0</div>
+                <div class="label">🏆 Всего побед</div>
+            </div>
+            <div class="stat-item">
+                <div class="value red" id="clanStatLosses">0</div>
+                <div class="label">💀 Всего поражений</div>
+            </div>
+            <div class="stat-item">
+                <div class="value" id="clanStatFights">0</div>
+                <div class="label">⚔️ Всего боёв</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!--  ВКЛАДКА: КОМАНДЫ -->
+    <!-- ============================================================ -->
+    <div id="clanTabCommands" class="clan-tab-content">
+        <div class="clan-commands-block">
+            <div class="clan-cmd-toggle" onclick="toggleClanCommands()">
+                <h2>⌨️ Памятка по админ-командам Age of Dino</h2>
+                <span class="clan-arrow open" id="clanCmdArrow">▼</span>
+            </div>
+            <div class="clan-cmd-content open" id="clanCmdContent">
+                <div class="clan-cmd-group">
+                    <p style="color:#9aa2b5;font-size:14px;margin-bottom:12px;">
+                        ⭐ <strong style="color:#f0b429;">Уважаемые клановые тренеры и руководители кланов!</strong><br>
+                        На наших серверах работают новые админ-команды. Клановые администраторы имеют доступ к некоторым из них.
+                    </p>
+                </div>
+                
+                <div class="clan-cmd-group"><h3>🎥 Инвиз</h3>
+                    <div class="clan-cmd-item"><code>//spectatormode</code> или <code>//sp</code><span class="clan-cmd-desc">— инвиз по команде, можно выходить даже в воздухе</span></div>
+                </div>
+                
+                <div class="clan-cmd-group"><h3>🩵 Хп</h3>
+                    <div class="clan-cmd-item"><code>//sethealth [никнейм] [здоровье]</code><span class="clan-cmd-desc">— поставить игроку хп (по нику)</span></div>
+                    <div class="clan-cmd-item"><code>//sethealthid [SteamID] [здоровье]</code><span class="clan-cmd-desc">— поставить игроку хп (по стимайди)</span><span class="clan-cmd-note">Если не указать здоровье — будет максимальное</span></div>
+                </div>
+                
+                <div class="clan-cmd-group"><h3>🥩 Голод</h3>
+                    <div class="clan-cmd-item"><code>//sethunger [никнейм] [голод]</code><span class="clan-cmd-desc">— поставить игроку голод (по нику)</span></div>
+                    <div class="clan-cmd-item"><code>//sethungerid [SteamID] [голод]</code><span class="clan-cmd-desc">— поставить игроку голод (по стимайди)</span><span class="clan-cmd-note">Если не указать голод — будет максимальный</span></div>
+                </div>
+                
+                <div class="clan-cmd-group"><h3>💦 Жажда</h3>
+                    <div class="clan-cmd-item"><code>//setthirst [никнейм] [жажда]</code><span class="clan-cmd-desc">— поставить игроку жажду (по нику)</span></div>
+                    <div class="clan-cmd-item"><code>//setthirstid [SteamID] [жажда]</code><span class="clan-cmd-desc">— поставить игроку жажду (по стимайди)</span><span class="clan-cmd-note">Если не указать жажду — будет максимальная</span></div>
+                </div>
+                
+                <div class="clan-cmd-group"><h3>🩸 Блид</h3>
+                    <div class="clan-cmd-item"><code>//setbleed [никнейм] [блид]</code><span class="clan-cmd-desc">— поставить игроку блид (по нику)</span></div>
+                    <div class="clan-cmd-item"><code>//setbleedid [SteamID] [блид]</code><span class="clan-cmd-desc">— поставить игроку блид (по стимайди)</span><span class="clan-cmd-note">Если не указать блид — будет 0</span></div>
+                </div>
+                
+                <div class="clan-cmd-group"><h3>🦴 Перелом</h3>
+                    <div class="clan-cmd-item"><code>//setlegdamage [никнейм] [перелом]</code><span class="clan-cmd-desc">— поставить перелом лапы (по нику)</span></div>
+                    <div class="clan-cmd-item"><code>//setlegdamageid [SteamID] [перелом]</code><span class="clan-cmd-desc">— поставить перелом лапы (по стимайди)</span><span class="clan-cmd-note">Максимальный перелом — 15. Если не указать — 0</span></div>
+                </div>
+                
+                <div class="clan-cmd-group"><h3>❣️ Хил</h3>
+                    <div class="clan-cmd-item"><code>//selfheal</code><span class="clan-cmd-desc">— отхилить себя</span></div>
+                    <div class="clan-cmd-item"><code>//heal [никнейм]</code><span class="clan-cmd-desc">— отхилить игрока (по нику)</span></div>
+                    <div class="clan-cmd-item"><code>//healid [SteamID]</code><span class="clan-cmd-desc">— отхилить игрока (по стимайди)</span></div>
+                </div>
+                
+                <div class="clan-cmd-group"><h3>🦕 Гров</h3>
+                    <div class="clan-cmd-item"><code>//selfgrowth [рост]</code><span class="clan-cmd-desc">— установить рост для себя</span></div>
+                    <div class="clan-cmd-item"><code>//setgrowth [никнейм] [рост]</code><span class="clan-cmd-desc">— установить рост игроку (по нику)</span></div>
+                    <div class="clan-cmd-item"><code>//setgrowthid [SteamID] [рост]</code><span class="clan-cmd-desc">— установить рост игроку (по стимайди)</span><span class="clan-cmd-note">Если не указать рост — максимальный. Минимальный рост у разных динозавров разный!</span></div>
+                </div>
+                
+                <div class="clan-cmd-group"><h3>💀 Слэй</h3>
+                    <div class="clan-cmd-item"><code>//selfslay [0/1]</code> или <code>//ss</code><span class="clan-cmd-desc">— слейнуть себя (0 — без трупа, 1 — с трупом)</span></div>
+                    <div class="clan-cmd-item"><code>//slay [никнейм] [0/1]</code><span class="clan-cmd-desc">— слейнуть игрока (по нику)</span></div>
+                    <div class="clan-cmd-item"><code>//slayid [SteamID] [0/1]</code><span class="clan-cmd-desc">— слейнуть игрока (по стимайди)</span><span class="clan-cmd-note">По умолчанию 0</span></div>
+                </div>
+                
+                <div class="clan-cmd-group"><h3>▶️ Тп к другому</h3>
+                    <div class="clan-cmd-item"><code>//goto [никнейм]</code><span class="clan-cmd-desc">— тп к игроку даже в инвизе (по нику)</span></div>
+                    <div class="clan-cmd-item"><code>//gotoid [SteamID]</code><span class="clan-cmd-desc">— тп к игроку даже в инвизе (по стимайди)</span></div>
+                </div>
+                
+                <div class="clan-cmd-group"><h3>◀️ Тп к себе</h3>
+                    <div class="clan-cmd-item"><code>//bring [никнейм]</code><span class="clan-cmd-desc">— тп игрока к себе даже в инвизе (по нику)</span></div>
+                    <div class="clan-cmd-item"><code>//bringid [SteamID]</code><span class="clan-cmd-desc">— тп игрока к себе даже в инвизе (по стимайди)</span></div>
+                </div>
+                
+                <div class
