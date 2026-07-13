@@ -5,11 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Клановая таблица | Age of Dino</title>
     
-    <!-- ============================================================ -->
-    <!--  СТИЛИ (ЧАСТЬ 1)                                              -->
-    <!-- ============================================================ -->
     <style>
-        /* ===== ОСНОВНЫЕ СТИЛИ ===== */
+        /* ===== ОСНОВНЫЕ СТИЛИ (ТЁМНАЯ ТЕМА) ===== */
         * {
             margin: 0;
             padding: 0;
@@ -18,7 +15,7 @@
         
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background: #1a1e2c;
+            background: #0d0f17;
             color: #e0e4f0;
             padding: 20px;
             min-height: 100vh;
@@ -30,54 +27,81 @@
         }
         
         .clan-section {
-            background: #1a1e2c;
-            padding: 20px 0;
-            color: #e0e4f0;
+            background: #141824;
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid #2a2f40;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
         }
+        
         .clan-section h1 {
             color: #f0b429;
             font-size: 28px;
             margin: 10px 0;
-        }
-        .clan-section .subtitle {
-            color: #8e95aa;
-            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(240, 180, 41, 0.1);
         }
         
-        /* ===== ВКЛАДКИ ===== */
+        .clan-section .subtitle {
+            color: #6a728a;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        /* ===== ВКЛАДКИ (РАБОТАЮТ ЧЕРЕЗ :TARGET) ===== */
         .clan-tabs {
             display: flex;
             gap: 6px;
             flex-wrap: wrap;
-            margin: 20px 0 10px 0;
-            border-bottom: 2px solid #3a4057;
+            margin: 0 0 20px 0;
+            border-bottom: 2px solid #1f2330;
             padding-bottom: 10px;
         }
+        
         .clan-tabs a {
-            color: #b9bfd4;
+            color: #6a728a;
             text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 6px 6px 0 0;
-            font-size: 15px;
+            padding: 10px 24px;
+            border-radius: 8px 8px 0 0;
+            font-size: 14px;
             font-weight: 600;
-            transition: 0.3s;
-            cursor: pointer;
-            background: #1f2330;
+            transition: all 0.3s ease;
+            background: transparent;
+            border: 1px solid transparent;
+            border-bottom: none;
         }
+        
         .clan-tabs a:hover {
-            background: #2f364a;
+            color: #e0e4f0;
+            background: #1a1e2c;
+            border-color: #2a2f40;
         }
+        
         .clan-tabs a.active {
-            background: #f0b429;
-            color: #1a1e2c;
+            color: #f0b429;
+            background: #1a1e2c;
+            border-color: #f0b429;
+            border-bottom: 2px solid #0d0f17;
+            margin-bottom: -2px;
         }
+        
+        /* ===== КОНТЕНТ ВКЛАДОК (ЧЕРЕЗ :TARGET) ===== */
         .clan-tab-content {
             display: none;
             animation: clanFade 0.3s ease;
         }
-        .clan-tab-content.active {
+        
+        .clan-tab-content:target {
             display: block;
         }
+        
+        #clanTabTable {
+            display: block;
+        }
+        
+        .clan-tab-content:target ~ #clanTabTable {
+            display: none;
+        }
+        
         @keyframes clanFade {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -85,124 +109,175 @@
         
         /* ===== ФИЛЬТРЫ ===== */
         .clan-filters {
-            background: #242938;
+            background: #0d0f17;
             padding: 16px 20px;
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
             align-items: center;
-            border-bottom: 1px solid #3a4057;
+            border-bottom: 1px solid #1f2330;
             border-radius: 12px 12px 0 0;
         }
+        
         .clan-filters input {
-            background: #2f364a;
-            border: 1px solid #3a4057;
+            background: #1a1e2c;
+            border: 1px solid #2a2f40;
             color: #e0e4f0;
-            padding: 8px 16px;
-            border-radius: 6px;
+            padding: 10px 16px;
+            border-radius: 8px;
             font-size: 14px;
             outline: none;
             flex: 1;
             min-width: 200px;
+            transition: 0.3s;
         }
+        
         .clan-filters input:focus {
             border-color: #f0b429;
+            box-shadow: 0 0 20px rgba(240, 180, 41, 0.05);
         }
+        
+        .clan-filters input::placeholder {
+            color: #3a4057;
+        }
+        
         .clan-filters .btn {
             background: #f0b429;
-            color: #1a1e2c;
+            color: #0d0f17;
             border: none;
-            padding: 8px 24px;
-            border-radius: 6px;
-            font-weight: 600;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 700;
             cursor: pointer;
             transition: 0.3s;
         }
+        
         .clan-filters .btn:hover {
             background: #d49c1a;
+            transform: scale(1.02);
         }
+        
         .clan-filters .btn-reset {
-            background: #3a4057;
+            background: #1f2330;
+            color: #6a728a;
+        }
+        
+        .clan-filters .btn-reset:hover {
+            background: #2a2f40;
             color: #e0e4f0;
         }
-        .clan-filters .btn-reset:hover {
-            background: #4a526b;
-        }
+        
         .clan-filter-count {
-            color: #8e95aa;
+            color: #6a728a;
             font-size: 13px;
             margin-left: auto;
             white-space: nowrap;
         }
         
+        .clan-filter-count b {
+            color: #f0b429;
+        }
+        
         /* ===== ТАБЛИЦА ===== */
         .clan-table-wrap {
-            background: #242938;
+            background: #0d0f17;
             border-radius: 0 0 12px 12px;
             padding: 20px;
             margin: 0 0 20px 0;
             overflow-x: auto;
         }
+        
         .clan-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 14px;
             min-width: 700px;
         }
+        
         .clan-table thead th {
-            background: #2f364a;
-            padding: 12px 10px;
+            background: #1a1e2c;
+            padding: 14px 12px;
             text-align: center;
             font-weight: 700;
-            color: #b9bfd4;
+            color: #6a728a;
             text-transform: uppercase;
             font-size: 11px;
             letter-spacing: 0.5px;
-            border-bottom: 2px solid #f0b429;
+            border-bottom: 2px solid #2a2f40;
         }
+        
         .clan-table thead th:first-child {
             text-align: left;
             padding-left: 20px;
         }
+        
         .clan-table thead th:nth-child(2) {
             text-align: left;
         }
+        
         .clan-table tbody tr {
-            border-bottom: 1px solid #3a4057;
+            border-bottom: 1px solid #1a1e2c;
             transition: 0.2s;
         }
+        
         .clan-table tbody tr:hover {
-            background: #2f364a;
+            background: #1a1e2c;
         }
+        
         .clan-table tbody td {
-            padding: 12px 10px;
+            padding: 14px 10px;
             text-align: center;
             vertical-align: middle;
         }
+        
         .clan-table tbody td:first-child {
             text-align: left;
             padding-left: 20px;
         }
+        
         .clan-table tbody td:nth-child(2) {
             text-align: left;
         }
+        
         .clan-pos {
             font-weight: 700;
             font-size: 16px;
             display: inline-block;
-            background: #2f364a;
-            padding: 2px 10px;
-            border-radius: 4px;
+            background: #1a1e2c;
+            padding: 2px 12px;
+            border-radius: 6px;
+            min-width: 32px;
         }
-        .clan-pos-1 { color: #ffd700; background: #3a2f00; border: 1px solid #ffd700; }
-        .clan-pos-2 { color: #c0c0c0; background: #2f2f2f; border: 1px solid #c0c0c0; }
-        .clan-pos-3 { color: #cd7f32; background: #2f1f0f; border: 1px solid #cd7f32; }
-        .clan-pos-other { color: #8e95aa; background: #1f222f; }
+        
+        .clan-pos-1 { 
+            color: #ffd700; 
+            background: #2a1f00; 
+            border: 1px solid #ffd700;
+        }
+        
+        .clan-pos-2 { 
+            color: #c0c0c0; 
+            background: #1f1f1f; 
+            border: 1px solid #c0c0c0;
+        }
+        
+        .clan-pos-3 { 
+            color: #cd7f32; 
+            background: #1f1000; 
+            border: 1px solid #cd7f32;
+        }
+        
+        .clan-pos-other { 
+            color: #6a728a; 
+            background: #0d0f17; 
+        }
+        
         .clan-cell {
             display: flex;
             align-items: center;
             gap: 14px;
         }
+        
         .clan-icon {
             width: 40px;
             height: 40px;
@@ -213,35 +288,41 @@
             font-size: 16px;
             font-weight: 700;
             flex-shrink: 0;
-            border: 2px solid #3a4057;
+            border: 2px solid #2a2f40;
             color: #f0b429;
-            background: #2f364a;
+            background: #1a1e2c;
         }
+        
         .clan-info {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
         }
+        
         .clan-name {
             font-weight: 700;
             color: #ffffff;
             font-size: 15px;
         }
+        
         .clan-members {
             font-size: 11px;
-            color: #5a627a;
+            color: #4a526b;
             margin-top: 2px;
         }
+        
         .clan-points {
             font-weight: 800;
             font-size: 24px;
             color: #f0b429;
         }
+        
         .clan-form {
             display: flex;
             gap: 4px;
             justify-content: center;
         }
+        
         .clan-form-badge {
             width: 28px;
             height: 28px;
@@ -253,10 +334,11 @@
             font-weight: 700;
             color: #fff;
         }
-        .clan-form-win { background: #27ae60; }
-        .clan-form-loss { background: #e74c3c; }
-        .clan-form-draw { background: #f39c12; }
-        .clan-form-empty { background: #2f364a; color: #4a526b; }
+        
+        .clan-form-win { background: #1a7a3a; }
+        .clan-form-loss { background: #7a1a1a; }
+        .clan-form-draw { background: #7a5a0a; }
+        .clan-form-empty { background: #1a1a1a; color: #2a2a2a; }
         
         /* ===== СТАТИСТИКА ===== */
         .clan-stats {
@@ -266,22 +348,26 @@
             margin: 20px 0;
             justify-content: center;
         }
+        
         .clan-stats .stat-item {
-            background: #242938;
+            background: #0d0f17;
             padding: 15px 35px;
-            border-radius: 10px;
+            border-radius: 12px;
             text-align: center;
             min-width: 130px;
+            border: 1px solid #1f2330;
         }
+        
         .clan-stats .stat-item .value {
             font-size: 28px;
             font-weight: 700;
             color: #f0b429;
         }
+        
         .clan-stats .stat-item .value.green { color: #27ae60; }
         .clan-stats .stat-item .value.red { color: #e74c3c; }
         .clan-stats .stat-item .label {
-            color: #8e95aa;
+            color: #4a526b;
             font-size: 13px;
             margin-top: 4px;
         }
@@ -289,45 +375,52 @@
         /* ===== АДМИН-ПАНЕЛЬ ===== */
         .clan-admin-panel {
             display: none;
-            background: #1f2330;
+            background: #0d0f17;
             border: 2px solid #f0b429;
             border-radius: 12px;
             padding: 25px;
             margin: 20px 0;
         }
+        
         .clan-admin-panel.visible {
             display: block;
         }
+        
         .clan-admin-panel h2 {
             color: #f0b429;
             font-size: 20px;
             margin-bottom: 20px;
             text-align: center;
         }
+        
         .clan-admin-row {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
             align-items: center;
-            background: #2a2f40;
+            background: #1a1e2c;
             padding: 12px 15px;
             border-radius: 8px;
             margin-bottom: 10px;
         }
+        
         .clan-admin-row input {
-            background: #1a1e2c;
-            border: 1px solid #3a4057;
+            background: #0d0f17;
+            border: 1px solid #2a2f40;
             color: #e0e4f0;
             padding: 6px 12px;
             border-radius: 4px;
             font-size: 13px;
             outline: none;
         }
+        
         .clan-admin-row input:focus {
             border-color: #f0b429;
         }
+        
         .clan-admin-row .clan-name-input { flex: 2; min-width: 120px; }
         .clan-admin-row .clan-num-input { width: 60px; text-align: center; }
+        
         .clan-admin-row .btn-sm {
             padding: 4px 12px;
             border-radius: 4px;
@@ -337,16 +430,19 @@
             font-size: 12px;
             transition: 0.3s;
         }
+        
         .clan-admin-row .btn-sm.save {
             background: #27ae60;
             color: #fff;
         }
         .clan-admin-row .btn-sm.save:hover { background: #219a52; }
+        
         .clan-admin-row .btn-sm.delete {
             background: #e74c3c;
             color: #fff;
         }
         .clan-admin-row .btn-sm.delete:hover { background: #c0392b; }
+        
         .clan-admin-row .btn-sm.add {
             background: #3498db;
             color: #fff;
@@ -354,6 +450,7 @@
             font-size: 14px;
         }
         .clan-admin-row .btn-sm.add:hover { background: #2980b9; }
+        
         .clan-admin-actions {
             display: flex;
             gap: 12px;
@@ -361,32 +458,37 @@
             margin-top: 20px;
             flex-wrap: wrap;
         }
+        
         .clan-admin-actions .btn {
             padding: 10px 30px;
-            border-radius: 6px;
+            border-radius: 8px;
             border: none;
             font-weight: 700;
             cursor: pointer;
             transition: 0.3s;
             font-size: 14px;
         }
+        
         .clan-admin-actions .btn-save-all {
             background: #27ae60;
             color: #fff;
         }
         .clan-admin-actions .btn-save-all:hover { background: #219a52; }
+        
         .clan-admin-actions .btn-reset-all {
             background: #e74c3c;
             color: #fff;
         }
         .clan-admin-actions .btn-reset-all:hover { background: #c0392b; }
+        
         .clan-admin-actions .btn-close-admin {
-            background: #3a4057;
+            background: #2a2f40;
             color: #e0e4f0;
         }
-        .clan-admin-actions .btn-close-admin:hover { background: #4a526b; }
+        .clan-admin-actions .btn-close-admin:hover { background: #3a4057; }
+        
         .clan-admin-hint {
-            color: #8e95aa;
+            color: #4a526b;
             font-size: 12px;
             text-align: center;
             margin-top: 15px;
@@ -394,12 +496,13 @@
         
         /* ===== КОМАНДЫ ===== */
         .clan-commands-block {
-            background: #242938;
+            background: #0d0f17;
             border-radius: 12px;
             padding: 25px 30px;
-            border: 1px solid #3a4057;
+            border: 1px solid #1f2330;
             margin: 10px 0 20px 0;
         }
+        
         .clan-commands-block .clan-cmd-toggle {
             display: flex;
             justify-content: space-between;
@@ -407,70 +510,82 @@
             cursor: pointer;
             user-select: none;
         }
+        
         .clan-commands-block .clan-cmd-toggle h2 {
             color: #f0b429;
             font-size: 20px;
         }
+        
         .clan-commands-block .clan-cmd-toggle .clan-arrow {
-            color: #8e95aa;
+            color: #4a526b;
             font-size: 24px;
             transition: 0.3s;
         }
+        
         .clan-commands-block .clan-cmd-toggle .clan-arrow.open {
             transform: rotate(180deg);
         }
+        
         .clan-commands-block .clan-cmd-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.5s ease;
         }
+        
         .clan-commands-block .clan-cmd-content.open {
             max-height: 10000px;
         }
+        
         .clan-commands-block .clan-cmd-group {
             margin-top: 20px;
             padding-top: 20px;
-            border-top: 1px solid #3a4057;
+            border-top: 1px solid #1f2330;
         }
+        
         .clan-commands-block .clan-cmd-group:first-child {
             border-top: none;
             padding-top: 0;
         }
+        
         .clan-commands-block .clan-cmd-group h3 {
             color: #f0b429;
             font-size: 16px;
             margin-bottom: 12px;
         }
+        
         .clan-commands-block .clan-cmd-item {
             padding: 8px 0;
             font-size: 14px;
             line-height: 1.6;
             color: #c0c8d8;
             padding-left: 20px;
-            border-left: 2px solid #3a4057;
+            border-left: 2px solid #1f2330;
             margin-bottom: 6px;
         }
+        
         .clan-commands-block .clan-cmd-item code {
             display: inline-block;
-            background: #1a1e2c;
+            background: #0d0f17;
             padding: 2px 12px;
             border-radius: 4px;
             font-family: 'Courier New', monospace;
             color: #f0b429;
             font-size: 13px;
-            border: 1px solid #3a4057;
+            border: 1px solid #2a2f40;
             margin: 2px 0;
         }
+        
         .clan-commands-block .clan-cmd-item .clan-cmd-desc {
             display: block;
-            color: #8e95aa;
+            color: #6a728a;
             font-size: 13px;
             margin-top: 2px;
             padding-left: 8px;
         }
+        
         .clan-commands-block .clan-cmd-item .clan-cmd-note {
             display: block;
-            color: #ff9800;
+            color: #b8860b;
             font-size: 12px;
             margin-top: 2px;
             padding-left: 8px;
@@ -479,12 +594,13 @@
         
         /* ===== ПРАВИЛА ===== */
         .clan-rules-block {
-            background: #242938;
+            background: #0d0f17;
             border-radius: 12px;
             padding: 25px 30px;
-            border: 1px solid #3a4057;
+            border: 1px solid #1f2330;
             margin: 10px 0 20px 0;
         }
+        
         .clan-rules-block .clan-rules-toggle {
             display: flex;
             justify-content: space-between;
@@ -492,58 +608,70 @@
             cursor: pointer;
             user-select: none;
         }
+        
         .clan-rules-block .clan-rules-toggle h2 {
             color: #f0b429;
             font-size: 20px;
         }
+        
         .clan-rules-block .clan-rules-toggle .clan-arrow {
-            color: #8e95aa;
+            color: #4a526b;
             font-size: 24px;
             transition: 0.3s;
         }
+        
         .clan-rules-block .clan-rules-toggle .clan-arrow.open {
             transform: rotate(180deg);
         }
+        
         .clan-rules-block .clan-rules-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.5s ease;
         }
+        
         .clan-rules-block .clan-rules-content.open {
             max-height: 10000px;
         }
+        
         .clan-rules-block .clan-rule-group {
             margin-top: 20px;
             padding-top: 20px;
-            border-top: 1px solid #3a4057;
+            border-top: 1px solid #1f2330;
         }
+        
         .clan-rules-block .clan-rule-group:first-child {
             border-top: none;
             padding-top: 0;
         }
+        
         .clan-rules-block .clan-rule-group h3 {
             color: #f0b429;
             font-size: 16px;
             margin-bottom: 12px;
         }
+        
         .clan-rules-block .clan-rule-item {
             padding: 6px 0;
             font-size: 14px;
             line-height: 1.6;
             color: #c0c8d8;
             padding-left: 20px;
-            border-left: 2px solid #3a4057;
+            border-left: 2px solid #1f2330;
             margin-bottom: 4px;
         }
+        
         .clan-rules-block .clan-rule-item strong {
             color: #f0b429;
         }
+        
         .clan-rules-block .clan-rule-item .clan-highlight {
-            color: #ff6b6b;
+            color: #e74c3c;
         }
+        
         .clan-rules-block .clan-rule-sub {
             padding-left: 40px;
-            color: #9aa2b5;
+            color: #6a728a;
             font-size: 13px;
         }
         
@@ -557,15 +685,17 @@
             padding: 15px 30px;
             border-radius: 10px;
             font-weight: 600;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
             opacity: 0;
             transform: translateY(20px);
             transition: 0.4s;
             z-index: 9999;
         }
+        
         .clan-toast.error {
             background: #e74c3c;
         }
+        
         .clan-toast.show {
             opacity: 1;
             transform: translateY(0);
@@ -573,29 +703,39 @@
         
         /* ===== АДАПТИВ ===== */
         @media (max-width: 768px) {
+            body { padding: 10px; }
+            
+            .clan-section { padding: 15px; }
+            
             .clan-table { font-size: 12px; min-width: 500px; }
             .clan-table tbody td,
             .clan-table thead th { padding: 8px 6px; }
             .clan-icon { width: 34px; height: 34px; font-size: 14px; }
             .clan-points { font-size: 20px; }
             .clan-name { font-size: 13px; }
-            .clan-filters { flex-direction: column; }
+            
+            .clan-filters { flex-direction: column; padding: 12px 15px; }
             .clan-filters input,
             .clan-filters .btn { width: 100%; }
             .clan-filter-count { margin-left: 0; text-align: center; width: 100%; }
+            
             .clan-stats .stat-item { padding: 12px 18px; min-width: 90px; }
             .clan-stats .stat-item .value { font-size: 20px; }
+            
             .clan-form-badge { width: 22px; height: 22px; font-size: 10px; }
             .clan-tabs a { font-size: 13px; padding: 8px 14px; }
+            
             .clan-admin-row { flex-direction: column; align-items: stretch; }
             .clan-admin-row .clan-num-input { width: 100%; }
             .clan-admin-row .btn-sm { width: 100%; padding: 8px; }
+            
             .clan-commands-block,
             .clan-rules-block { padding: 15px 18px; }
             .clan-commands-block .clan-cmd-item { font-size: 13px; padding-left: 12px; }
             .clan-rules-block .clan-rule-item { font-size: 13px; padding-left: 12px; }
             .clan-rules-block .clan-rule-sub { padding-left: 20px; font-size: 12px; }
         }
+        
         @media (max-width: 480px) {
             .clan-table tbody td,
             .clan-table thead th { padding: 6px 4px; font-size: 11px; }
@@ -614,23 +754,20 @@
 
 <div class="container">
     
-    <!-- ============================================================ -->
-    <!--  КЛАНОВАЯ ТАБЛИЦА (HTML + CSS + JS)                          -->
-    <!-- ============================================================ -->
     <div class="clan-section">
 
-        <!-- ===== ВКЛАДКИ ===== -->
+        <!-- ===== ВКЛАДКИ (РАБОТАЮТ ЧЕРЕЗ #) ===== -->
         <div class="clan-tabs">
-            <a href="#" class="active" onclick="switchClanTab('table', this); return false;">📊 Таблица</a>
-            <a href="#" onclick="switchClanTab('commands', this); return false;">⌨️ Команды</a>
-            <a href="#" onclick="switchClanTab('rules', this); return false;">📜 Правила</a>
-            <a href="#" onclick="switchClanTab('admin', this); return false;">🔧 Админ</a>
+            <a href="#clanTabTable" class="active">📊 Таблица</a>
+            <a href="#clanTabCommands">⌨️ Команды</a>
+            <a href="#clanTabRules">📜 Правила</a>
+            <a href="#clanTabAdmin">🔧 Админ</a>
         </div>
 
         <!-- ============================================================ -->
         <!--  ВКЛАДКА: ТАБЛИЦА -->
         <!-- ============================================================ -->
-        <div id="clanTabTable" class="clan-tab-content active">
+        <div id="clanTabTable" class="clan-tab-content">
             <h1>🏆 Рейтинг кланов</h1>
             <p class="subtitle">Турнирная таблица Age of Dino</p>
             
@@ -690,7 +827,7 @@
                 </div>
                 <div class="clan-cmd-content open" id="clanCmdContent">
                     <div class="clan-cmd-group">
-                        <p style="color:#9aa2b5;font-size:14px;margin-bottom:12px;">
+                        <p style="color:#6a728a;font-size:14px;margin-bottom:12px;">
                             ⭐ <strong style="color:#f0b429;">Уважаемые клановые тренеры и руководители кланов!</strong><br>
                             На наших серверах работают новые админ-команды. Клановые администраторы имеют доступ к некоторым из них.
                         </p>
@@ -754,7 +891,7 @@
         </div>
 
         <!-- ============================================================ -->
-        <!--  ВКЛАДКА: ПРАВИЛА                                             -->
+        <!--  ВКЛАДКА: ПРАВИЛА -->
         <!-- ============================================================ -->
         <div id="clanTabRules" class="clan-tab-content">
             <div class="clan-rules-block">
@@ -764,7 +901,7 @@
                 </div>
                 <div class="clan-rules-content open" id="clanRulesContent">
                     <div class="clan-rule-group">
-                        <p style="color:#9aa2b5;font-size:14px;margin-bottom:12px;">
+                        <p style="color:#6a728a;font-size:14px;margin-bottom:12px;">
                             Регистрируя клан на проекте Age of Dino, Глава клана и участники его клана полностью соглашаются со следующим перечнем Клановых правил:
                         </p>
                     </div>
@@ -813,7 +950,7 @@
         </div>
 
         <!-- ============================================================ -->
-        <!--  ВКЛАДКА: АДМИН-ПАНЕЛЬ                                        -->
+        <!--  ВКЛАДКА: АДМИН-ПАНЕЛЬ -->
         <!-- ============================================================ -->
         <div id="clanTabAdmin" class="clan-tab-content">
             <div class="clan-admin-panel visible" id="clanAdminPanel" style="display:block;">
@@ -833,7 +970,7 @@
 
 <script>
     // ================================================================
-    //  ДАННЫЕ КЛАНОВ (23 клана из твоего рейтинга)
+    //  ДАННЫЕ КЛАНОВ
     // ================================================================
     var clanData = [
         {id: 1, name: "Invicta", members: 10, fights: 30, wins: 28, losses: 2, form: ["win","win","win","win","win"]},
@@ -904,7 +1041,7 @@
         var tbody = document.getElementById('clanTableBody');
         tbody.innerHTML = '';
         if (filtered.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;color:#8e95aa;">🏛️ Кланов не найдено</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;color:#4a526b;">🏛️ Кланов не найдено</td></tr>';
             updateClanStats([]);
             return;
         }
@@ -952,21 +1089,22 @@
     }
 
     // ================================================================
-    //  ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК
+    //  ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК (ПОДСВЕТКА)
     // ================================================================
 
-    function switchClanTab(tab, el) {
-        var tabs = document.querySelectorAll('.clan-tab-content');
-        for (var i = 0; i < tabs.length; i++) {
-            tabs[i].classList.remove('active');
-        }
-        document.getElementById('clanTab' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+    function updateActiveTab() {
+        var hash = window.location.hash || '#clanTabTable';
         var links = document.querySelectorAll('.clan-tabs a');
         for (var i = 0; i < links.length; i++) {
             links[i].classList.remove('active');
+            if (links[i].getAttribute('href') === hash) {
+                links[i].classList.add('active');
+            }
         }
-        if (el) el.classList.add('active');
     }
+
+    window.addEventListener('hashchange', updateActiveTab);
+    window.addEventListener('load', updateActiveTab);
 
     // ================================================================
     //  РАСКРЫТИЕ КОМАНД
@@ -1134,6 +1272,7 @@
 
     loadClanData();
     renderClanTable();
+    renderClanAdmin();
 
     var clanSearchTimeout;
     document.getElementById('clanSearch').addEventListener('input', function() {
