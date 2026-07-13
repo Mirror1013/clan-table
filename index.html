@@ -1074,32 +1074,83 @@
 
 <script>
     // ================================================================
-    //  ДАННЫЕ КЛАНОВ
+    //  ДАННЫЕ КЛАНОВ С ОЧКАМИ (из твоего сообщения)
     // ================================================================
     var clanData = [
-        {id: 1, name: "Invicta", members: 10, fights: 30, wins: 28, losses: 2, form: ["win","win","win","win","win"]},
-        {id: 2, name: "GTR", members: 12, fights: 29, wins: 26, losses: 3, form: ["win","win","win","loss","win"]},
-        {id: 3, name: "GMT", members: 11, fights: 16, wins: 13, losses: 3, form: ["win","loss","win","win","win"]},
-        {id: 4, name: "Teiko", members: 8, fights: 15, wins: 13, losses: 2, form: ["win","win","loss","win","win"]},
-        {id: 5, name: "Immortals", members: 15, fights: 13, wins: 11, losses: 2, form: ["win","loss","win","win","win"]},
-        {id: 6, name: "DT", members: 14, fights: 12, wins: 10, losses: 2, form: ["loss","win","win","win","loss"]},
-        {id: 7, name: "Spirit Bloom", members: 7, fights: 10, wins: 8, losses: 2, form: ["win","loss","win","loss","win"]},
-        {id: 8, name: "Aeterna", members: 6, fights: 7, wins: 6, losses: 1, form: ["win","win","win","loss","win"]},
-        {id: 9, name: "Galactic Alliance", members: 13, fights: 6, wins: 5, losses: 1, form: ["win","loss","win","win","loss"]},
-        {id: 10, name: "Clan Ghost", members: 11, fights: 6, wins: 5, losses: 1, form: ["loss","win","win","loss","win"]},
-        {id: 11, name: "Eclipse", members: 10, fights: 6, wins: 5, losses: 1, form: ["win","win","loss","loss","win"]},
-        {id: 12, name: "Han", members: 5, fights: 5, wins: 4, losses: 1, form: ["win","win","loss","win","loss"]},
-        {id: 13, name: "Hounds", members: 9, fights: 3, wins: 2, losses: 1, form: ["win","loss","win","loss","loss"]},
-        {id: 14, name: "Adekvate Team", members: 6, fights: 3, wins: 2, losses: 1, form: ["loss","win","loss","win","loss"]},
-        {id: 15, name: "EX.O", members: 5, fights: 2, wins: 2, losses: 0, form: ["win","win","loss","loss","win"]},
-        {id: 16, name: "IronLegacy", members: 8, fights: 2, wins: 2, losses: 0, form: ["win","loss","win","loss","win"]},
-        {id: 17, name: "NSD", members: 7, fights: 2, wins: 2, losses: 0, form: ["win","loss","win","loss","win"]},
-        {id: 18, name: "Void", members: 4, fights: 1, wins: 1, losses: 0, form: ["loss","win","win","loss","draw"]},
-        {id: 19, name: "Deviance", members: 3, fights: 0, wins: 0, losses: 0, form: ["loss","loss","loss","loss","loss"]},
-        {id: 20, name: "Rising Legends", members: 3, fights: 0, wins: 0, losses: 0, form: ["loss","loss","loss","loss","loss"]},
-        {id: 21, name: "Shared Horizon", members: 3, fights: 0, wins: 0, losses: 0, form: ["loss","loss","loss","loss","loss"]},
-        {id: 22, name: "High Killers", members: 3, fights: 0, wins: 0, losses: 0, form: ["loss","loss","loss","loss","loss"]},
-        {id: 23, name: "Indomitable", members: 3, fights: 0, wins: 0, losses: 0, form: ["loss","loss","loss","loss","loss"]}
+        // 1 МЕСТО: GOODMORNINGTOKYO + Teiko (4 победы, 12 очков)
+        {id: 1, name: "GOODMORNINGTOKYO + Teiko", members: 19, fights: 4, wins: 4, losses: 0, form: ["win","win","win","win",""]},
+        
+        // 2 МЕСТО: Great Than Rivals (4 победы, 12 очков)
+        {id: 2, name: "Great Than Rivals", members: 21, fights: 4, wins: 4, losses: 0, form: ["win","win","win","win",""]},
+        
+        // 3 МЕСТО: aeterna (3 победы, 9 очков)
+        {id: 3, name: "aeterna", members: 14, fights: 3, wins: 3, losses: 0, form: ["win","win","win","",""]},
+        
+        // Spirit Bloom (3 победы, 9 очков)
+        {id: 4, name: "Spirit Bloom", members: 22, fights: 3, wins: 3, losses: 0, form: ["win","win","win","",""]},
+        
+        // Invicta (3 победы, 9 очков)
+        {id: 5, name: "Invicta", members: 44, fights: 3, wins: 3, losses: 0, form: ["win","win","win","",""]},
+        
+        // GTR (уже есть, но добавим отдельно)
+        {id: 6, name: "GTR", members: 12, fights: 0, wins: 0, losses: 0, form: ["","","","",""]},
+        
+        // GMT
+        {id: 7, name: "GMT", members: 11, fights: 0, wins: 0, losses: 0, form: ["","","","",""]},
+        
+        // Immortals (участие, 1 очко)
+        {id: 8, name: "Immortals", members: 20, fights: 1, wins: 0, losses: 1, form: ["loss","","","",""]},
+        
+        // DT (Dream Team)
+        {id: 9, name: "Dream Team", members: 54, fights: 1, wins: 0, losses: 1, form: ["loss","","","",""]},
+        
+        // GHOST
+        {id: 10, name: "GHOST", members: 22, fights: 1, wins: 0, losses: 1, form: ["loss","","","",""]},
+        
+        // Eclipse
+        {id: 11, name: "Eclipse", members: 24, fights: 1, wins: 0, losses: 1, form: ["loss","","","",""]},
+        
+        // Galactic Alliance
+        {id: 12, name: "Galactic Alliance", members: 14, fights: 1, wins: 0, losses: 1, form: ["loss","","","",""]},
+        
+        // Not Such Dinos
+        {id: 13, name: "Not Such Dinos", members: 12, fights: 1, wins: 0, losses: 1, form: ["loss","","","",""]},
+        
+        // Han
+        {id: 14, name: "Han", members: 20, fights: 0, wins: 0, losses: 0, form: ["","","","",""]},
+        
+        // Hounds
+        {id: 15, name: "Hounds", members: 26, fights: 0, wins: 0, losses: 0, form: ["","","","",""]},
+        
+        // Adekvate Team
+        {id: 16, name: "Adekvate Team", members: 37, fights: 0, wins: 0, losses: 0, form: ["","","","",""]},
+        
+        // EX.O
+        {id: 17, name: "EX.O", members: 7, fights: 0, wins: 0, losses: 0, form: ["","","","",""]},
+        
+        // IronLegacy
+        {id: 18, name: "IronLegacy", members: 6, fights: 0, wins: 0, losses: 0, form: ["","","","",""]},
+        
+        // NSD
+        {id: 19, name: "NSD", members: 7, fights: 0, wins: 0, losses: 0, form: ["","","","",""]},
+        
+        // Void
+        {id: 20, name: "Void", members: 2, fights: 0, wins: 0, losses: 0, form: ["","","","",""]},
+        
+        // Deviance
+        {id: 21, name: "Deviance", members: 26, fights: 0, wins: 0, losses: 0, form: ["","","","",""]},
+        
+        // Rising Legends
+        {id: 22, name: "Rising Legends", members: 9, fights: 0, wins: 0, losses: 0, form: ["","","","",""]},
+        
+        // Shared Horizon
+        {id: 23, name: "Shared Horizon", members: 30, fights: 0, wins: 0, losses: 0, form: ["","","","",""]},
+        
+        // High Killers
+        {id: 24, name: "High Killers", members: 3, fights: 0, wins: 0, losses: 0, form: ["","","","",""]},
+        
+        // Indomitable
+        {id: 25, name: "Indomitable", members: 6, fights: 0, wins: 0, losses: 0, form: ["","","","",""]}
     ];
 
     // ================================================================
@@ -1256,7 +1307,7 @@
         var user = document.getElementById('clanLoginUser').value.trim();
         var pass = document.getElementById('clanLoginPass').value.trim();
         
-        // МЕНЯЙ ТУТ ЛОГИН И ПАРОЛЬ
+        // ⚡ МЕНЯЙ ТУТ ЛОГИН И ПАРОЛЬ ⚡
         if (user === 'admin' && pass === '12345') {
             clanAdminLoggedIn = true;
             localStorage.setItem('clanAdminSession', 'true');
@@ -1289,7 +1340,7 @@
     }
 
     // ================================================================
-    //  ДОБАВЛЕНИЕ ОЧКОВ (НОВАЯ ФУНКЦИЯ)
+    //  ДОБАВЛЕНИЕ ОЧКОВ
     // ================================================================
 
     function addClanPoints(btn) {
@@ -1298,7 +1349,6 @@
         var id = parseInt(inputs[0].getAttribute('data-id'));
         var name = inputs[0].value.trim();
         
-        // Запрашиваем сколько побед одержал клан
         var winsToAdd = prompt('Сколько побед одержал клан "' + name + '"?\n(Каждая победа = +3 очка)', '1');
         if (winsToAdd === null) return;
         
@@ -1312,11 +1362,9 @@
             if (clanData[i].id === id) {
                 clanData[i].wins += winsToAdd;
                 clanData[i].fights += winsToAdd;
-                // Добавляем победы в форму (последние бои)
                 for (var j = 0; j < winsToAdd; j++) {
                     clanData[i].form.push('win');
                 }
-                // Оставляем только последние 5
                 if (clanData[i].form.length > 5) {
                     clanData[i].form = clanData[i].form.slice(-5);
                 }
@@ -1349,7 +1397,7 @@
     }
 
     // ================================================================
-    //  АДМИН-ПАНЕЛЬ (управление кланами)
+    //  АДМИН-ПАНЕЛЬ
     // ================================================================
 
     function renderClanAdmin() {
@@ -1445,7 +1493,7 @@
             fights: fights,
             wins: wins,
             losses: losses,
-            form: ["win","win","loss","win","win"]
+            form: ["","","","",""]
         });
         saveClanData();
         renderClanTable();
