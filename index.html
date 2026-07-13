@@ -9,29 +9,25 @@
         body{font-family:'Segoe UI',Arial,sans-serif;background:#0d0f17;color:#e0e4f0;padding:20px;min-height:100vh}
         .container{max-width:1100px;margin:0 auto}
         .clan-section{background:#141824;padding:20px;border-radius:16px;border:1px solid #2a2f40;box-shadow:0 8px 32px rgba(0,0,0,.6)}
-        .clan-section h1{color:#f0b429;font-size:28px;margin:10px 0;text-shadow:0 0 20px rgba(240,180,41,.1)}
+        .clan-section h1{color:#f0b429;font-size:28px;margin:10px 0}
         .clan-section .subtitle{color:#6a728a;margin-bottom:20px;font-size:14px}
-        
         .clan-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 20px;border-bottom:2px solid #1f2330;padding-bottom:10px}
         .clan-tabs a{color:#6a728a;text-decoration:none;padding:10px 24px;border-radius:8px 8px 0 0;font-size:14px;font-weight:600;transition:.3s;background:0 0;border:1px solid transparent;border-bottom:none;cursor:pointer}
         .clan-tabs a:hover{color:#e0e4f0;background:#1a1e2c;border-color:#2a2f40}
         .clan-tabs a.active{color:#f0b429;background:#1a1e2c;border-color:#f0b429;border-bottom:2px solid #0d0f17;margin-bottom:-2px}
-        
         .clan-tab-content{display:none;animation:fade .3s ease}
         .clan-tab-content.active{display:block}
         @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-        
         .clan-filters{background:#0d0f17;padding:16px 20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;border-bottom:1px solid #1f2330;border-radius:12px 12px 0 0}
         .clan-filters input{background:#1a1e2c;border:1px solid #2a2f40;color:#e0e4f0;padding:10px 16px;border-radius:8px;font-size:14px;outline:0;flex:1;min-width:200px;transition:.3s}
-        .clan-filters input:focus{border-color:#f0b429;box-shadow:0 0 20px rgba(240,180,41,.05)}
+        .clan-filters input:focus{border-color:#f0b429}
         .clan-filters input::placeholder{color:#3a4057}
         .clan-filters .btn{background:#f0b429;color:#0d0f17;border:0;padding:10px 24px;border-radius:8px;font-weight:700;cursor:pointer;transition:.3s}
-        .clan-filters .btn:hover{background:#d49c1a;transform:scale(1.02)}
+        .clan-filters .btn:hover{background:#d49c1a}
         .clan-filters .btn-reset{background:#1f2330;color:#6a728a}
         .clan-filters .btn-reset:hover{background:#2a2f40;color:#e0e4f0}
         .clan-filter-count{color:#6a728a;font-size:13px;margin-left:auto;white-space:nowrap}
         .clan-filter-count b{color:#f0b429}
-        
         .clan-table-wrap{background:#0d0f17;border-radius:0 0 12px 12px;padding:20px;margin:0 0 20px;overflow-x:auto}
         table{width:100%;border-collapse:collapse;font-size:14px;min-width:700px}
         th{background:#1a1e2c;padding:14px 12px;text-align:center;font-weight:700;color:#6a728a;text-transform:uppercase;font-size:11px;letter-spacing:.5px;border-bottom:2px solid #2a2f40}
@@ -41,34 +37,29 @@
         tr{border-bottom:1px solid #1a1e2c;transition:.2s}
         tr:hover{background:#1a1e2c}
         td{padding:14px 10px;text-align:center;vertical-align:middle}
-        
         .clan-pos{font-weight:700;font-size:16px;display:inline-block;background:#1a1e2c;padding:2px 12px;border-radius:6px;min-width:32px}
         .clan-pos-1{color:#ffd700;background:#2a1f00;border:1px solid #ffd700}
         .clan-pos-2{color:#c0c0c0;background:#1f1f1f;border:1px solid #c0c0c0}
         .clan-pos-3{color:#cd7f32;background:#1f1000;border:1px solid #cd7f32}
         .clan-pos-other{color:#6a728a;background:#0d0f17}
-        
         .clan-cell{display:flex;align-items:center;gap:14px}
         .clan-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0;border:2px solid #2a2f40;color:#f0b429;background:#1a1e2c}
         .clan-info{display:flex;flex-direction:column;align-items:flex-start}
         .clan-name{font-weight:700;color:#fff;font-size:15px}
         .clan-members{font-size:11px;color:#4a526b;margin-top:2px}
         .clan-points{font-weight:800;font-size:24px;color:#f0b429}
-        
         .clan-form{display:flex;gap:4px;justify-content:center}
         .clan-form-badge{width:28px;height:28px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
         .clan-form-win{background:#1a7a3a}
         .clan-form-loss{background:#7a1a1a}
         .clan-form-draw{background:#7a5a0a}
         .clan-form-empty{background:#1a1a1a;color:#2a2a2a}
-        
         .clan-stats{display:flex;gap:20px;flex-wrap:wrap;margin:20px 0;justify-content:center}
         .clan-stats .stat-item{background:#0d0f17;padding:15px 35px;border-radius:12px;text-align:center;min-width:130px;border:1px solid #1f2330}
         .clan-stats .stat-item .value{font-size:28px;font-weight:700;color:#f0b429}
         .clan-stats .stat-item .value.green{color:#27ae60}
         .clan-stats .stat-item .value.red{color:#e74c3c}
         .clan-stats .stat-item .label{color:#4a526b;font-size:13px;margin-top:4px}
-        
         .clan-login-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:99999;justify-content:center;align-items:center}
         .clan-login-overlay.active{display:flex}
         .clan-login-box{background:#141824;border:2px solid #f0b429;border-radius:16px;padding:40px;max-width:400px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.8)}
@@ -80,7 +71,6 @@
         .clan-login-box .error-msg{color:#e74c3c;font-size:13px;text-align:center;margin-top:10px;display:none}
         .clan-login-box .error-msg.show{display:block}
         .clan-login-box .hint{color:#4a526b;font-size:12px;text-align:center;margin-top:12px}
-        
         .clan-admin-panel{display:none;background:#0d0f17;border:2px solid #f0b429;border-radius:12px;padding:25px;margin:20px 0}
         .clan-admin-panel.visible{display:block}
         .clan-admin-panel h2{color:#f0b429;font-size:20px;margin-bottom:20px;text-align:center}
@@ -109,7 +99,6 @@
         .clan-admin-actions .btn-logout{background:#e74c3c;color:#fff}
         .clan-admin-actions .btn-logout:hover{background:#c0392b}
         .clan-admin-hint{color:#4a526b;font-size:12px;text-align:center;margin-top:15px}
-        
         .clan-commands-block{background:#0d0f17;border-radius:12px;padding:25px 30px;border:1px solid #1f2330;margin:10px 0 20px}
         .clan-commands-block .clan-cmd-toggle{display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none}
         .clan-commands-block .clan-cmd-toggle h2{color:#f0b429;font-size:20px}
@@ -124,7 +113,6 @@
         .clan-commands-block .clan-cmd-item code{display:inline-block;background:#0d0f17;padding:2px 12px;border-radius:4px;font-family:'Courier New',monospace;color:#f0b429;font-size:13px;border:1px solid #2a2f40;margin:2px 0}
         .clan-commands-block .clan-cmd-item .clan-cmd-desc{display:block;color:#6a728a;font-size:13px;margin-top:2px;padding-left:8px}
         .clan-commands-block .clan-cmd-item .clan-cmd-note{display:block;color:#b8860b;font-size:12px;margin-top:2px;padding-left:8px;font-style:italic}
-        
         .clan-rules-block{background:#0d0f17;border-radius:12px;padding:25px 30px;border:1px solid #1f2330;margin:10px 0 20px}
         .clan-rules-block .clan-rules-toggle{display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none}
         .clan-rules-block .clan-rules-toggle h2{color:#f0b429;font-size:20px}
@@ -139,46 +127,11 @@
         .clan-rules-block .clan-rule-item strong{color:#f0b429}
         .clan-rules-block .clan-rule-item .clan-highlight{color:#e74c3c}
         .clan-rules-block .clan-rule-sub{padding-left:40px;color:#6a728a;font-size:13px}
-        
         .clan-toast{position:fixed;bottom:30px;right:30px;background:#27ae60;color:#fff;padding:15px 30px;border-radius:10px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.8);opacity:0;transform:translateY(20px);transition:.4s;z-index:9999}
         .clan-toast.error{background:#e74c3c}
         .clan-toast.show{opacity:1;transform:translateY(0)}
-        
-        @media(max-width:768px){
-            body{padding:10px}
-            .clan-section{padding:15px}
-            table{font-size:12px;min-width:500px}
-            td,th{padding:8px 6px}
-            .clan-icon{width:34px;height:34px;font-size:14px}
-            .clan-points{font-size:20px}
-            .clan-name{font-size:13px}
-            .clan-filters{flex-direction:column;padding:12px 15px}
-            .clan-filters input,.clan-filters .btn{width:100%}
-            .clan-filter-count{margin-left:0;text-align:center;width:100%}
-            .clan-stats .stat-item{padding:12px 18px;min-width:90px}
-            .clan-stats .stat-item .value{font-size:20px}
-            .clan-form-badge{width:22px;height:22px;font-size:10px}
-            .clan-tabs a{font-size:13px;padding:8px 14px}
-            .clan-admin-row{flex-direction:column;align-items:stretch}
-            .clan-admin-row .clan-num-input{width:100%}
-            .clan-admin-row .btn-sm{width:100%;padding:8px}
-            .clan-commands-block,.clan-rules-block{padding:15px 18px}
-            .clan-commands-block .clan-cmd-item{font-size:13px;padding-left:12px}
-            .clan-rules-block .clan-rule-item{font-size:13px;padding-left:12px}
-            .clan-rules-block .clan-rule-sub{padding-left:20px;font-size:12px}
-            .clan-login-box{padding:25px}
-        }
-        @media(max-width:480px){
-            .clan-tabs a{font-size:11px;padding:6px 10px}
-            td,th{padding:6px 4px;font-size:11px}
-            th{font-size:9px}
-            .clan-pos{font-size:12px;padding:1px 6px}
-            .clan-cell{gap:8px}
-            .clan-icon{width:28px;height:28px;font-size:12px}
-            .clan-name{font-size:12px}
-            .clan-members{font-size:10px}
-            .clan-form-badge{width:20px;height:20px;font-size:9px}
-        }
+        @media(max-width:768px){body{padding:10px}.clan-section{padding:15px}table{font-size:12px;min-width:500px}td,th{padding:8px 6px}.clan-icon{width:34px;height:34px;font-size:14px}.clan-points{font-size:20px}.clan-name{font-size:13px}.clan-filters{flex-direction:column;padding:12px 15px}.clan-filters input,.clan-filters .btn{width:100%}.clan-filter-count{margin-left:0;text-align:center;width:100%}.clan-stats .stat-item{padding:12px 18px;min-width:90px}.clan-stats .stat-item .value{font-size:20px}.clan-form-badge{width:22px;height:22px;font-size:10px}.clan-tabs a{font-size:13px;padding:8px 14px}.clan-admin-row{flex-direction:column;align-items:stretch}.clan-admin-row .clan-num-input{width:100%}.clan-admin-row .btn-sm{width:100%;padding:8px}.clan-commands-block,.clan-rules-block{padding:15px 18px}.clan-commands-block .clan-cmd-item{font-size:13px;padding-left:12px}.clan-rules-block .clan-rule-item{font-size:13px;padding-left:12px}.clan-rules-block .clan-rule-sub{padding-left:20px;font-size:12px}.clan-login-box{padding:25px}}
+        @media(max-width:480px){.clan-tabs a{font-size:11px;padding:6px 10px}td,th{padding:6px 4px;font-size:11px}th{font-size:9px}.clan-pos{font-size:12px;padding:1px 6px}.clan-cell{gap:8px}.clan-icon{width:28px;height:28px;font-size:12px}.clan-name{font-size:12px}.clan-members{font-size:10px}.clan-form-badge{width:20px;height:20px;font-size:9px}}
     </style>
 </head>
 <body>
