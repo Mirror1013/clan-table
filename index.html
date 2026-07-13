@@ -172,7 +172,6 @@
 <div class="c">
 <div class="s">
 
-<!-- ===== ВКЛАДКИ ===== -->
 <div class="tabs">
     <a href="#" class="active" onclick="sw('table',this)">📊 Таблица</a>
     <a href="#" onclick="sw('commands',this)">⌨️ Команды</a>
@@ -276,68 +275,79 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ===== ДАННЫЕ =====
+// ===== ДАННЫЕ КЛАНОВ (ИСПРАВЛЕННЫЕ) =====
 var clanData = [
-    {id:1,n:"GOODMORNINGTOKYO + Teiko",m:19,f:5,w:4,l:1,form:["win","win","win","win","loss"]},
-    {id:2,n:"Great Than Rivals",m:21,f:4,w:4,l:0,form:["win","win","win","win",""]},
-    {id:3,n:"aeterna",m:14,f:3,w:3,l:0,form:["win","win","win","",""]},
-    {id:4,n:"Spirit Bloom",m:22,f:3,w:3,l:0,form:["win","win","win","",""]},
-    {id:5,n:"Invicta",m:44,f:3,w:3,l:0,form:["win","win","win","",""]},
-    {id:6,n:"GTR",m:12,f:0,w:0,l:0,form:["","","","",""]},
-    {id:7,n:"GMT",m:11,f:0,w:0,l:0,form:["","","","",""]},
-    {id:8,n:"Immortals",m:20,f:1,w:0,l:1,form:["loss","","","",""]},
-    {id:9,n:"Dream Team",m:54,f:1,w:0,l:1,form:["loss","","","",""]},
-    {id:10,n:"GHOST",m:22,f:1,w:0,l:1,form:["loss","","","",""]},
-    {id:11,n:"Eclipse",m:24,f:1,w:0,l:1,form:["loss","","","",""]},
-    {id:12,n:"Galactic Alliance",m:14,f:1,w:0,l:1,form:["loss","","","",""]},
-    {id:13,n:"Not Such Dinos",m:12,f:1,w:0,l:1,form:["loss","","","",""]},
-    {id:14,n:"Han",m:20,f:0,w:0,l:0,form:["","","","",""]},
-    {id:15,n:"Hounds",m:26,f:0,w:0,l:0,form:["","","","",""]},
-    {id:16,n:"Adekvate Team",m:37,f:0,w:0,l:0,form:["","","","",""]},
-    {id:17,n:"EX.O",m:7,f:0,w:0,l:0,form:["","","","",""]},
-    {id:18,n:"IronLegacy",m:6,f:0,w:0,l:0,form:["","","","",""]},
-    {id:19,n:"NSD",m:7,f:0,w:0,l:0,form:["","","","",""]},
-    {id:20,n:"Void",m:2,f:0,w:0,l:0,form:["","","","",""]},
-    {id:21,n:"Deviance",m:26,f:0,w:0,l:0,form:["","","","",""]},
-    {id:22,n:"Rising Legends",m:9,f:0,w:0,l:0,form:["","","","",""]},
-    {id:23,n:"Shared Horizon",m:30,f:0,w:0,l:0,form:["","","","",""]},
-    {id:24,n:"High Killers",m:3,f:0,w:0,l:0,form:["","","","",""]},
-    {id:25,n:"Indomitable",m:6,f:0,w:0,l:0,form:["","","","",""]}
+    // GOODMORNINGTOKYO + Teiko (5 боёв, 4 победы, 1 поражение)
+    {id: 1, n: "GOODMORNINGTOKYO + Teiko", m: 19, f: 5, w: 4, l: 1, form: ["win","win","win","win","loss"]},
+    
+    // Great Than Rivals (4 победы)
+    {id: 2, n: "Great Than Rivals", m: 21, f: 4, w: 4, l: 0, form: ["win","win","win","win",""]},
+    
+    // aeterna (3 победы)
+    {id: 3, n: "aeterna", m: 14, f: 3, w: 3, l: 0, form: ["win","win","win","",""]},
+    
+    // Spirit Bloom (3 победы)
+    {id: 4, n: "Spirit Bloom", m: 22, f: 3, w: 3, l: 0, form: ["win","win","win","",""]},
+    
+    // Invicta (3 победы)
+    {id: 5, n: "Invicta", m: 44, f: 3, w: 3, l: 0, form: ["win","win","win","",""]},
+    
+    // ===== ВСЕ КЛАНЫ С 0 БОЁВ — ПУСТАЯ ФОРМА =====
+    {id: 6, n: "GTR", m: 12, f: 0, w: 0, l: 0, form: ["","","","",""]},
+    {id: 7, n: "GMT", m: 11, f: 0, w: 0, l: 0, form: ["","","","",""]},
+    {id: 8, n: "Immortals", m: 20, f: 1, w: 0, l: 1, form: ["loss","","","",""]},
+    {id: 9, n: "Dream Team", m: 54, f: 1, w: 0, l: 1, form: ["loss","","","",""]},
+    {id: 10, n: "GHOST", m: 22, f: 1, w: 0, l: 1, form: ["loss","","","",""]},
+    {id: 11, n: "Eclipse", m: 24, f: 1, w: 0, l: 1, form: ["loss","","","",""]},
+    {id: 12, n: "Galactic Alliance", m: 14, f: 1, w: 0, l: 1, form: ["loss","","","",""]},
+    {id: 13, n: "Not Such Dinos", m: 12, f: 1, w: 0, l: 1, form: ["loss","","","",""]},
+    {id: 14, n: "Han", m: 20, f: 0, w: 0, l: 0, form: ["","","","",""]},
+    {id: 15, n: "Hounds", m: 26, f: 0, w: 0, l: 0, form: ["","","","",""]},
+    {id: 16, n: "Adekvate Team", m: 37, f: 0, w: 0, l: 0, form: ["","","","",""]},
+    {id: 17, n: "EX.O", m: 7, f: 0, w: 0, l: 0, form: ["","","","",""]},
+    {id: 18, n: "IronLegacy", m: 6, f: 0, w: 0, l: 0, form: ["","","","",""]},
+    {id: 19, n: "NSD", m: 7, f: 0, w: 0, l: 0, form: ["","","","",""]},
+    {id: 20, n: "Void", m: 2, f: 0, w: 0, l: 0, form: ["","","","",""]},
+    {id: 21, n: "Deviance", m: 26, f: 0, w: 0, l: 0, form: ["","","","",""]},
+    {id: 22, n: "Rising Legends", m: 9, f: 0, w: 0, l: 0, form: ["","","","",""]},
+    {id: 23, n: "Shared Horizon", m: 30, f: 0, w: 0, l: 0, form: ["","","","",""]},
+    {id: 24, n: "High Killers", m: 3, f: 0, w: 0, l: 0, form: ["","","","",""]},
+    {id: 25, n: "Indomitable", m: 6, f: 0, w: 0, l: 0, form: ["","","","",""]}
 ];
 
-var loggedIn=false;
+var loggedIn = false;
 
 // ===== ЗАГРУЗКА/СОХРАНЕНИЕ =====
-function load(){var d=localStorage.getItem('clanData');if(d){try{var p=JSON.parse(d);if(p&&p.length)clanData=p}catch(e){}}}
-function save(){localStorage.setItem('clanData',JSON.stringify(clanData));}
+function loadData(){var d=localStorage.getItem('clanData');if(d){try{var p=JSON.parse(d);if(p&&p.length)clanData=p}catch(e){}}}
+function saveData(){localStorage.setItem('clanData',JSON.stringify(clanData));}
 
 // ===== ОЧКИ =====
-function pts(c){return c.w*3}
+function getPts(c){return c.w*3}
 
 // ===== ФОРМА =====
 function getForm(c){var f=c.form||[];while(f.length<5)f.push('');return f}
 function renderForm(f){return f.slice(0,5).map(function(r){if(r==='win')return'<span class="fb fw">В</span>';if(r==='loss')return'<span class="fb fl">П</span>';if(r==='draw')return'<span class="fb fd">Н</span>';return'<span class="fb fe">—</span>'}).join('')}
 
-// ===== ОТРИСОВКА ТАБЛИЦЫ =====
-function r(){
+// ===== ОТРИСОВКА =====
+function renderTable(){
     var q=document.getElementById('s').value.toLowerCase();
     var d=clanData.filter(function(c){return c.n.toLowerCase().indexOf(q)!==-1});
-    d.sort(function(a,b){var pa=pts(a),pb=pts(b);return pa!==pb?pb-pa:(b.w-b.l)-(a.w-a.l)});
+    d.sort(function(a,b){var pa=getPts(a),pb=getPts(b);return pa!==pb?pb-pa:(b.w-b.l)-(a.w-a.l)});
     var tb=document.getElementById('tb');
     tb.innerHTML='';
-    if(!d.length){tb.innerHTML='<tr><td colspan=8 style="text-align:center;padding:40px;color:#4a526b;">🏛️ Кланов не найдено</td></tr>';upd([]);return}
+    if(!d.length){tb.innerHTML='<tr><td colspan=8 style="text-align:center;padding:40px;color:#4a526b;">🏛️ Кланов не найдено</td></tr>';updateStats([]);return}
     d.forEach(function(c,i){
         var p=i+1,pc=p<4?'p'+p:'po';
         var tr=document.createElement('tr');
-        tr.innerHTML='<td><span class="p '+pc+'">'+p+'</span></td><td><div class="cl"><div class="ic">'+c.n[0]+'</div><div class="inf"><span class="nm">'+c.n+'</span><span class="mb">👥 '+c.m+'</span></div></div></td><td>'+c.m+'</td><td>'+c.f+'</td><td style="color:#27ae60;font-weight:600;">'+c.w+'</td><td style="color:#e74c3c;font-weight:600;">'+c.l+'</td><td class="pts">'+pts(c)+'</td><td><div class="fm">'+renderForm(getForm(c))+'</div></td>';
+        tr.innerHTML='<td><span class="p '+pc+'">'+p+'</span></td><td><div class="cl"><div class="ic">'+c.n[0]+'</div><div class="inf"><span class="nm">'+c.n+'</span><span class="mb">👥 '+c.m+'</span></div></div></td><td>'+c.m+'</td><td>'+c.f+'</td><td style="color:#27ae60;font-weight:600;">'+c.w+'</td><td style="color:#e74c3c;font-weight:600;">'+c.l+'</td><td class="pts">'+getPts(c)+'</td><td><div class="fm">'+renderForm(getForm(c))+'</div></td>';
         tb.appendChild(tr)
     });
-    upd(d)
+    updateStats(d)
 }
-function upd(d){var t=0,w=0,l=0,f=0;d.forEach(function(c){w+=c.w;l+=c.l;f+=c.f});t=d.length;document.getElementById('s1').textContent=t;document.getElementById('s2').textContent=w;document.getElementById('s3').textContent=l;document.getElementById('s4').textContent=f;document.getElementById('c').innerHTML='Кланов: <b>'+t+'</b>'}
+function updateStats(d){var t=0,w=0,l=0,f=0;d.forEach(function(c){w+=c.w;l+=c.l;f+=c.f});t=d.length;document.getElementById('s1').textContent=t;document.getElementById('s2').textContent=w;document.getElementById('s3').textContent=l;document.getElementById('s4').textContent=f;document.getElementById('c').innerHTML='Кланов: <b>'+t+'</b>'}
 
 // ===== ВКЛАДКИ =====
-function sw(tab,el){
+function switchTab(tab,el){
     if(tab==='admin'&&!loggedIn){showLogin();return}
     document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
     var target=document.getElementById('tab-'+tab);
@@ -356,17 +366,17 @@ function doLogin(){
         document.getElementById('login').classList.remove('active');
         document.getElementById('loginErr').classList.remove('show');
         toast('✅ Добро пожаловать в админ-панель!');
-        sw('admin');renderAdmin();
+        switchTab('admin');renderAdmin();
         document.querySelectorAll('.tabs a').forEach(function(a){a.classList.remove('active');if(a.textContent.includes('Админ'))a.classList.add('active')})
     }else{
         document.getElementById('loginErr').classList.add('show');
         document.getElementById('loginPass').value='';document.getElementById('loginPass').focus()
     }
 }
-function logout(){if(confirm('Выйти из админ-панели?')){loggedIn=false;localStorage.removeItem('clanAdminSession');toast('🔒 Вы вышли из админ-панели');sw('table')}}
+function logout(){if(confirm('Выйти из админ-панели?')){loggedIn=false;localStorage.removeItem('clanAdminSession');toast('🔒 Вы вышли из админ-панели');switchTab('table')}}
 
 // ===== РАСКРЫТИЕ =====
-function tog(c,a){document.getElementById(c).classList.toggle('op');document.getElementById(a).classList.toggle('op')}
+function toggleBlock(c,a){document.getElementById(c).classList.toggle('op');document.getElementById(a).classList.toggle('op')}
 
 // ===== АДМИН =====
 function renderAdmin(){
@@ -380,7 +390,7 @@ function renderAdmin(){
             '<input type="number" class="nu" value="'+c.l+'" data-id="'+c.id+'" placeholder="💀">'+
             '<button class="bs sv" onclick="saveAdmin(this)">💾</button>'+
             '<button class="bs adp" onclick="addPoints(this)">⭐ +Очки</button>'+
-            '<button class="bs del" onclick="delAdmin(this)">🗑️</button>';
+            '<button class="bs del" onclick="deleteAdmin(this)">🗑️</button>';
         al.appendChild(row)
     });
     var add=document.createElement('div');add.className='ar';
@@ -397,21 +407,21 @@ function saveAdmin(btn){
     var id=parseInt(ins[0].getAttribute('data-id')),name=ins[0].value.trim(),m=parseInt(ins[1].value)||0,f=parseInt(ins[2].value)||0,w=parseInt(ins[3].value)||0,l=parseInt(ins[4].value)||0;
     if(!name){toast('❌ Название не может быть пустым!',true);return}
     clanData.forEach(function(c){if(c.id===id){c.n=name;c.m=m;c.f=f;c.w=w;c.l=l}});
-    save();r();renderAdmin();toast('✅ Клан "'+name+'" сохранён!')
+    saveData();renderTable();renderAdmin();toast('✅ Клан "'+name+'" сохранён!')
 }
-function delAdmin(btn){
+function deleteAdmin(btn){
     var row=btn.parentElement,ins=row.querySelectorAll('input');
     var id=parseInt(ins[0].getAttribute('data-id')),name=ins[0].value.trim();
     if(!confirm('Удалить клан "'+name+'"?'))return;
     clanData=clanData.filter(function(c){return c.id!==id});
-    save();r();renderAdmin();toast('🗑️ Клан "'+name+'" удалён!')
+    saveData();renderTable();renderAdmin();toast('🗑️ Клан "'+name+'" удалён!')
 }
 function addAdmin(){
     var name=document.getElementById('newName').value.trim(),m=parseInt(document.getElementById('newMembers').value)||1,f=parseInt(document.getElementById('newFights').value)||0,w=parseInt(document.getElementById('newWins').value)||0,l=parseInt(document.getElementById('newLosses').value)||0;
     if(!name){toast('❌ Введите название!',true);return}
     var maxId=0;clanData.forEach(function(c){if(c.id>maxId)maxId=c.id});
     clanData.push({id:maxId+1,n:name,m:m,f:f,w:w,l:l,form:["","","","",""]});
-    save();r();renderAdmin();toast('✅ Клан "'+name+'" добавлен!')
+    saveData();renderTable();renderAdmin();toast('✅ Клан "'+name+'" добавлен!')
 }
 function addPoints(btn){
     var row=btn.parentElement,ins=row.querySelectorAll('input');
@@ -421,9 +431,9 @@ function addPoints(btn){
     add=parseInt(add);
     if(isNaN(add)||add<0){toast('❌ Введите корректное число!',true);return}
     clanData.forEach(function(c){if(c.id===id){c.w+=add;c.f+=add;for(var j=0;j<add;j++)c.form.push('win');if(c.form.length>5)c.form=c.form.slice(-5)}});
-    save();r();renderAdmin();toast('✅ Клану "'+name+'" добавлено '+add+' побед (+'+(add*3)+' очков)!')
+    saveData();renderTable();renderAdmin();toast('✅ Клану "'+name+'" добавлено '+add+' побед (+'+(add*3)+' очков)!')
 }
-function saveAll(){save();toast('💾 Все данные сохранены!')}
+function saveAll(){saveData();toast('💾 Все данные сохранены!')}
 
 // ===== ТОСТ =====
 function toast(msg,err){var t=document.getElementById('toast');t.textContent=msg;t.className='toast';if(err)t.classList.add('err');t.classList.add('sh');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('sh')},3000)}
@@ -433,9 +443,9 @@ document.getElementById('loginUser').addEventListener('keydown',function(e){if(e
 document.getElementById('loginPass').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin()});
 
 // ===== ЗАПУСК =====
-load();r();
+loadData();renderTable();
 var sess=localStorage.getItem('clanAdminSession');if(sess==='true'){loggedIn=true}
-var st;document.getElementById('s').addEventListener('input',function(){clearTimeout(st);st=setTimeout(r,300)});
+var searchTimeout;document.getElementById('s').addEventListener('input',function(){clearTimeout(searchTimeout);searchTimeout=setTimeout(renderTable,300)});
 </script>
 </body>
 </html>
