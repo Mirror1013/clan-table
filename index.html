@@ -222,12 +222,12 @@
         <h2>🔧 Админ-панель управления кланами</h2>
         <div id="adminList"></div>
         <div class="clan-admin-actions">
-            <button class="btn btn-save-all" onclick="saveData(); showToast('💾 Все данные сохранены!');">💾 Сохранить всё</button>
-            <button class="btn btn-reset-all" onclick="if(confirm('Сбросить все изменения?')){localStorage.removeItem('clanData');location.reload();}">🔄 Сбросить</button>
+            <button class="btn btn-save-all" onclick="showToast('💾 Данные уже сохранены в коде!')">💾 Сохранить всё</button>
+            <button class="btn btn-reset-all" onclick="location.reload();">🔄 Сбросить</button>
             <button class="btn btn-close-admin" onclick="switchTab('table')">❌ Закрыть</button>
             <button class="btn btn-logout" onclick="logout()">🚪 Выйти</button>
         </div>
-        <div class="clan-admin-hint">💡 Изменения сохраняются автоматически</div>
+        <div class="clan-admin-hint">⚠️ Данные хранятся в коде. Изменения не сохраняются после перезагрузки.</div>
     </div>
 </div>
 
@@ -249,7 +249,7 @@
 
 <script>
 // ================================================================
-//  ДАННЫЕ КЛАНОВ (ЖЁСТКО ЗАФИКСИРОВАННЫЕ)
+//  ДАННЫЕ КЛАНОВ (ЖЁСТКО В КОДЕ, БЕЗ localStorage)
 // ================================================================
 var clanData = [
     {id:1, name:"GOODMORNINGTOKYO + Teiko", members:19, fights:5, wins:4, losses:1, form:["win","win","win","win","loss"]},
@@ -283,25 +283,6 @@ var clanData = [
 //  ПЕРЕМЕННЫЕ
 // ================================================================
 var loggedIn = false;
-
-// ================================================================
-//  ЗАГРУЗКА / СОХРАНЕНИЕ
-// ================================================================
-function loadData() {
-    var saved = localStorage.getItem('clanData');
-    if (saved) {
-        try {
-            var parsed = JSON.parse(saved);
-            if (parsed && parsed.length > 0) {
-                clanData = parsed;
-            }
-        } catch(e) {}
-    }
-}
-
-function saveData() {
-    localStorage.setItem('clanData', JSON.stringify(clanData));
-}
 
 // ================================================================
 //  ФУНКЦИИ ТАБЛИЦЫ
@@ -447,7 +428,6 @@ function doLogin() {
     
     if (user === 'admin' && pass === '12345') {
         loggedIn = true;
-        localStorage.setItem('clanAdminSession', 'true');
         document.getElementById('loginOverlay').classList.remove('active');
         document.getElementById('loginError').classList.remove('show');
         showToast('✅ Добро пожаловать в админ-панель!');
@@ -470,7 +450,6 @@ function doLogin() {
 function logout() {
     if (confirm('Выйти из админ-панели?')) {
         loggedIn = false;
-        localStorage.removeItem('clanAdminSession');
         showToast('🔒 Вы вышли из админ-панели');
         switchTab('table');
     }
@@ -490,7 +469,7 @@ function toggleRules() {
 }
 
 // ================================================================
-//  АДМИН-ПАНЕЛЬ
+//  АДМИН-ПАНЕЛЬ (ТОЛЬКО ДЛЯ ПОКАЗА)
 // ================================================================
 function renderAdmin() {
     var container = document.getElementById('adminList');
@@ -501,149 +480,14 @@ function renderAdmin() {
         var row = document.createElement('div');
         row.className = 'clan-admin-row';
         row.innerHTML = 
-            '<input type="text" class="clan-name-input" value="' + c.name + '" data-id="' + c.id + '" placeholder="Название">' +
-            '<input type="number" class="clan-num-input" value="' + c.members + '" data-id="' + c.id + '" placeholder="👥">' +
-            '<input type="number" class="clan-num-input" value="' + c.fights + '" data-id="' + c.id + '" placeholder="⚔️">' +
-            '<input type="number" class="clan-num-input" value="' + c.wins + '" data-id="' + c.id + '" placeholder="🏆">' +
-            '<input type="number" class="clan-num-input" value="' + c.losses + '" data-id="' + c.id + '" placeholder="💀">' +
-            '<button class="btn-sm save" onclick="saveAdmin(this)">💾</button>' +
-            '<button class="btn-sm add-points" onclick="addPoints(this)">⭐ +Очки</button>' +
-            '<button class="btn-sm delete" onclick="deleteAdmin(this)">🗑️</button>';
+            '<span style="min-width:180px;font-weight:700;color:#fff;">' + c.name + '</span>' +
+            '<span style="color:#6a728a;">👥 ' + c.members + '</span>' +
+            '<span style="color:#6a728a;">⚔️ ' + c.fights + '</span>' +
+            '<span style="color:#27ae60;">🏆 ' + c.wins + '</span>' +
+            '<span style="color:#e74c3c;">💀 ' + c.losses + '</span>' +
+            '<span style="color:#f0b429;font-weight:800;">' + getPoints(c) + ' очков</span>';
         container.appendChild(row);
     }
-    
-    var addRow = document.createElement('div');
-    addRow.className = 'clan-admin-row';
-    addRow.innerHTML = 
-        '<input type="text" class="clan-name-input" id="newName" placeholder="Название нового клана">' +
-        '<input type="number" class="clan-num-input" id="newMembers" value="1" placeholder="👥">' +
-        '<input type="number" class="clan-num-input" id="newFights" value="0" placeholder="⚔️">' +
-        '<input type="number" class="clan-num-input" id="newWins" value="0" placeholder="🏆">' +
-        '<input type="number" class="clan-num-input" id="newLosses" value="0" placeholder="💀">' +
-        '<button class="btn-sm add" onclick="addAdmin()">➕ Добавить</button>';
-    container.appendChild(addRow);
-}
-
-function saveAdmin(btn) {
-    var row = btn.parentElement;
-    var inputs = row.querySelectorAll('input');
-    var id = parseInt(inputs[0].getAttribute('data-id'));
-    var name = inputs[0].value.trim();
-    var members = parseInt(inputs[1].value) || 0;
-    var fights = parseInt(inputs[2].value) || 0;
-    var wins = parseInt(inputs[3].value) || 0;
-    var losses = parseInt(inputs[4].value) || 0;
-    
-    if (!name) {
-        showToast('❌ Название не может быть пустым!', true);
-        return;
-    }
-    
-    for (var i = 0; i < clanData.length; i++) {
-        if (clanData[i].id === id) {
-            clanData[i].name = name;
-            clanData[i].members = members;
-            clanData[i].fights = fights;
-            clanData[i].wins = wins;
-            clanData[i].losses = losses;
-            break;
-        }
-    }
-    
-    saveData();
-    renderTable();
-    renderAdmin();
-    showToast('✅ Клан "' + name + '" сохранён!');
-}
-
-function deleteAdmin(btn) {
-    var row = btn.parentElement;
-    var inputs = row.querySelectorAll('input');
-    var id = parseInt(inputs[0].getAttribute('data-id'));
-    var name = inputs[0].value.trim();
-    
-    if (!confirm('Удалить клан "' + name + '"?')) return;
-    
-    var newData = [];
-    for (var i = 0; i < clanData.length; i++) {
-        if (clanData[i].id !== id) {
-            newData.push(clanData[i]);
-        }
-    }
-    clanData = newData;
-    
-    saveData();
-    renderTable();
-    renderAdmin();
-    showToast('🗑️ Клан "' + name + '" удалён!');
-}
-
-function addAdmin() {
-    var name = document.getElementById('newName').value.trim();
-    var members = parseInt(document.getElementById('newMembers').value) || 1;
-    var fights = parseInt(document.getElementById('newFights').value) || 0;
-    var wins = parseInt(document.getElementById('newWins').value) || 0;
-    var losses = parseInt(document.getElementById('newLosses').value) || 0;
-    
-    if (!name) {
-        showToast('❌ Введите название!', true);
-        return;
-    }
-    
-    var maxId = 0;
-    for (var i = 0; i < clanData.length; i++) {
-        if (clanData[i].id > maxId) maxId = clanData[i].id;
-    }
-    
-    clanData.push({
-        id: maxId + 1,
-        name: name,
-        members: members,
-        fights: fights,
-        wins: wins,
-        losses: losses,
-        form: ["","","","",""]
-    });
-    
-    saveData();
-    renderTable();
-    renderAdmin();
-    showToast('✅ Клан "' + name + '" добавлен!');
-}
-
-function addPoints(btn) {
-    var row = btn.parentElement;
-    var inputs = row.querySelectorAll('input');
-    var id = parseInt(inputs[0].getAttribute('data-id'));
-    var name = inputs[0].value.trim();
-    
-    var add = prompt('Сколько побед одержал клан "' + name + '"?\n(Каждая победа = +3 очка)', '1');
-    if (add === null) return;
-    
-    add = parseInt(add);
-    if (isNaN(add) || add < 0) {
-        showToast('❌ Введите корректное число!', true);
-        return;
-    }
-    
-    for (var i = 0; i < clanData.length; i++) {
-        if (clanData[i].id === id) {
-            clanData[i].wins += add;
-            clanData[i].fights += add;
-            for (var j = 0; j < add; j++) {
-                clanData[i].form.push('win');
-            }
-            if (clanData[i].form.length > 5) {
-                clanData[i].form = clanData[i].form.slice(-5);
-            }
-            break;
-        }
-    }
-    
-    saveData();
-    renderTable();
-    renderAdmin();
-    showToast('✅ Клану "' + name + '" добавлено ' + add + ' побед (+' + (add * 3) + ' очков)!');
 }
 
 // ================================================================
@@ -674,15 +518,7 @@ document.getElementById('loginPass').addEventListener('keydown', function(e) {
 // ================================================================
 //  ЗАПУСК
 // ================================================================
-// Сначала принудительно очищаем старые данные, чтобы новые точно загрузились
-localStorage.removeItem('clanData');
-loadData();
 renderTable();
-
-var session = localStorage.getItem('clanAdminSession');
-if (session === 'true') {
-    loggedIn = true;
-}
 
 var searchTimeout;
 document.getElementById('clanSearch').addEventListener('input', function() {
