@@ -47,7 +47,7 @@
             font-size: 14px;
         }
         
-        /* ===== ВКЛАДКИ (РАБОТАЮТ ЧЕРЕЗ :TARGET) ===== */
+        /* ===== ВКЛАДКИ ===== */
         .clan-tabs {
             display: flex;
             gap: 6px;
@@ -68,6 +68,7 @@
             background: transparent;
             border: 1px solid transparent;
             border-bottom: none;
+            cursor: pointer;
         }
         
         .clan-tabs a:hover {
@@ -84,22 +85,14 @@
             margin-bottom: -2px;
         }
         
-        /* ===== КОНТЕНТ ВКЛАДОК (ЧЕРЕЗ :TARGET) ===== */
+        /* ===== КОНТЕНТ ВКЛАДОК ===== */
         .clan-tab-content {
             display: none;
             animation: clanFade 0.3s ease;
         }
         
-        .clan-tab-content:target {
+        .clan-tab-content.active {
             display: block;
-        }
-        
-        #clanTabTable {
-            display: block;
-        }
-        
-        .clan-tab-content:target ~ #clanTabTable {
-            display: none;
         }
         
         @keyframes clanFade {
@@ -370,6 +363,94 @@
             color: #4a526b;
             font-size: 13px;
             margin-top: 4px;
+        }
+        
+        /* ===== АДМИН-ЛОГИН ===== */
+        .clan-login-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .clan-login-overlay.active {
+            display: flex;
+        }
+        
+        .clan-login-box {
+            background: #141824;
+            border: 2px solid #f0b429;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+        }
+        
+        .clan-login-box h2 {
+            color: #f0b429;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+        
+        .clan-login-box input {
+            width: 100%;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+            background: #0d0f17;
+            border: 1px solid #2a2f40;
+            border-radius: 8px;
+            color: #e0e4f0;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+        
+        .clan-login-box input:focus {
+            border-color: #f0b429;
+        }
+        
+        .clan-login-box .btn-login {
+            width: 100%;
+            padding: 12px;
+            background: #f0b429;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 16px;
+            color: #0d0f17;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .clan-login-box .btn-login:hover {
+            background: #d49c1a;
+        }
+        
+        .clan-login-box .error-msg {
+            color: #e74c3c;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .clan-login-box .error-msg.show {
+            display: block;
+        }
+        
+        .clan-login-box .hint {
+            color: #4a526b;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 12px;
         }
         
         /* ===== АДМИН-ПАНЕЛЬ ===== */
@@ -734,6 +815,8 @@
             .clan-commands-block .clan-cmd-item { font-size: 13px; padding-left: 12px; }
             .clan-rules-block .clan-rule-item { font-size: 13px; padding-left: 12px; }
             .clan-rules-block .clan-rule-sub { padding-left: 20px; font-size: 12px; }
+            
+            .clan-login-box { padding: 25px; }
         }
         
         @media (max-width: 480px) {
@@ -756,18 +839,18 @@
     
     <div class="clan-section">
 
-        <!-- ===== ВКЛАДКИ (РАБОТАЮТ ЧЕРЕЗ #) ===== -->
+        <!-- ===== ВКЛАДКИ ===== -->
         <div class="clan-tabs">
-            <a href="#clanTabTable" class="active">📊 Таблица</a>
-            <a href="#clanTabCommands">⌨️ Команды</a>
-            <a href="#clanTabRules">📜 Правила</a>
-            <a href="#clanTabAdmin">🔧 Админ</a>
+            <a href="#" class="active" onclick="switchClanTab('table', this)">📊 Таблица</a>
+            <a href="#" onclick="switchClanTab('commands', this)">⌨️ Команды</a>
+            <a href="#" onclick="switchClanTab('rules', this)">📜 Правила</a>
+            <a href="#" onclick="switchClanTab('admin', this)">🔧 Админ</a>
         </div>
 
         <!-- ============================================================ -->
         <!--  ВКЛАДКА: ТАБЛИЦА -->
         <!-- ============================================================ -->
-        <div id="clanTabTable" class="clan-tab-content">
+        <div id="clanTabTable" class="clan-tab-content active">
             <h1>🏆 Рейтинг кланов</h1>
             <p class="subtitle">Турнирная таблица Age of Dino</p>
             
@@ -959,7 +1042,8 @@
                 <div class="clan-admin-actions">
                     <button class="btn btn-save-all" onclick="saveClanData(); showClanToast('💾 Все данные сохранены!');">💾 Сохранить всё</button>
                     <button class="btn btn-reset-all" onclick="if(confirm('Сбросить все изменения?')){localStorage.removeItem('clanData');location.reload();}">🔄 Сбросить</button>
-                    <button class="btn btn-close-admin" onclick="document.getElementById('clanAdminPanel').style.display='none';">❌ Закрыть</button>
+                    <button class="btn btn-close-admin" onclick="switchClanTab('table');">❌ Закрыть</button>
+                    <button class="btn btn-logout" onclick="clanLogout()" style="background:#e74c3c;color:#fff;">🚪 Выйти</button>
                 </div>
                 <div class="clan-admin-hint">💡 Изменения сохраняются в локальном хранилище браузера.</div>
             </div>
@@ -967,6 +1051,21 @@
 
     </div>
 </div>
+
+<!-- ===== АДМИН-ЛОГИН (поверх всего) ===== -->
+<div class="clan-login-overlay" id="clanLoginOverlay">
+    <div class="clan-login-box">
+        <h2>🔐 Вход в админ-панель</h2>
+        <input type="text" id="clanLoginUser" placeholder="Логин">
+        <input type="password" id="clanLoginPass" placeholder="Пароль">
+        <button class="btn-login" onclick="clanLogin()">Войти</button>
+        <div class="error-msg" id="clanLoginError">❌ Неверный логин или пароль</div>
+        <div class="hint">Логин: <b style="color:#f0b429;">admin</b> / Пароль: <b style="color:#f0b429;">12345</b></div>
+    </div>
+</div>
+
+<!-- ===== ТОСТ ===== -->
+<div class="clan-toast" id="clanToast"></div>
 
 <script>
     // ================================================================
@@ -999,7 +1098,12 @@
     ];
 
     // ================================================================
-    //  ФУНКЦИИ
+    //  ПЕРЕМЕННЫЕ
+    // ================================================================
+    var clanAdminLoggedIn = false;
+
+    // ================================================================
+    //  ФУНКЦИИ ТАБЛИЦЫ
     // ================================================================
 
     function getClanPoints(clan) {
@@ -1089,25 +1193,102 @@
     }
 
     // ================================================================
-    //  ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК (ПОДСВЕТКА)
+    //  ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК
     // ================================================================
 
-    function updateActiveTab() {
-        var hash = window.location.hash || '#clanTabTable';
+    function switchClanTab(tab, el) {
+        // Если пытаемся открыть админку — проверяем логин
+        if (tab === 'admin' || tab === 'Admin') {
+            if (!clanAdminLoggedIn) {
+                showClanLogin();
+                return;
+            }
+        }
+        
+        var tabs = document.querySelectorAll('.clan-tab-content');
+        for (var i = 0; i < tabs.length; i++) {
+            tabs[i].classList.remove('active');
+        }
+        var target = document.getElementById('clanTab' + tab.charAt(0).toUpperCase() + tab.slice(1));
+        if (target) target.classList.add('active');
+        
         var links = document.querySelectorAll('.clan-tabs a');
         for (var i = 0; i < links.length; i++) {
             links[i].classList.remove('active');
-            if (links[i].getAttribute('href') === hash) {
-                links[i].classList.add('active');
-            }
+        }
+        if (el) el.classList.add('active');
+        
+        // Если переключились на админку — рендерим
+        if (tab === 'admin' || tab === 'Admin') {
+            renderClanAdmin();
         }
     }
 
-    window.addEventListener('hashchange', updateActiveTab);
-    window.addEventListener('load', updateActiveTab);
+    // ================================================================
+    //  АДМИН-ЛОГИН
+    // ================================================================
+
+    function checkClanAdminSession() {
+        var session = localStorage.getItem('clanAdminSession');
+        if (session === 'true') {
+            clanAdminLoggedIn = true;
+            document.getElementById('clanLoginOverlay').classList.remove('active');
+            return true;
+        }
+        return false;
+    }
+
+    function showClanLogin() {
+        if (clanAdminLoggedIn) return;
+        document.getElementById('clanLoginOverlay').classList.add('active');
+        document.getElementById('clanLoginError').classList.remove('show');
+        document.getElementById('clanLoginUser').value = '';
+        document.getElementById('clanLoginPass').value = '';
+        setTimeout(function() {
+            document.getElementById('clanLoginUser').focus();
+        }, 100);
+    }
+
+    function clanLogin() {
+        var user = document.getElementById('clanLoginUser').value.trim();
+        var pass = document.getElementById('clanLoginPass').value.trim();
+        
+        // ⚡ МЕНЯЙ ЛОГИН И ПАРОЛЬ ТУТ ⚡
+        if (user === 'admin' && pass === '12345') {
+            clanAdminLoggedIn = true;
+            localStorage.setItem('clanAdminSession', 'true');
+            document.getElementById('clanLoginOverlay').classList.remove('active');
+            document.getElementById('clanLoginError').classList.remove('show');
+            showClanToast('✅ Добро пожаловать в админ-панель!');
+            // Открываем вкладку админки
+            switchClanTab('admin');
+            renderClanAdmin();
+            // Подсвечиваем вкладку
+            var links = document.querySelectorAll('.clan-tabs a');
+            for (var i = 0; i < links.length; i++) {
+                links[i].classList.remove('active');
+                if (links[i].textContent.trim().includes('Админ')) {
+                    links[i].classList.add('active');
+                }
+            }
+        } else {
+            document.getElementById('clanLoginError').classList.add('show');
+            document.getElementById('clanLoginPass').value = '';
+            document.getElementById('clanLoginPass').focus();
+        }
+    }
+
+    function clanLogout() {
+        if (confirm('Выйти из админ-панели?')) {
+            clanAdminLoggedIn = false;
+            localStorage.removeItem('clanAdminSession');
+            showClanToast('🔒 Вы вышли из админ-панели');
+            switchClanTab('table');
+        }
+    }
 
     // ================================================================
-    //  РАСКРЫТИЕ КОМАНД
+    //  РАСКРЫТИЕ КОМАНД / ПРАВИЛ
     // ================================================================
 
     function toggleClanCommands() {
@@ -1125,7 +1306,7 @@
     }
 
     // ================================================================
-    //  АДМИН-ПАНЕЛЬ
+    //  АДМИН-ПАНЕЛЬ (управление кланами)
     // ================================================================
 
     function renderClanAdmin() {
@@ -1250,12 +1431,6 @@
 
     function showClanToast(message, isError) {
         var toast = document.getElementById('clanToast');
-        if (!toast) {
-            toast = document.createElement('div');
-            toast.id = 'clanToast';
-            toast.className = 'clan-toast';
-            document.body.appendChild(toast);
-        }
         toast.textContent = message;
         toast.className = 'clan-toast';
         if (isError) toast.classList.add('error');
@@ -1267,12 +1442,23 @@
     }
 
     // ================================================================
+    //  ОБРАБОТЧИКИ ENTER
+    // ================================================================
+
+    document.getElementById('clanLoginUser').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') document.getElementById('clanLoginPass').focus();
+    });
+    document.getElementById('clanLoginPass').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') clanLogin();
+    });
+
+    // ================================================================
     //  ЗАПУСК
     // ================================================================
 
     loadClanData();
     renderClanTable();
-    renderClanAdmin();
+    checkClanAdminSession();
 
     var clanSearchTimeout;
     document.getElementById('clanSearch').addEventListener('input', function() {
