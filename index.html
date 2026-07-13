@@ -1,320 +1,547 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Клановая таблица | Age of Dino</title>
-    <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Segoe UI',Arial,sans-serif;background:#1a1e2c;color:#e0e4f0;padding:20px;min-height:100vh}
-        .c{max-width:1100px;margin:0 auto}
-        .h{background:#242938;border-radius:12px 12px 0 0;padding:20px 30px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;border-bottom:2px solid #f0b429}
-        .l{font-size:28px;font-weight:700;color:#f0b429;text-transform:uppercase;letter-spacing:2px}
-        .l span{color:#fff;font-weight:300;font-size:16px}
-        .l small{display:block;font-size:12px;color:#8e95aa;font-weight:400}
-        .n{display:flex;gap:6px;flex-wrap:wrap}
-        .n a{color:#b9bfd4;text-decoration:none;padding:8px 16px;border-radius:6px;font-size:14px;transition:.3s;cursor:pointer}
-        .n a:hover,.n a.active{background:#f0b429;color:#1a1e2c}
-        .f{background:#242938;padding:16px 20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;border-bottom:1px solid #3a4057}
-        .f input{background:#2f364a;border:1px solid #3a4057;color:#e0e4f0;padding:8px 16px;border-radius:6px;font-size:14px;outline:none;flex:1;min-width:200px}
-        .f input:focus{border-color:#f0b429}
-        .f .b{background:#f0b429;color:#1a1e2c;border:none;padding:8px 24px;border-radius:6px;font-weight:600;cursor:pointer;transition:.3s}
-        .f .b:hover{background:#d49c1a}
-        .f .br{background:#3a4057;color:#e0e4f0}
-        .f .br:hover{background:#4a526b}
-        .fc{color:#8e95aa;font-size:13px;margin-left:auto;white-space:nowrap}
-        .t{display:none}
-        .t:target{display:block}
-        #tab-table{display:block}
-        .t:target~#tab-table{display:none}
-        .w{background:#242938;border-radius:0 0 12px 12px;overflow-x:auto;box-shadow:0 10px 30px rgba(0,0,0,.5)}
-        table{width:100%;border-collapse:collapse;font-size:14px;min-width:650px}
-        th{background:#2f364a;padding:14px 12px;text-align:center;font-weight:700;color:#b9bfd4;text-transform:uppercase;font-size:11px;letter-spacing:.5px;border-bottom:2px solid #f0b429}
-        th:first-child,td:first-child{text-align:left;padding-left:20px}
-        td:first-child{text-align:left}
-        td:nth-child(2){text-align:left}
-        tr{border-bottom:1px solid #3a4057;transition:.2s}
-        tr:hover{background:#2f364a}
-        td{padding:12px 10px;text-align:center;vertical-align:middle}
-        .p{font-weight:700;font-size:16px;display:inline-block;background:#2f364a;padding:2px 10px;border-radius:4px}
-        .p1{color:#ffd700;background:#3a2f00;border:1px solid #ffd700}
-        .p2{color:#c0c0c0;background:#2f2f2f;border:1px solid #c0c0c0}
-        .p3{color:#cd7f32;background:#2f1f0f;border:1px solid #cd7f32}
-        .po{color:#8e95aa;background:#1f222f}
-        .cl{display:flex;align-items:center;gap:14px}
-        .i{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0;border:2px solid #3a4057;color:#f0b429;background:#2f364a}
-        .inf{display:flex;flex-direction:column;align-items:flex-start}
-        .nm{font-weight:700;color:#fff;font-size:15px}
-        .mb{font-size:11px;color:#5a627a;margin-top:2px}
-        .pt{font-weight:800;font-size:24px;color:#f0b429}
-        .form{display:flex;gap:4px;justify-content:center}
-        .fb{width:28px;height:28px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
-        .fw{background:#27ae60}
-        .fl{background:#e74c3c}
-        .fd{background:#f39c12}
-        .femp{background:#2f364a;color:#4a526b}
-        .st{display:flex;gap:20px;flex-wrap:wrap;margin-top:20px;justify-content:center}
-        .st .it{background:#242938;padding:15px 35px;border-radius:10px;text-align:center;min-width:130px}
-        .st .it .v{font-size:28px;font-weight:700;color:#f0b429}
-        .st .it .v.g{color:#27ae60}
-        .st .it .v.r{color:#e74c3c}
-        .st .it .lbl{color:#8e95aa;font-size:13px;margin-top:4px}
-        .ap{display:none;background:#1f2330;border:2px solid #f0b429;border-radius:12px;padding:25px;margin-top:20px}
-        .ap.vis{display:block}
-        .ap h2{color:#f0b429;font-size:20px;margin-bottom:20px;text-align:center}
-        .ap .ar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;background:#2a2f40;padding:12px 15px;border-radius:8px;margin-bottom:10px}
-        .ap .ar input{background:#1a1e2c;border:1px solid #3a4057;color:#e0e4f0;padding:6px 12px;border-radius:4px;font-size:13px;outline:none}
-        .ap .ar input:focus{border-color:#f0b429}
-        .ap .ar .ni{flex:2;min-width:120px}
-        .ap .ar .nu{width:60px;text-align:center}
-        .ap .ar .bs{padding:4px 12px;border-radius:4px;border:none;cursor:pointer;font-weight:600;font-size:12px;transition:.3s}
-        .ap .ar .bs.sv{background:#27ae60;color:#fff}
-        .ap .ar .bs.sv:hover{background:#219a52}
-        .ap .ar .bs.del{background:#e74c3c;color:#fff}
-        .ap .ar .bs.del:hover{background:#c0392b}
-        .ap .ar .bs.ad{background:#3498db;color:#fff;padding:6px 18px;font-size:14px}
-        .ap .ar .bs.ad:hover{background:#2980b9}
-        .ap .ac{display:flex;gap:12px;justify-content:center;margin-top:20px;flex-wrap:wrap}
-        .ap .ac .btn{padding:10px 30px;border-radius:6px;border:none;font-weight:700;cursor:pointer;transition:.3s;font-size:14px}
-        .ap .ac .bsa{background:#27ae60;color:#fff}
-        .ap .ac .bsa:hover{background:#219a52}
-        .ap .ac .bra{background:#e74c3c;color:#fff}
-        .ap .ac .bra:hover{background:#c0392b}
-        .ap .ac .bca{background:#3a4057;color:#e0e4f0}
-        .ap .ac .bca:hover{background:#4a526b}
-        .ap .ah{color:#8e95aa;font-size:12px;text-align:center;margin-top:15px}
-        .b{background:#242938;border-radius:12px;padding:25px 30px;border:1px solid #3a4057}
-        .b .tg{display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none}
-        .b .tg h2{color:#f0b429;font-size:20px}
-        .b .tg .ar{color:#8e95aa;font-size:24px;transition:.3s}
-        .b .tg .ar.op{transform:rotate(180deg)}
-        .b .co{max-height:0;overflow:hidden;transition:max-height .5s ease}
-        .b .co.op{max-height:10000px}
-        .b .gr{margin-top:20px;padding-top:20px;border-top:1px solid #3a4057}
-        .b .gr:first-child{border-top:none;padding-top:0}
-        .b .gr h3{color:#f0b429;font-size:16px;margin-bottom:12px}
-        .b .itm{padding:8px 0;font-size:14px;line-height:1.6;color:#c0c8d8;padding-left:20px;border-left:2px solid #3a4057;margin-bottom:6px}
-        .b .itm code{display:inline-block;background:#1a1e2c;padding:2px 12px;border-radius:4px;font-family:'Courier New',monospace;color:#f0b429;font-size:13px;border:1px solid #3a4057;margin:2px 0}
-        .b .itm .d{display:block;color:#8e95aa;font-size:13px;margin-top:2px;padding-left:8px}
-        .b .itm .no{display:block;color:#ff9800;font-size:12px;margin-top:2px;padding-left:8px;font-style:italic}
-        .b .itm .hl{color:#ff6b6b}
-        .b .itm strong{color:#f0b429}
-        .toast{position:fixed;bottom:30px;right:30px;background:#27ae60;color:#fff;padding:15px 30px;border-radius:10px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.5);opacity:0;transform:translateY(20px);transition:.4s;z-index:9999}
-        .toast.err{background:#e74c3c}
-        .toast.sh{opacity:1;transform:translateY(0)}
-        @media(max-width:768px){
-            body{padding:10px}
-            .h{flex-direction:column;gap:15px;text-align:center;padding:15px}
-            .n{justify-content:center}
-            .n a{font-size:12px;padding:6px 12px}
-            .l{font-size:22px}
-            .l span{font-size:14px}
-            .f{flex-direction:column;padding:12px 15px}
-            .f input,.f .b{width:100%}
-            .fc{margin-left:0;text-align:center;width:100%}
-            table{font-size:12px;min-width:500px}
-            td,th{padding:8px 6px}
-            .i{width:34px;height:34px;font-size:14px}
-            .pt{font-size:20px}
-            .nm{font-size:13px}
-            .st .it{padding:12px 18px;min-width:90px}
-            .st .it .v{font-size:20px}
-            .b{padding:15px 18px}
-            .b .itm{font-size:13px;padding-left:12px}
-            .ap .ar{flex-direction:column;align-items:stretch}
-            .ap .ar .nu{width:100%}
-            .ap .ar .bs{width:100%;padding:8px}
-            .fb{width:22px;height:22px;font-size:10px}
+<!-- ============================================================ -->
+<!--  КЛАНОВАЯ ТАБЛИЦА  -->
+<!-- ============================================================ -->
+
+<style>
+    /* ===== ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ДЛЯ ТАБЛИЦЫ ===== */
+    .clan-table-wrap {
+        background: #242938;
+        border-radius: 12px;
+        padding: 20px;
+        margin: 20px 0;
+        overflow-x: auto;
+    }
+    
+    .clan-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+        min-width: 700px;
+    }
+    
+    .clan-table thead th {
+        background: #2f364a;
+        padding: 12px 10px;
+        text-align: center;
+        font-weight: 700;
+        color: #b9bfd4;
+        text-transform: uppercase;
+        font-size: 11px;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #f0b429;
+    }
+    
+    .clan-table thead th:first-child {
+        text-align: left;
+        padding-left: 20px;
+    }
+    
+    .clan-table thead th:nth-child(2) {
+        text-align: left;
+    }
+    
+    .clan-table tbody tr {
+        border-bottom: 1px solid #3a4057;
+        transition: 0.2s;
+    }
+    
+    .clan-table tbody tr:hover {
+        background: #2f364a;
+    }
+    
+    .clan-table tbody td {
+        padding: 12px 10px;
+        text-align: center;
+        vertical-align: middle;
+    }
+    
+    .clan-table tbody td:first-child {
+        text-align: left;
+        padding-left: 20px;
+    }
+    
+    .clan-table tbody td:nth-child(2) {
+        text-align: left;
+    }
+    
+    .clan-pos {
+        font-weight: 700;
+        font-size: 16px;
+        display: inline-block;
+        background: #2f364a;
+        padding: 2px 10px;
+        border-radius: 4px;
+    }
+    
+    .clan-pos-1 {
+        color: #ffd700;
+        background: #3a2f00;
+        border: 1px solid #ffd700;
+    }
+    
+    .clan-pos-2 {
+        color: #c0c0c0;
+        background: #2f2f2f;
+        border: 1px solid #c0c0c0;
+    }
+    
+    .clan-pos-3 {
+        color: #cd7f32;
+        background: #2f1f0f;
+        border: 1px solid #cd7f32;
+    }
+    
+    .clan-pos-other {
+        color: #8e95aa;
+        background: #1f222f;
+    }
+    
+    .clan-cell {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+    
+    .clan-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 700;
+        flex-shrink: 0;
+        border: 2px solid #3a4057;
+        color: #f0b429;
+        background: #2f364a;
+    }
+    
+    .clan-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .clan-name {
+        font-weight: 700;
+        color: #ffffff;
+        font-size: 15px;
+    }
+    
+    .clan-members {
+        font-size: 11px;
+        color: #5a627a;
+        margin-top: 2px;
+    }
+    
+    .clan-points {
+        font-weight: 800;
+        font-size: 24px;
+        color: #f0b429;
+    }
+    
+    .clan-form {
+        display: flex;
+        gap: 4px;
+        justify-content: center;
+    }
+    
+    .clan-form-badge {
+        width: 28px;
+        height: 28px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 700;
+        color: #fff;
+    }
+    
+    .clan-form-win {
+        background: #27ae60;
+    }
+    
+    .clan-form-loss {
+        background: #e74c3c;
+    }
+    
+    .clan-form-draw {
+        background: #f39c12;
+    }
+    
+    .clan-form-empty {
+        background: #2f364a;
+        color: #4a526b;
+    }
+    
+    .clan-stats {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin: 20px 0;
+        justify-content: center;
+    }
+    
+    .clan-stats .stat-item {
+        background: #242938;
+        padding: 15px 35px;
+        border-radius: 10px;
+        text-align: center;
+        min-width: 130px;
+    }
+    
+    .clan-stats .stat-item .value {
+        font-size: 28px;
+        font-weight: 700;
+        color: #f0b429;
+    }
+    
+    .clan-stats .stat-item .value.green {
+        color: #27ae60;
+    }
+    
+    .clan-stats .stat-item .value.red {
+        color: #e74c3c;
+    }
+    
+    .clan-stats .stat-item .label {
+        color: #8e95aa;
+        font-size: 13px;
+        margin-top: 4px;
+    }
+    
+    .clan-filters {
+        background: #242938;
+        padding: 16px 20px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: center;
+        border-bottom: 1px solid #3a4057;
+        border-radius: 12px 12px 0 0;
+    }
+    
+    .clan-filters input {
+        background: #2f364a;
+        border: 1px solid #3a4057;
+        color: #e0e4f0;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        outline: none;
+        flex: 1;
+        min-width: 200px;
+    }
+    
+    .clan-filters input:focus {
+        border-color: #f0b429;
+    }
+    
+    .clan-filters .btn {
+        background: #f0b429;
+        color: #1a1e2c;
+        border: none;
+        padding: 8px 24px;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    
+    .clan-filters .btn:hover {
+        background: #d49c1a;
+    }
+    
+    .clan-filters .btn-reset {
+        background: #3a4057;
+        color: #e0e4f0;
+    }
+    
+    .clan-filters .btn-reset:hover {
+        background: #4a526b;
+    }
+    
+    .clan-filter-count {
+        color: #8e95aa;
+        font-size: 13px;
+        margin-left: auto;
+        white-space: nowrap;
+    }
+    
+    @media (max-width: 768px) {
+        .clan-table {
+            font-size: 12px;
+            min-width: 500px;
         }
-        @media(max-width:480px){
-            .n a{font-size:11px;padding:5px 10px}
-            td,th{padding:6px 4px;font-size:11px}
-            th{font-size:9px}
-            .p{font-size:12px;padding:1px 6px}
-            .cl{gap:8px}
-            .i{width:28px;height:28px;font-size:12px}
-            .nm{font-size:12px}
-            .mb{font-size:10px}
-            .fb{width:20px;height:20px;font-size:9px}
+        .clan-table tbody td,
+        .clan-table thead th {
+            padding: 8px 6px;
         }
-    </style>
-</head>
-<body>
+        .clan-icon {
+            width: 34px;
+            height: 34px;
+            font-size: 14px;
+        }
+        .clan-points {
+            font-size: 20px;
+        }
+        .clan-name {
+            font-size: 13px;
+        }
+        .clan-filters {
+            flex-direction: column;
+        }
+        .clan-filters input,
+        .clan-filters .btn {
+            width: 100%;
+        }
+        .clan-filter-count {
+            margin-left: 0;
+            text-align: center;
+            width: 100%;
+        }
+        .clan-stats .stat-item {
+            padding: 12px 18px;
+            min-width: 90px;
+        }
+        .clan-stats .stat-item .value {
+            font-size: 20px;
+        }
+        .clan-form-badge {
+            width: 22px;
+            height: 22px;
+            font-size: 10px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .clan-table tbody td,
+        .clan-table thead th {
+            padding: 6px 4px;
+            font-size: 11px;
+        }
+        .clan-table thead th {
+            font-size: 9px;
+        }
+        .clan-pos {
+            font-size: 12px;
+            padding: 1px 6px;
+        }
+        .clan-cell {
+            gap: 8px;
+        }
+        .clan-icon {
+            width: 28px;
+            height: 28px;
+            font-size: 12px;
+        }
+        .clan-name {
+            font-size: 12px;
+        }
+        .clan-members {
+            font-size: 10px;
+        }
+        .clan-form-badge {
+            width: 20px;
+            height: 20px;
+            font-size: 9px;
+        }
+    }
+</style>
 
-<div class="c">
-    <div class="h">
-        <div class="l">🏆 Клановая таблица <span>Age of Dino</span><small>Рейтинг кланов · Турнирная таблица</small></div>
-        <div class="n">
-            <a href="#tab-table" class="active">📊 Таблица</a>
-            <a href="#tab-commands">⌨️ Команды</a>
-            <a href="#tab-rules">📜 Правила</a>
-            <a href="#" onclick="toggleAdmin();return false">🔧 Админ</a>
-        </div>
+<!-- ===== ЗАГОЛОВОК ===== -->
+<h1 style="color: #f0b429; font-size: 28px; margin: 20px 0 10px 0;">🏆 Рейтинг кланов</h1>
+<p style="color: #8e95aa; margin-bottom: 20px;">Турнирная таблица Age of Dino</p>
+
+<!-- ===== ФИЛЬТРЫ ===== -->
+<div class="clan-filters">
+    <input type="text" id="clanSearch" placeholder="🔍 Поиск клана...">
+    <button class="btn" onclick="renderClanTable()">Применить</button>
+    <button class="btn btn-reset" onclick="document.getElementById('clanSearch').value='';renderClanTable()">Сбросить</button>
+    <span class="clan-filter-count" id="clanCount">Кланов: <b>0</b></span>
+</div>
+
+<!-- ===== ТАБЛИЦА ===== -->
+<div class="clan-table-wrap">
+    <table class="clan-table">
+        <thead>
+            <tr>
+                <th style="text-align:left;padding-left:20px;">#</th>
+                <th style="text-align:left;">Клан</th>
+                <th>👥</th>
+                <th>⚔️</th>
+                <th>🏆</th>
+                <th>💀</th>
+                <th>Очки</th>
+                <th>Форма</th>
+            </tr>
+        </thead>
+        <tbody id="clanTableBody"></tbody>
+    </table>
+</div>
+
+<!-- ===== СТАТИСТИКА ===== -->
+<div class="clan-stats">
+    <div class="stat-item">
+        <div class="value" id="clanStatTotal">0</div>
+        <div class="label">🏛️ Всего кланов</div>
     </div>
-
-    <div class="f">
-        <input type="text" id="s" placeholder="🔍 Поиск клана...">
-        <button class="b" onclick="r()">Применить</button>
-        <button class="b br" onclick="document.getElementById('s').value='';r()">Сбросить</button>
-        <span class="fc" id="c">Кланов: <b>0</b></span>
+    <div class="stat-item">
+        <div class="value green" id="clanStatWins">0</div>
+        <div class="label">🏆 Всего побед</div>
     </div>
-
-    <div id="tab-table" class="t">
-        <div class="w"><table><thead><tr><th>#</th><th>Клан</th><th>👥</th><th>⚔️</th><th>🏆</th><th>💀</th><th>Очки</th><th>Форма</th></tr></thead><tbody id="tb"></tbody></table></div>
-        <div class="st">
-            <div class="it"><div class="v" id="c1">0</div><div class="lbl">🏛️ Кланов</div></div>
-            <div class="it"><div class="v g" id="c2">0</div><div class="lbl">🏆 Побед</div></div>
-            <div class="it"><div class="v r" id="c3">0</div><div class="lbl">💀 Поражений</div></div>
-            <div class="it"><div class="v" id="c4">0</div><div class="lbl">⚔️ Боёв</div></div>
-        </div>
+    <div class="stat-item">
+        <div class="value red" id="clanStatLosses">0</div>
+        <div class="label">💀 Всего поражений</div>
     </div>
-
-    <div class="ap" id="ap">
-        <h2>🔧 Админ-панель управления кланами</h2>
-        <div id="al"></div>
-        <div class="ac">
-            <button class="btn bsa" onclick="saveAll()">💾 Сохранить всё</button>
-            <button class="btn bra" onclick="resetAll()">🔄 Сбросить</button>
-            <button class="btn bca" onclick="toggleAdmin()">❌ Закрыть</button>
-        </div>
-        <div class="ah">💡 Изменения сохраняются в локальном хранилище браузера.</div>
-    </div>
-
-    <div id="tab-commands" class="t">
-        <div class="b">
-            <div class="tg" onclick="tog('cmdC','cmdA')">
-                <h2>⌨️ Памятка по админ-командам</h2>
-                <span class="ar op" id="cmdA">▼</span>
-            </div>
-            <div class="co op" id="cmdC">
-                <div class="gr"><p style="color:#9aa2b5;font-size:14px;margin-bottom:12px;">⭐ <strong style="color:#f0b429;">Клановые администраторы имеют доступ к:</strong></p></div>
-                <div class="gr"><h3>🎥 Инвиз</h3><div class="itm"><code>//spectatormode</code> или <code>//sp</code><span class="d">— инвиз по команде</span></div></div>
-                <div class="gr"><h3>🩵 Хп</h3><div class="itm"><code>//sethealth [ник] [хп]</code><span class="d">— поставить хп</span></div><div class="itm"><code>//sethealthid [SteamID] [хп]</code><span class="d">— поставить хп по айди</span><span class="no">Если не указать — максимальное</span></div></div>
-                <div class="gr"><h3>🥩 Голод</h3><div class="itm"><code>//sethunger [ник] [голод]</code><span class="d">— поставить голод</span></div><div class="itm"><code>//sethungerid [SteamID] [голод]</code><span class="d">— поставить голод по айди</span><span class="no">Если не указать — максимальный</span></div></div>
-                <div class="gr"><h3>💦 Жажда</h3><div class="itm"><code>//setthirst [ник] [жажда]</code><span class="d">— поставить жажду</span></div><div class="itm"><code>//setthirstid [SteamID] [жажда]</code><span class="d">— поставить жажду по айди</span><span class="no">Если не указать — максимальная</span></div></div>
-                <div class="gr"><h3>🩸 Блид</h3><div class="itm"><code>//setbleed [ник] [блид]</code><span class="d">— поставить блид</span></div><div class="itm"><code>//setbleedid [SteamID] [блид]</code><span class="d">— поставить блид по айди</span><span class="no">Если не указать — 0</span></div></div>
-                <div class="gr"><h3>🦴 Перелом</h3><div class="itm"><code>//setlegdamage [ник] [перелом]</code><span class="d">— поставить перелом лапы</span></div><div class="itm"><code>//setlegdamageid [SteamID] [перелом]</code><span class="d">— поставить перелом по айди</span><span class="no">Максимум 15. Если не указать — 0</span></div></div>
-                <div class="gr"><h3>❣️ Хил</h3><div class="itm"><code>//selfheal</code><span class="d">— отхилить себя</span></div><div class="itm"><code>//heal [ник]</code><span class="d">— отхилить игрока</span></div><div class="itm"><code>//healid [SteamID]</code><span class="d">— отхилить по айди</span></div></div>
-                <div class="gr"><h3>🦕 Гров</h3><div class="itm"><code>//selfgrowth [рост]</code><span class="d">— установить рост себе</span></div><div class="itm"><code>//setgrowth [ник] [рост]</code><span class="d">— установить рост игроку</span></div><div class="itm"><code>//setgrowthid [SteamID] [рост]</code><span class="d">— установить рост по айди</span><span class="no">Если не указать — максимальный</span></div></div>
-                <div class="gr"><h3>💀 Слэй</h3><div class="itm"><code>//selfslay [0/1]</code> или <code>//ss</code><span class="d">— слейнуть себя (0 — без трупа)</span></div><div class="itm"><code>//slay [ник] [0/1]</code><span class="d">— слейнуть игрока</span></div><div class="itm"><code>//slayid [SteamID] [0/1]</code><span class="d">— слейнуть по айди</span><span class="no">По умолчанию 0</span></div></div>
-                <div class="gr"><h3>▶️ Тп к другому</h3><div class="itm"><code>//goto [ник]</code><span class="d">— тп к игроку даже в инвизе</span></div><div class="itm"><code>//gotoid [SteamID]</code><span class="d">— тп по айди</span></div></div>
-                <div class="gr"><h3>◀️ Тп к себе</h3><div class="itm"><code>//bring [ник]</code><span class="d">— тп игрока к себе</span></div><div class="itm"><code>//bringid [SteamID]</code><span class="d">— тп по айди</span></div></div>
-                <div class="gr"><h3>🎨 Скин</h3><div class="itm"><code>//changeskin [ник] [секция1] [секция2] ...</code><span class="d">— поменять скин</span></div><div class="itm"><code>//changeskinid [SteamID] [секция1] [секция2] ...</code><span class="d">— поменять скин по айди</span></div></div>
-                <div class="gr"><h3>⚥ Пол</h3><div class="itm"><code>//setgender [ник] [m/f]</code><span class="d">— поставить пол (m — мужской)</span></div><div class="itm"><code>//setgenderid [SteamID] [m/f]</code><span class="d">— поставить пол по айди</span></div></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="tab-rules" class="t">
-        <div class="b">
-            <div class="tg" onclick="tog('rulC','rulA')">
-                <h2>📜 Клановые правила Age of Dino</h2>
-                <span class="ar op" id="rulA">▼</span>
-            </div>
-            <div class="co op" id="rulC">
-                <div class="gr"><p style="color:#9aa2b5;font-size:14px;margin-bottom:12px;">Регистрируя клан, вы соглашаетесь с правилами:</p></div>
-                <div class="gr"><h3>1 | ОБЩИЕ</h3><div class="itm"><strong>1.1</strong> Клан — группа игроков</div><div class="itm"><strong>1.2</strong> Иерархия: <strong>глава — зам — член</strong></div><div class="itm"><strong>1.3</strong> Регистрация после одобрения</div><div class="itm"><strong>1.4</strong> Знать правила проекта</div><div class="itm"><strong>1.5</strong> <span class="hl">Конфликты не допускаются</span></div><div class="itm"><strong>1.6</strong> <strong>Не менее 5 участников</strong></div></div>
-                <div class="gr"><h3>2 | ДИСКОРД</h3><div class="itm"><strong>2.1</strong> Иметь свой КДС</div><div class="itm"><strong>2.2</strong> <span class="hl">Оскорбления админов запрещены</span></div><div class="itm"><strong>2.3</strong> Роли для администрации</div></div>
-                <div class="gr"><h3>3 | SANDBOX</h3><div class="itm"><strong>3.1</strong> Полномочия по запросу</div><div class="itm"><strong>3.2</strong> <span class="hl">/kick, /ban — запрещены</span></div><div class="itm"><strong>3.3</strong> /goto, /bring, /slay, /heal — только с разрешения</div><div class="itm"><strong>3.4</strong> <span class="hl">Конфликты не оправдывают злоупотребления!</span></div></div>
-                <div class="gr"><h3>4 | КЛАНЫ</h3><div class="itm"><strong>4.1</strong> Казной распоряжается руководство</div><div class="itm"><strong>4.2</strong> Операции: перевод, пополнение, покупка</div><div class="itm"><strong>4.3</strong> Трансфер <strong>не чаще 1 раза в 2 недели</strong></div><div class="itm"><strong>4.4</strong> Глава <span class="hl">не может покинуть клан</span> без передачи прав</div></div>
-                <div class="gr"><h3>5 | НАКАЗАНИЯ</h3><div class="itm"><strong>5.1</strong> Вычет из казны: <strong>2 ЗГ × часы бана</strong></div><div class="itm"><strong>5.2</strong> За грубые нарушения — <span class="hl">расформирование и баны</span></div></div>
-                <div class="gr"><h3>6 | РАСФОРМИРОВАНИЕ</h3><div class="itm"><strong>6.1</strong> Утрата всех прав</div><div class="itm"><strong>6.2</strong> Добровольное — с согласия главы</div><div class="itm"><strong>6.3</strong> Принудительное — по решению админов</div></div>
-            </div>
-        </div>
+    <div class="stat-item">
+        <div class="value" id="clanStatFights">0</div>
+        <div class="label">⚔️ Всего боёв</div>
     </div>
 </div>
 
-<div class="toast" id="toast"></div>
-
 <script>
     // ================================================================
-    //  ★★★ РЕЙТИНГ КЛАНОВ ★★★
+    //  ДАННЫЕ КЛАНОВ (ИЗ ВАШЕЙ ТАБЛИЦЫ)
     // ================================================================
-    let clans = [
-        {id:1,n:"Invicta",m:10,f:30,w:28,l:2,form:["win","win","win","win","win"]},
-        {id:2,n:"GTR",m:12,f:29,w:26,l:3,form:["win","win","win","loss","win"]},
-        {id:3,n:"GMT",m:11,f:16,w:13,l:3,form:["win","loss","win","win","win"]},
-        {id:4,n:"Teiko",m:8,f:15,w:13,l:2,form:["win","win","loss","win","win"]},
-        {id:5,n:"Immortals",m:15,f:13,w:11,l:2,form:["win","loss","win","win","win"]},
-        {id:6,n:"DT",m:14,f:12,w:10,l:2,form:["loss","win","win","win","loss"]},
-        {id:7,n:"Spirit Bloom",m:7,f:10,w:8,l:2,form:["win","loss","win","loss","win"]},
-        {id:8,n:"Aeterna",m:6,f:7,w:6,l:1,form:["win","win","win","loss","win"]},
-        {id:9,n:"Galactic Alliance",m:13,f:6,w:5,l:1,form:["win","loss","win","win","loss"]},
-        {id:10,n:"Clan Ghost",m:11,f:6,w:5,l:1,form:["loss","win","win","loss","win"]},
-        {id:11,n:"Eclipse",m:10,f:6,w:5,l:1,form:["win","win","loss","loss","win"]},
-        {id:12,n:"Han",m:5,f:5,w:4,l:1,form:["win","win","loss","win","loss"]},
-        {id:13,n:"Hounds",m:9,f:3,w:2,l:1,form:["win","loss","win","loss","loss"]},
-        {id:14,n:"Adekvate Team",m:6,f:3,w:2,l:1,form:["loss","win","loss","win","loss"]},
-        {id:15,n:"EX.O",m:5,f:2,w:2,l:0,form:["win","win","loss","loss","win"]},
-        {id:16,n:"IronLegacy",m:8,f:2,w:2,l:0,form:["win","loss","win","loss","win"]},
-        {id:17,n:"NSD",m:7,f:2,w:2,l:0,form:["win","loss","win","loss","win"]},
-        {id:18,n:"Void",m:4,f:1,w:1,l:0,form:["loss","win","win","loss","draw"]},
-        {id:19,n:"Deviance",m:3,f:0,w:0,l:0,form:["loss","loss","loss","loss","loss"]},
-        {id:20,n:"Rising Legends",m:3,f:0,w:0,l:0,form:["loss","loss","loss","loss","loss"]},
-        {id:21,n:"Shared Horizon",m:3,f:0,w:0,l:0,form:["loss","loss","loss","loss","loss"]},
-        {id:22,n:"High Killers",m:3,f:0,w:0,l:0,form:["loss","loss","loss","loss","loss"]},
-        {id:23,n:"Indomitable",m:3,f:0,w:0,l:0,form:["loss","loss","loss","loss","loss"]}
+    var clanData = [
+        {id: 1, name: "Invicta", members: 10, fights: 30, wins: 28, losses: 2, form: ["win","win","win","win","win"]},
+        {id: 2, name: "GTR", members: 12, fights: 29, wins: 26, losses: 3, form: ["win","win","win","loss","win"]},
+        {id: 3, name: "GMT", members: 11, fights: 16, wins: 13, losses: 3, form: ["win","loss","win","win","win"]},
+        {id: 4, name: "Teiko", members: 8, fights: 15, wins: 13, losses: 2, form: ["win","win","loss","win","win"]},
+        {id: 5, name: "Immortals", members: 15, fights: 13, wins: 11, losses: 2, form: ["win","loss","win","win","win"]},
+        {id: 6, name: "DT", members: 14, fights: 12, wins: 10, losses: 2, form: ["loss","win","win","win","loss"]},
+        {id: 7, name: "Spirit Bloom", members: 7, fights: 10, wins: 8, losses: 2, form: ["win","loss","win","loss","win"]},
+        {id: 8, name: "Aeterna", members: 6, fights: 7, wins: 6, losses: 1, form: ["win","win","win","loss","win"]},
+        {id: 9, name: "Galactic Alliance", members: 13, fights: 6, wins: 5, losses: 1, form: ["win","loss","win","win","loss"]},
+        {id: 10, name: "Clan Ghost", members: 11, fights: 6, wins: 5, losses: 1, form: ["loss","win","win","loss","win"]},
+        {id: 11, name: "Eclipse", members: 10, fights: 6, wins: 5, losses: 1, form: ["win","win","loss","loss","win"]},
+        {id: 12, name: "Han", members: 5, fights: 5, wins: 4, losses: 1, form: ["win","win","loss","win","loss"]},
+        {id: 13, name: "Hounds", members: 9, fights: 3, wins: 2, losses: 1, form: ["win","loss","win","loss","loss"]},
+        {id: 14, name: "Adekvate Team", members: 6, fights: 3, wins: 2, losses: 1, form: ["loss","win","loss","win","loss"]},
+        {id: 15, name: "EX.O", members: 5, fights: 2, wins: 2, losses: 0, form: ["win","win","loss","loss","win"]},
+        {id: 16, name: "IronLegacy", members: 8, fights: 2, wins: 2, losses: 0, form: ["win","loss","win","loss","win"]},
+        {id: 17, name: "NSD", members: 7, fights: 2, wins: 2, losses: 0, form: ["win","loss","win","loss","win"]},
+        {id: 18, name: "Void", members: 4, fights: 1, wins: 1, losses: 0, form: ["loss","win","win","loss","draw"]},
+        {id: 19, name: "Deviance", members: 3, fights: 0, wins: 0, losses: 0, form: ["loss","loss","loss","loss","loss"]},
+        {id: 20, name: "Rising Legends", members: 3, fights: 0, wins: 0, losses: 0, form: ["loss","loss","loss","loss","loss"]},
+        {id: 21, name: "Shared Horizon", members: 3, fights: 0, wins: 0, losses: 0, form: ["loss","loss","loss","loss","loss"]},
+        {id: 22, name: "High Killers", members: 3, fights: 0, wins: 0, losses: 0, form: ["loss","loss","loss","loss","loss"]},
+        {id: 23, name: "Indomitable", members: 3, fights: 0, wins: 0, losses: 0, form: ["loss","loss","loss","loss","loss"]}
     ];
 
-    function loadData(){
-        var saved=localStorage.getItem('clanData');
-        if(saved){try{clans=JSON.parse(saved);}catch(e){}}
-    }
-    function saveData(){
-        localStorage.setItem('clanData',JSON.stringify(clans));
-        showToast('💾 Данные сохранены!');
-    }
-    loadData();
+    // ================================================================
+    //  ФУНКЦИИ
+    // ================================================================
 
-    function pts(c){return c.w*3;}
+    function getClanPoints(clan) {
+        return clan.wins * 3;
+    }
 
-    function getForm(c){
-        var f=c.form||[];
-        while(f.length<5)f.push('');
+    function getClanForm(clan) {
+        var f = clan.form || [];
+        while (f.length < 5) f.push('');
         return f;
     }
 
-    function renderForm(form){
-        var html='';
-        for(var i=0;i<5;i++){
-            var r=form[i]||'';
-            if(r==='win') html+='<span class="fb fw">В</span>';
-            else if(r==='loss') html+='<span class="fb fl">П</span>';
-            else if(r==='draw') html+='<span class="fb fd">Н</span>';
-            else html+='<span class="fb femp">—</span>';
+    function renderClanForm(form) {
+        var html = '';
+        for (var i = 0; i < 5; i++) {
+            var r = form[i] || '';
+            if (r === 'win') html += '<span class="clan-form-badge clan-form-win">В</span>';
+            else if (r === 'loss') html += '<span class="clan-form-badge clan-form-loss">П</span>';
+            else if (r === 'draw') html += '<span class="clan-form-badge clan-form-draw">Н</span>';
+            else html += '<span class="clan-form-badge clan-form-empty">—</span>';
         }
         return html;
     }
 
-    function r(){
-        var q=document.getElementById('s').value.toLowerCase();
-        var d=[];
-        for(var i=0;i<clans.length;i++){
-            if(clans[i].n.toLowerCase().indexOf(q)!==-1) d.push(clans[i]);
+    function renderClanTable() {
+        var search = document.getElementById('clanSearch').value.toLowerCase();
+        var filtered = [];
+        
+        for (var i = 0; i < clanData.length; i++) {
+            if (clanData[i].name.toLowerCase().indexOf(search) !== -1) {
+                filtered.push(clanData[i]);
+            }
         }
-        d.sort(function(a,b){
-            var pa=pts(a),pb=pts(b);
-            if(pa!==pb) return pb-pa;
-            return (b.w-b.l)-(a.w-a.l);
+        
+        filtered.sort(function(a, b) {
+            var pa = getClanPoints(a);
+            var pb = getClanPoints(b);
+            if (pa !== pb) return pb - pa;
+            return (b.wins - b.losses) - (a.wins - a.losses);
         });
-        var tb=document.getElementById('tb');
-        tb.innerHTML='';
-        if(d.length===0){
-            tb.innerHTML='<tr><td colspan=8 style="text-align:center;padding:40px;color:#8e95aa;">🏛️ Кланов не найдено</td></tr>';
-            updateStats([]);
+        
+        var tbody = document.getElementById('clanTableBody');
+        tbody.innerHTML = '';
+        
+        if (filtered.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;color:#8e95aa;">🏛️ Кланов не найдено</td></tr>';
+            updateClanStats([]);
             return;
         }
-        for(var i=0;i<d.length;i++){
-            var c=d[i];
-            var p=i+1;
-            var pc='po';
-            if(p===1) pc='p1';
-            else if(p===2) pc='p2';
-            else if(p===3) pc='p3';
-            var tr=document.createElement('tr');
-            tr.innerHTML='<td><span class="p '+pc+'">'+p+'</span></td>'+
-                '<td><div class="cl"><div class="i">'+c.n[0]+'</div><div class="inf"><span class="nm">'+c.n+'</span><span class="mb">👥 '+c.m+'</span></div></div></td>'+
-                '<td>'+c.m+'</td><td>'+c.f+'</td>'+
-                '<td style="color:#27ae60;font-weight:600;">'+c.w+'</td>'+
-                '<td style="color:#e74c3c;font-weight:600;">'+c.l+'</td>'+
-                '<td class="pt">
+        
+        for (var i = 0; i < filtered.length; i++) {
+            var c = filtered[i];
+            var pos = i + 1;
+            var posClass = 'clan-pos-other';
+            if (pos === 1) posClass = 'clan-pos-1';
+            else if (pos === 2) posClass = 'clan-pos-2';
+            else if (pos === 3) posClass = 'clan-pos-3';
+            
+            var points = getClanPoints(c);
+            var form = getClanForm(c);
+            var formHtml = renderClanForm(form);
+            var firstLetter = c.name.charAt(0).toUpperCase();
+            
+            var tr = document.createElement('tr');
+            tr.innerHTML = 
+                '<td><span class="clan-pos ' + posClass + '">' + pos + '</span></td>' +
+                '<td><div class="clan-cell"><div class="clan-icon">' + firstLetter + '</div><div class="clan-info"><span class="clan-name">' + c.name + '</span><span class="clan-members">👥 ' + c.members + '</span></div></div></td>' +
+                '<td>' + c.members + '</td>' +
+                '<td>' + c.fights + '</td>' +
+                '<td style="color:#27ae60;font-weight:600;">' + c.wins + '</td>' +
+                '<td style="color:#e74c3c;font-weight:600;">' + c.losses + '</td>' +
+                '<td class="clan-points">' + points + '</td>' +
+                '<td><div class="clan-form">' + formHtml + '</div></td>';
+            tbody.appendChild(tr);
+        }
+        
+        updateClanStats(filtered);
+    }
+
+    function updateClanStats(data) {
+        var total = data.length;
+        var wins = 0;
+        var losses = 0;
+        var fights = 0;
+        
+        for (var i = 0; i < data.length; i++) {
+            wins += data[i].wins;
+            losses += data[i].losses;
+            fights += data[i].fights;
+        }
+        
+        document.getElementById('clanStatTotal').textContent = total;
+        document.getElementById('clanStatWins').textContent = wins;
+        document.getElementById('clanStatLosses').textContent = losses;
+        document.getElementById('clanStatFights').textContent = fights;
+        document.getElementById('clanCount').innerHTML = 'Кланов: <b>' + total + '</b>';
+    }
+
+    // ===== ЗАПУСК =====
+    renderClanTable();
+
+    // ===== ПОИСК ПО ВВОДУ (с задержкой) =====
+    var clanSearchTimeout;
+    document.getElementById('clanSearch').addEventListener('input', function() {
+        clearTimeout(clanSearchTimeout);
+        clanSearchTimeout = setTimeout(renderClanTable, 300);
+    });
+</script>
+<!-- ============================================================ -->
+<!--  КОНЕЦ КЛАНОВОЙ ТАБЛИЦЫ  -->
+<!-- ============================================================ -->
