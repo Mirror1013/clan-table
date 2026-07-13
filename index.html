@@ -1074,34 +1074,34 @@
 
 <script>
     // ================================================================
-    //  ДАННЫЕ КЛАНОВ С ОЧКАМИ (из твоего сообщения)
+    //  ДАННЫЕ КЛАНОВ (ИСПРАВЛЕННЫЕ)
     // ================================================================
     var clanData = [
-        // 1 МЕСТО: GOODMORNINGTOKYO + Teiko (4 победы, 12 очков)
-        {id: 1, name: "GOODMORNINGTOKYO + Teiko", members: 19, fights: 4, wins: 4, losses: 0, form: ["win","win","win","win",""]},
+        // GOODMORNINGTOKYO + Teiko (5 боёв, 4 победы, 1 поражение)
+        {id: 1, name: "GOODMORNINGTOKYO + Teiko", members: 19, fights: 5, wins: 4, losses: 1, form: ["win","win","win","win","loss"]},
         
-        // 2 МЕСТО: Great Than Rivals (4 победы, 12 очков)
+        // Great Than Rivals (4 победы, 0 поражений, 4 боя)
         {id: 2, name: "Great Than Rivals", members: 21, fights: 4, wins: 4, losses: 0, form: ["win","win","win","win",""]},
         
-        // 3 МЕСТО: aeterna (3 победы, 9 очков)
+        // aeterna (3 победы, 0 поражений, 3 боя)
         {id: 3, name: "aeterna", members: 14, fights: 3, wins: 3, losses: 0, form: ["win","win","win","",""]},
         
-        // Spirit Bloom (3 победы, 9 очков)
+        // Spirit Bloom (3 победы, 0 поражений, 3 боя)
         {id: 4, name: "Spirit Bloom", members: 22, fights: 3, wins: 3, losses: 0, form: ["win","win","win","",""]},
         
-        // Invicta (3 победы, 9 очков)
+        // Invicta (3 победы, 0 поражений, 3 боя)
         {id: 5, name: "Invicta", members: 44, fights: 3, wins: 3, losses: 0, form: ["win","win","win","",""]},
         
-        // GTR (уже есть, но добавим отдельно)
+        // GTR
         {id: 6, name: "GTR", members: 12, fights: 0, wins: 0, losses: 0, form: ["","","","",""]},
         
         // GMT
         {id: 7, name: "GMT", members: 11, fights: 0, wins: 0, losses: 0, form: ["","","","",""]},
         
-        // Immortals (участие, 1 очко)
+        // Immortals (участие, 1 поражение)
         {id: 8, name: "Immortals", members: 20, fights: 1, wins: 0, losses: 1, form: ["loss","","","",""]},
         
-        // DT (Dream Team)
+        // Dream Team
         {id: 9, name: "Dream Team", members: 54, fights: 1, wins: 0, losses: 1, form: ["loss","","","",""]},
         
         // GHOST
@@ -1307,7 +1307,7 @@
         var user = document.getElementById('clanLoginUser').value.trim();
         var pass = document.getElementById('clanLoginPass').value.trim();
         
-        // ⚡ МЕНЯЙ ТУТ ЛОГИН И ПАРОЛЬ ⚡
+        // МЕНЯЙ ТУТ ЛОГИН И ПАРОЛЬ
         if (user === 'admin' && pass === '12345') {
             clanAdminLoggedIn = true;
             localStorage.setItem('clanAdminSession', 'true');
